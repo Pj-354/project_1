@@ -10,13 +10,16 @@ import json
 from matplotlib.dates import MonthLocator, AutoDateFormatter, AutoDateFormatter
 import seaborn as sns
 from matplotlib.ticker import PercentFormatter
-
+from scipy.stats import zscore
 
 
 API_key = 'tt2gOLH0fHAmPX70a4QURLFy59PRCZr3'
 client = RESTClient(API_key, trace=True)
 base_url = "https://api.polygon.io/vX/reference/financials"
 headers = {"Authorization": f"Bearer {API_key}"}
+
+BINS = [-np.inf, -2, -1, 1, 2, np.inf]
+LABELS = ["Large Negative", "Moderate Negative", "Normal", "Moderate Positive", "Large Positive"]
 
 def rate_limited_request(url, headers, params):
     
@@ -78,6 +81,118 @@ def handle_missing_fundamental_data(df):
     
     return df
 
+def get_minute_level_data(ticker, n, period, start_date):
+    """
+    Check if we have it saved - convert to Eastern - polygon saves it to UTC
+    """
+    start_date = pd.to_datetime(start_date).strftime('%Y-%m')
+    df = pd.read_csv(f'Datasets/{ticker}_{n}{period}_{start_date}_minute_level_data.csv', index_col = 'Date', parse_dates=True)
+    full_daterange   = pd.date_range(df.index[0], df.index[-1], freq='5min')
+    df_sampled       = df.reindex(full_daterange)
+
+    df_sampled[['transactions', 'vwap', 'volume']] = df_sampled[['transactions', 'vwap', 'volume']].interpolate(method='zero')
+
+    # interpolate numeric cols (zero-order hold)
+    df_sampled[['transactions','vwap','volume']] = (
+        df_sampled[['transactions','vwap','volume']].interpolate(method='zero')
+    )
+
+    t = df_sampled.index.time  # ndarray of datetime.time
+
+    df_sampled['session'] = np.select(
+        [
+            (t >= dt.time(4, 0))  & (t < dt.time(9, 30)),   # Pre-Market
+            (t >= dt.time(9, 30)) & (t < dt.time(16, 0)),   # Regular
+            (t >= dt.time(16, 0)) & (t < dt.time(20, 0)),   # Post-Market
+        ],
+        ['Pre-Market', 'Regular', 'Post-Market'],
+        default='closed'
+    )
+    return df_sampled
+
+def map_earnings_to_fwd_rets(fwd_df, earnings_with_prices):
+
+    earnings_with_prices['earnings flag']       = True
+    df_earnings                     = pd.merge_asof(fwd_df,
+                                                    earnings_with_prices['earnings flag'],
+                                                    left_index = True,
+                                                    right_index= True,
+                                                    direction  = 'forward',
+                                                    tolerance  = pd.Timedelta('1D')
+                                                     )
+    return df_earnings
+
+
+def fetch_in_six_month_chunks(
+    ticker_obj,
+    ticker : str,
+    period: str = 'minute',
+    n: int = 5,
+    months_per_chunk: int = 3,
+    cooldown_sec: int = 12,
+    *,
+    start_date: str | None = None,
+    end_date: str | None = None,
+    tz: str = "Europe/London",
+):
+    """
+    Calls `ticker_obj.get_historical_prices(start_date=..., end_date=...)` in 6M chunks,
+    concatenates `ticker_obj.minute_level_data` from each call, and saves to CSV.
+
+    - If start_date/end_date are omitted:
+        end_date = (today in tz) - 1 day
+        start_date = (today in tz) - 2 years
+    - Cooldown of `cooldown_sec` seconds between chunk requests.
+    - Deduplicates and sorts by index before saving.
+    """
+    # Figure out date window
+    today = pd.Timestamp.now(tz).normalize()
+    if end_date is None:
+        end_dt = (today - pd.Timedelta(days=1)).date()
+    else:
+        end_dt = pd.to_datetime(end_date).date()
+
+    if start_date is None:
+        start_dt = (today - pd.DateOffset(years=2)).date()
+    else:
+        start_dt = pd.to_datetime(start_date).date()
+
+    if start_dt > end_dt:
+        raise ValueError(f"start_date {start_dt} must be <= end_date {end_dt}")
+
+    # Build 6-month chunks
+    chunks = []
+    cur = pd.Timestamp(start_dt)
+    end_ts = pd.Timestamp(end_dt)
+    step = pd.DateOffset(months=months_per_chunk)
+
+    while cur <= end_ts:
+        next_start = cur + step
+        chunk_end = min(end_ts, next_start)
+        chunks.append((cur.date().isoformat(), chunk_end.date().isoformat()))
+        cur = next_start + pd.Timedelta(days=1)  # move to the day after this chunk
+    
+    # Call API per chunk and collect data
+    frames = []
+    for i, (s, e) in enumerate(chunks):
+        print(i, s,e)
+        ticker_obj.get_historical_prices(period = period, n=n, start_date=s, end_date=e, limit = 5_000_000)
+        df_chunk = ticker_obj.minute_level_prices.copy()
+        frames.append(df_chunk)
+        time.sleep(cooldown_sec)
+
+    combined = pd.concat(frames, axis=0, sort=False)      # row-wise stitch
+    # If index is a DateTimeIndex (as typical for minute bars), this will keep last duplicate
+    combined = combined[~combined.index.duplicated(keep="last")].sort_index()
+
+    # Save & return
+    print('Success')
+    start_dt = pd.to_datetime(start_dt).strftime('%Y-%m')
+    combined.to_csv(f'Datasets/{ticker}_{n}{period}_{start_dt}_minute_level_data.csv')
+
+    return combined
+
+
 
 class TickerData:
 
@@ -88,33 +203,63 @@ class TickerData:
         date_today              = dt.datetime.now().date() - BDay(1)
         self.date_today         = date_today.strftime('%Y-%m-%d')
 
-    def get_historical_prices(self, period='day', limit=5000):
+        
+
+    def get_historical_prices(self, period='day', n = 1, limit=5000,
+                              start_date = False, end_date = False):
 
         raw = []
-        forecast_date = self.forecast_date
-        date_today = self.date_today
-        
+        if start_date == False:
+            start_date = self.filing_date_gte
+        if end_date == False:
+            end_date = self.date_today
+
         # Query API to get OHLC and volume data
-        for a in client.list_aggs(
-            self.ticker,
-            1,
-            period,
-            forecast_date,
-            date_today,
-            limit = limit):
-            
-            raw.append(a)
+        if period == 'day':
+            print(f'Call {self.ticker}.calc_zscore_and_rets() to get returns data')
+            for a in client.list_aggs(
+                self.ticker,
+                n,
+                period,
+                start_date,
+                end_date,
+                limit = limit):
+                
+                raw.append(a)
+            df                      = pd.DataFrame(raw)
+            df['Date'] = pd.to_datetime(df['timestamp'], unit='ms').dt.strftime('%Y-%m-%d')
+            df.set_index('Date', inplace = True)
+            self.historical_prices  = df
+            self.historical_prices.index = pd.to_datetime(self.historical_prices.index)
 
-        # Format
-        df                      = pd.DataFrame(raw)
-        df['Date']              = pd.to_datetime(df['timestamp'], unit='ms').dt.strftime('%Y-%m-%d')
-        df.set_index('Date', inplace=True)
+        # If we want minute level
+        if period != 'day':
+              try:
+                print('Trying to get minute level data')
+                df  = get_minute_level_data(self.ticker, n, period, start_date)
+                self.minute_level_prices = df
+                print('Data Found')
 
-        df.index                = pd.to_datetime(df.index)
-        self.historical_prices  = df
+              except Exception as e:
 
+                print(e)
+                raw = []
+                for a in client.list_aggs(
+                                self.ticker,
+                                n,
+                                period,
+                                start_date,
+                                end_date,
+                                limit = limit):
+                    raw.append(a)    
 
-
+                # Format
+                df                        = pd.DataFrame(raw)
+                df['Date']                = pd.to_datetime(df['timestamp'], unit='ms')
+                df.set_index('Date', inplace=True)
+                df.index                  = df.index.tz_localize('UTC').tz_convert('US/Eastern')
+                self.minute_level_prices  = df
+                
 
     def get_fundamental_data(self, test : bool = False):
 
@@ -130,10 +275,9 @@ class TickerData:
 
         raw_df = rate_limited_request(base_url, headers, params)
         json_raw_df = raw_df.json()
+
         # Get important data to calculate metrics
-
         number_of_periods = len(json_raw_df.get('results'))
-
 
         for i in range(0, number_of_periods):
             raw_df_period                   = json_raw_df.get('results', np.nan)[i]
@@ -287,7 +431,6 @@ class TickerData:
 
         df = handle_missing_fundamental_data(df)
         self.fundamentals = df
-
     
     def get_ratios(self):
         """  
@@ -337,9 +480,6 @@ class TickerData:
         self.summary_data                  = merged[keep]            
         self.earning_dates                 = pd.Series(merged['earnings tag'].unique())
 
-
-
-
     def map_earnings_to_prices(self,
                                method: str = "backward",
                                tolerance = dt.timedelta(5)) -> pd.DataFrame:
@@ -368,7 +508,6 @@ class TickerData:
         merged.set_index('earnings_date', inplace= True)
         merged.index = pd.to_datetime(merged.index)
         self.earning_dates_with_prices = merged
-
 
     def plot_single_timeseries(self, plot=True):
         """ 
@@ -413,28 +552,25 @@ class TickerData:
             axs[1].legend()
             axs[1].set_title('P/E Ratios')
 
-
-    def calc_log_rets(self, returns = 'vwap'):
+    def calc_log_rets(self, returns):
         rets = self.summary_data[returns].pct_change().dropna()
         rets = np.log(1 + rets).to_frame('returns')
         self.returns = rets
 
     def plot_returns_distribution(self,
-                                  title: str = "Returns Distribution",
                                   xlabel: str = "Returns",
                                   bins: int | int = 25,
                                   kde: bool = True,
                                   percent_axis: bool = True,
                                   show_stats: bool = True,
                                   ax: plt.Axes | None = None,
+                                  returns : str | str = 'intraday' 
                                   ):
         """
         Plot a histogram + KDE for returns.
         """
         # sanitize
-        if not hasattr(self, 'returns'):
-            self.calc_log_rets()
-        
+        self.calc_log_rets(returns=returns) 
         r = self.returns 
 
         if r.empty:
@@ -447,7 +583,8 @@ class TickerData:
         sns.histplot(data = r, x = 'returns', bins=bins, stat="density", kde=kde, ax=ax)
 
         # Labels / title
-        ax.set_title(title)
+        
+        ax.set_title(f'{returns} Distribution')
         ax.set_xlabel(xlabel)
         ax.set_ylabel("Density")
 
@@ -475,3 +612,203 @@ class TickerData:
         plt.tight_layout()
         return ax
 
+    def calc_zscore_and_rets(self, bins : list[int] = BINS, labels : list[str] = LABELS, earnings = True, vwap = True):
+        """
+        Take a dataframe with OHLC, vwap data and calculate log rets and zscores and buckets them
+        And overnight returns
+        Also computes intra day returns
+        """
+        if earnings:
+            df = self.summary_data.copy()
+        else:
+            df = self.historical_prices
+
+        intraday_rets                                      = np.log(1 + (df['close'] - df['open']) / df['open'])
+        # Todays open minus Yesterdays close (shift pushes older entries forward)
+        overnight_rets                                     = np.log(1+(df['open'] - df['close'].shift()) / df['close'].shift())
+        if vwap:
+            df.loc[:,['open', 'high', 'low', 'close', 'vwap']] = df.loc[:,['open', 'high', 'low', 'close','vwap']].apply(calc_log_rets)
+        else:
+            df.loc[:,['open', 'high', 'low', 'close']] = df.loc[:,['open', 'high', 'low', 'close']].apply(calc_log_rets)
+
+        df['intraday']                                     = intraday_rets
+        df['overnight']                                    = overnight_rets
+        df                                                 = df.dropna(how='any', subset=['open', 'overnight'])
+
+        if vwap:
+            zscores                                            = df[['open', 'high', 'low', 'close','vwap', 'intraday', 'overnight']].apply(zscore)
+            df[['z open', 'z high', 'z low', 'z close','z vwap', 'z intraday', 'z overnight']] = zscores
+            rets    = []
+            for i in ['open', 'high', 'low', 'close','vwap', 'intraday', 'overnight']:
+                returns                                  = df[f'{i}']
+                returns_zscore                           = df[f'z {i}']                                            
+                returns_bucket                           = pd.cut(df[f'z {i}'],
+                                                                bins=bins,
+                                                                labels=labels)
+                rets_filtered                            = pd.DataFrame({
+                    f'{i}'        : returns,
+                    f'z {i}'      : returns_zscore,
+                    f'bucket {i}' : returns_bucket
+                })
+                rets.append(rets_filtered)
+
+            self.summary_returns_data = pd.concat(rets, axis=1)
+
+        else:
+            zscores                                            = df[['open', 'high', 'low', 'close', 'intraday', 'overnight']].apply(zscore)
+            df[['z open', 'z high', 'z low', 'z close', 'z intraday', 'z overnight']]          = zscores
+            rets    = []
+            for i in ['open', 'high', 'low', 'close', 'intraday', 'overnight']:
+                returns                                  = df[f'{i}']
+                returns_zscore                           = df[f'z {i}']                                            
+                returns_bucket                           = pd.cut(df[f'z {i}'],
+                                                                bins=bins,
+                                                                labels=labels)
+                rets_filtered                            = pd.DataFrame({
+                    f'{i}'        : returns,
+                    f'z {i}'      : returns_zscore,
+                    f'bucket {i}' : returns_bucket
+                })
+                rets.append(rets_filtered)
+
+            self.summary_returns_data = pd.concat(rets, axis=1)
+
+
+    def calc_forward_log_return(self, window : int = 1):
+        """
+        Compute forward cumulative log return over 'window' days.
+        Log returns add, so just take rolling sum
+        """
+        # Reverse the return series
+        if not hasattr(self, 'summary_returns_data'):
+            self.calc_zscore_and_rets()
+
+        cols         = ['open', 'high', 'low', 'intraday', 'close', 'vwap', 'overnight']
+        df           = self.summary_returns_data.copy()
+        df_          = df[cols].copy()
+        reversed_    = df_.iloc[::-1]
+
+        for i in cols:
+            df_[f'{i} forward {window} day log rets']                 = reversed_[i].shift(1).rolling(window).sum()
+            df_[f'{i} forward {window} day arithmetic rets']          = np.exp(df_[f'{i} forward {window} day log rets']) - 1
+            
+        setattr(self, f'fwd_rets_{window}', df_.dropna(how='any'))
+
+
+    def plot_fwd_returns_distribution_by_return_z(  self,
+                                                    bucket_class    : str = 'Normal',
+                                                    rets_type       : str = 'vwap',
+                                                    fwd_rets_type : str = 'intraday',
+                                                    window          : int = 5,
+                                                    filter_earnings : bool = True,
+                                                    number_of_bins  : int = 25,
+                                                    return_data     : bool = False):
+        """
+        Need an input of the summary data with OHLC 
+            - calculates zscore and returns then bucket it by zscore
+            - calculates forward returns
+            - maps earning dates 
+        For a given type of 
+            rets_type : e.g., vwap, intraday, open
+        Sees what the effect is on the
+            fwd_rets_type e.g., how does big overnight returns affect 
+                                the following day's market returns (intraday)
+        For a given interval (by zscore)
+            bucket_class : e.g., Large Negative
+
+        This aims to understand what the distribution of returns in the following N days 
+        Can filter out days with earnings
+        """
+        if not hasattr(self, 'summary_returns_data'):
+            self.calc_zscore_and_rets()
+
+        if not hasattr(self, f'fwd_rets_{window}'):
+            self.calc_forward_log_return(window)
+        
+        if not hasattr(self, 'earning_dates_with_prices'):
+            self.map_earnings_to_prices()
+
+        normalized_rets     = self.summary_returns_data
+        fwd_rets            = getattr(self, f'fwd_rets_{window}')
+        earnings            = self.earning_dates_with_prices
+        fwd_rets_earnings   = map_earnings_to_fwd_rets(fwd_rets, earnings)
+        
+        # Get bucket for rets_type (the returns that you are using as predictor)
+        bucket                                             = normalized_rets[f'bucket {rets_type}']
+        fwd_rets_earnings[f'bucket {rets_type}']           = bucket
+
+        # Get the forward returns of the fwd_rets_type and combine it with returns of rets_type
+        if filter_earnings:
+            rets_earnings_filtered = fwd_rets_earnings[~(fwd_rets_earnings['earnings flag'] == True)]
+            x = rets_earnings_filtered.filter(like=fwd_rets_type)
+            y = rets_earnings_filtered.filter(like=rets_type)
+        else:
+            x = fwd_rets_earnings.filter(like= fwd_rets_type)
+            y = fwd_rets_earnings.filter(like= rets_type)
+        
+        x = pd.concat([x,y], axis =1)
+        x = x.copy()
+        x = x[x[f'bucket {rets_type}'] == bucket_class]
+
+        # Summary Statistics
+        mean = x[f'{fwd_rets_type} forward {window} day arithmetic rets'].mean()
+        std  = x[f'{fwd_rets_type} forward {window} day arithmetic rets'].std()
+        skew = x[f'{fwd_rets_type} forward {window} day arithmetic rets'].skew()
+        mdn  = x[f'{fwd_rets_type} forward {window} day arithmetic rets'].median()
+
+
+        plt.figure(figsize=(12,6))
+        sns.histplot(data = x,
+                    x    = f'{rets_type} forward {window} day arithmetic rets',
+                    bins = number_of_bins,
+                    kde  = True,
+        )
+
+        plt.title(f'{self.ticker}:{bucket_class} Returns on {fwd_rets_type} for {window} day forward Dist\nFiltered For Earnings = {filter_earnings}\nBased on preceding {rets_type} returns')
+        plt.gca().xaxis.set_major_formatter(PercentFormatter(1))
+        plt.annotate(
+            text = f'Avg : {(100 *mean).round(2)}%\nStD : {(100*std).round(2)}%\nSkew : {(100*skew).round(2)}\nMedian : {(100*mdn).round(2)}%',
+            xy= (0.01, 1)
+        )
+        plt.grid()
+        if return_data:
+            return x
+        else:
+            print('set return_data to True to get the dataset')
+
+    def calc_minute_level_rets(self, bins : list[int] = BINS, labels : list[str] = LABELS):
+            """
+            Take a dataframe with OHLC, vwap data and calculate log rets and zscores and buckets them
+            And overnight returns
+            Also computes intra day returns
+            """
+            df = self.summary_data.copy()
+
+            intraday_rets                                      = np.log(1 + (df['close'] - df['open']) / df['open'])
+            # Todays open minus Yesterdays close (shift pushes older entries forward)
+            overnight_rets                                     = np.log(1+(df['open'] - df['close'].shift()) / df['close'].shift())
+
+            df.loc[:,['open', 'high', 'low', 'close', 'vwap']] = df.loc[:,['open', 'high', 'low', 'close','vwap']].apply(calc_log_rets)
+            df['intraday']                                     = intraday_rets
+            df['overnight']                                    = overnight_rets
+            df                                                 = df.dropna(how='any', subset=['open', 'overnight'])
+            zscores                                            = df[['open', 'high', 'low', 'close','vwap', 'intraday', 'overnight']].apply(zscore)
+            
+            # Cut into bins
+            df[['z open', 'z high', 'z low', 'z close','z vwap', 'z intraday', 'z overnight']] = zscores
+            
+            rets    = []
+            for i in ['open', 'high', 'low', 'close','vwap', 'intraday', 'overnight']:
+                returns                                  = df[f'{i}']
+                returns_zscore                           = df[f'z {i}']                                            
+                returns_bucket                           = pd.cut(df[f'z {i}'],
+                                                                bins=bins,
+                                                                labels=labels)
+                rets_filtered                            = pd.DataFrame({
+                    f'{i}'        : returns,
+                    f'z {i}'      : returns_zscore,
+                    f'bucket {i}' : returns_bucket
+                })
+                rets.append(rets_filtered)
+
+            self.summary_returns_data = pd.concat(rets, axis=1)
