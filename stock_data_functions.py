@@ -122,7 +122,6 @@ def map_earnings_to_fwd_rets(fwd_df, earnings_with_prices):
                                                      )
     return df_earnings
 
-
 def fetch_in_six_month_chunks(
     ticker_obj,
     ticker : str,
@@ -176,7 +175,7 @@ def fetch_in_six_month_chunks(
     frames = []
     for i, (s, e) in enumerate(chunks):
         print(i, s,e)
-        ticker_obj.get_historical_prices(period = period, n=n, start_date=s, end_date=e, limit = 5_000_000)
+        ticker_obj.get_historical_prices(period = period, n=n, start_date=s, end_date=e, limit = 5000_000)
         df_chunk = ticker_obj.minute_level_prices.copy()
         frames.append(df_chunk)
         time.sleep(cooldown_sec)
