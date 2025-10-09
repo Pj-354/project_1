@@ -7,6 +7,12 @@ import stock_data_functions
 from glob import glob
 import os
 import datetime as dt
+import seaborn as sns 
+import matplotlib.pyplot as plt
+import datetime as dt
+
+
+palette = sns.color_palette("tab10")
 
 SECTOR_MAP = {
     'Biotech'             : ['GILD', 'ABBV', 'BSX', 'AMGN', 'ISRG', 'MDT', 'ABT', 'TMO', 'LLY', 'DHR', 'SYK',
@@ -27,6 +33,16 @@ SECTOR_MAP = {
     'Other'               : ['CMCSA', 'DIS', 'GE', 'BA', 'PGR', 'WMT', 'UNP','WELL', 'BKNG', 'RTX']
 }
 
+C_Definitions = {
+    "PC1": "Market / Broad Risk",
+    "PC2": "Defensive vs Risk-On",
+    "PC3": "Clean Energy / Transition / Batteries",
+    "PC4": "Digital Infrastructure / Backbone",
+    "PC5": "Cyclical Value & Industrials vs Growth Tech",
+    "PC6": "Quality-Defensive Tech vs Speculative Risk",
+    "PC7": "Utilities & Real Assets (Defensive Income)",
+    "PC8": "Defensive-Growth (Cyber/Cloud) + Energy/Green vs Cyclicals/Semis/Value",
+}
 
 
 def missing_tickers(collected_tickers, regular_df, sector_map = SECTOR_MAP):
@@ -56,6 +72,7 @@ def get_all_returns_data():
                             .get_minute_level_data(i, n =5, period='minute', start_date='2023-09-26')
             x               = df[['vwap']].rename(columns={'vwap':i})
             dfs.append(x)
+        # List the actual exception 
         except Exception as e:
             print(e, i)
             try_again.append(i)
@@ -64,8 +81,14 @@ def get_all_returns_data():
     return dfs, collected_tickers, try_again
 
 
-def filter_session(dfs : pd.DataFrame,
-                   session = 'Regular'):
+def filter_session(dfs     : pd.DataFrame,
+                   session : str = 'Regular'
+    )-> pd.DataFrame:
+    """ 
+    Tag time series data based on if it is pre market, regular session or post market
+    Can filter depending on what session we want
+        - If session = False then returns everything from all sessions
+    """
     
     df = pd.concat(dfs, axis=1)
 
@@ -152,3 +175,171 @@ def sector_centroids(loadings, sector_map = SECTOR_MAP):
             continue
         rows.append(pd.DataFrame(loadings.loc[names].mean().rename(sector)))
     return pd.concat(rows, axis=1).T.sort_index()
+
+
+def pc_weights_from_loadings(loadings: pd.DataFrame) -> pd.DataFrame:
+    """
+    Convert loading matrix (tickers × PCs) into weights that sum to 1 per PC.
+    loadings: DataFrame indexed by ticker, columns = PCs
+    Returns weights: same shape, each column sums to 1.
+    """
+    # If you want *signed* weights (for long/short)
+    w = loadings.div(loadings.sum(axis=0), axis=1)
+    return w
+
+def make_pc_portfolios(returns: pd.DataFrame, weights: pd.DataFrame) -> pd.DataFrame:
+    """
+    Compute PC portfolio returns given stock returns and weights.
+    returns: DataFrame indexed by date, columns = tickers
+    weights: DataFrame indexed by ticker, columns = PCs (weights sum = 1 per PC)
+    Returns: DataFrame indexed by date, columns = PCs (portfolio returns)
+    """
+    # Align tickers
+    common = returns.columns.intersection(weights.index)
+    R = returns[common]
+    W = weights.loc[common]
+    # For each PC, do R × w
+    # returns is (T × N); weights is (N × K) → result is (T × K)
+    port = R.dot(W)
+    return port
+
+def get_pc_weights_from_loadings(loadings,
+                                 pc : int):
+    
+    x               = loadings[f'PC{pc}'].copy()
+    sum_x           = x.sum()
+
+    x               = x / sum_x
+    return x
+
+
+def get_weighted_returns(col,rets_df):
+
+    ticker                  = col.name
+    weight                  = col.values
+
+    ticker_rets             = rets_df[ticker].copy().to_frame(ticker)
+    ticker_rets['Cum Rets'] = ticker_rets[ticker].cumsum()
+    ticker_rets             = np.exp(ticker_rets)
+
+    return ticker_rets['Cum Rets'] * (weight / ticker_rets[ticker].std())
+
+
+def plot_pca_vs_benchmark_three_timeframes(n : int,
+                          daily_rets,
+                          hourly_rets,
+                          minute_rets,
+                          good_dates,
+                          end_date,
+                          benchmark_series,
+                          text,
+                          colors=palette,
+                          output = False):
+    
+    minute_loadings, minute_var_ratios, minute_eigenvalues   = pca_analysis(False, minute_rets, start_date=good_dates, end_date=end_date)
+    hourly_loadings, hourly_var_ratios, hourly_eigenvalues   = pca_analysis(False, hourly_rets, start_date=good_dates, end_date=end_date)
+    daily_loadings, daily_var_ratios, daily_eigenvalues      = pca_analysis(False, daily_rets, start_date=good_dates, end_date=end_date)    
+        
+    minutely_weights           = get_pc_weights_from_loadings(minute_loadings, n)
+    hourly_weights             = get_pc_weights_from_loadings(hourly_loadings, n)
+    daily_weights              = get_pc_weights_from_loadings(daily_loadings, n)
+
+    weights_minute_df          = pd.DataFrame(minutely_weights).T
+    weights_hour_df            = pd.DataFrame(hourly_weights).T
+    weights_daily_df           = pd.DataFrame(daily_weights).T
+
+    weighted_rets_daily        = weights_minute_df.apply(get_weighted_returns, axis=0, args=(daily_rets,)).sum(axis=1).to_frame(f'PC{n} rets')
+    weighted_rets_daily        = weighted_rets_daily / weighted_rets_daily.iloc[0, 0]
+
+    weighted_rets_hourly       = weights_hour_df.apply(get_weighted_returns, axis=0, args=(hourly_rets,)).sum(axis=1).to_frame(f'PC{n} rets')
+    weighted_rets_hourly       = weighted_rets_hourly / weighted_rets_hourly.iloc[0, 0]
+
+    weighted_rets_minute       = weights_daily_df.apply(get_weighted_returns, axis=0, args=(minute_rets,)).sum(axis=1).to_frame(f'PC{n} rets')
+    weighted_rets_minute       = weighted_rets_minute / weighted_rets_minute.iloc[0, 0]
+
+    weighted_rets_test_daily   = weighted_rets_daily[daily_rets.index.date > end_date.date()].copy()
+    weighted_rets_train_daily  = weighted_rets_daily[daily_rets.index.date < end_date.date()].copy()
+
+    weighted_rets_test_hourly   = weighted_rets_hourly[hourly_rets.index.date > end_date.date()].copy()
+    weighted_rets_train_hourly  = weighted_rets_hourly[hourly_rets.index.date < end_date.date()].copy()
+
+    weighted_rets_test_minute   = weighted_rets_minute[minute_rets.index.date > end_date.date()].copy()
+    weighted_rets_train_minute  = weighted_rets_minute[minute_rets.index.date < end_date.date()].copy()
+
+    benchmark_rets              = benchmark_series.apply(calc_log_rets)
+    benchmark_rets['Cum Rets']  = benchmark_rets.cumsum()
+    benchmark_rets['Benchmark Gains'] = np.exp(benchmark_rets['Cum Rets']) 
+
+    fig, axs = plt.subplots(1, figsize=(12,6))
+    axs.plot(benchmark_rets['Benchmark Gains'], label=f'{text}', color=colors[0], lw=1.5)
+
+    axs.plot(weighted_rets_test_daily[f'PC{n} rets'], label=f'PC {n} Daily', color=colors[1], ls ='--')
+    axs.plot(weighted_rets_train_daily[f'PC{n} rets'], color=colors[1])
+
+    axs.plot(weighted_rets_test_hourly[f'PC{n} rets'], label=f'PC {n} Hourly', color=colors[2], ls ='--')
+    axs.plot(weighted_rets_train_hourly[f'PC{n} rets'], color=colors[2])
+
+    axs.plot(weighted_rets_test_minute[f'PC{n} rets'], label=f'PC {n} Minute', color=colors[5], ls ='--')
+    axs.plot(weighted_rets_train_minute[f'PC{n} rets'], color=colors[5])
+
+    axs.legend()
+    plt.title(f'PC {n} Test')
+
+    if output:
+        print('Rets goes daily, hourly, minute in the tuple returned')
+        return {'Minute' : [minute_loadings, minute_var_ratios, minute_eigenvalues],
+                'Hour'   : [hourly_loadings, hourly_var_ratios, hourly_eigenvalues],
+                'Daily'  : [daily_loadings, daily_var_ratios, daily_eigenvalues],
+                'Rets'   : [weighted_rets_test_daily, weighted_rets_train_daily,
+                            weighted_rets_train_hourly, weighted_rets_train_hourly,
+                            weighted_rets_test_minute, weighted_rets_train_minute]}
+    
+
+
+def plot_pca_vs_benchmark(n_pc : int,
+                          tag : str,
+                          rets : pd.DataFrame,
+                          start_date : dt.datetime,
+                          split_date : dt.datetime,
+                          benchmark_series : pd.Series,
+                          benchmark_label : str,
+                          colors=palette,
+                          output = False):
+    
+    loadings, var_ratios, eigen_values   = pca_analysis(tag,
+                                                        rets,
+                                                        start_date=start_date,
+                                                        end_date=split_date)
+        
+    weights              = get_pc_weights_from_loadings(loadings, n_pc)
+
+
+    weights__df          = pd.DataFrame(weights).T
+
+    weighted_rets_df     = weights__df.apply(get_weighted_returns, axis=0, args=(rets,)).sum(axis=1).to_frame(f'PC{n_pc} rets')
+    weighted_rets_df     = weighted_rets_df / weighted_rets_df.iloc[0, 0]
+
+    weighted_rets_df_test   = weighted_rets_df[weighted_rets_df.index.date > split_date.date()].copy()
+    weighted_rets_df_train  = weighted_rets_df[weighted_rets_df.index.date < split_date.date()].copy()
+
+    benchmark_rets              = benchmark_series.apply(calc_log_rets)
+    benchmark_rets['Cum Rets']  = benchmark_rets.cumsum()
+    benchmark_rets['Benchmark Gains'] = np.exp(benchmark_rets['Cum Rets']) 
+
+    fig, axs = plt.subplots(1, figsize=(12,6))
+    axs.plot(benchmark_rets['Benchmark Gains'], label=f'{benchmark_label}', color=colors[0], lw=1.5)
+
+    axs.plot(weighted_rets_df_test[f'PC{n_pc} rets'], label=f'PC {n_pc} Daily', color=colors[1], ls ='--')
+    axs.plot(weighted_rets_df_train[f'PC{n_pc} rets'], color=colors[2])
+
+    
+    axs.legend()
+    plt.title(f'PC {n_pc} Test')
+
+    if output:
+        print('Returning PCA Loadings, Var Ratios, Eigen values, ' \
+              'Rets goestraining then testing')
+        
+        to_out =  {'PCA Loadings' : [loadings, var_ratios, eigen_values],
+                         'Rets'   : [weighted_rets_df_train, weighted_rets_df_test]}
+        return output

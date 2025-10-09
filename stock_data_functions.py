@@ -1,6 +1,11 @@
+from matplotlib import ticker
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from glob import glob 
+from pathlib import Path
+import os 
+
 from polygon import RESTClient
 import datetime as dt
 from pandas.tseries.offsets import BDay
@@ -11,6 +16,7 @@ from matplotlib.dates import MonthLocator, AutoDateFormatter, AutoDateFormatter
 import seaborn as sns
 from matplotlib.ticker import PercentFormatter
 from scipy.stats import zscore
+from sklearn.linear_model import LinearRegression
 
 
 API_key = 'tt2gOLH0fHAmPX70a4QURLFy59PRCZr3'
@@ -20,6 +26,7 @@ headers = {"Authorization": f"Bearer {API_key}"}
 
 BINS = [-np.inf, -2, -1, 1, 2, np.inf]
 LABELS = ["Large Negative", "Moderate Negative", "Normal", "Moderate Positive", "Large Positive"]
+
 
 def rate_limited_request(url, headers, params):
     
@@ -191,9 +198,21 @@ def fetch_in_six_month_chunks(
 
     return combined
 
+def load_benchmark(ticker, start):
+    t = TickerData(ticker, filing_date_gte=start)
+    t.get_historical_prices()
+    t.calc_zscore_and_rets(earnings=False)
+    # Use 'close' (or 'adj_close' if you have it) and drop NAs
+    px = t.historical_prices['close'].dropna()
+    px.index = px.index.tz_localize(None) if hasattr(px.index, "tz") and px.index.tz is not None else px.index
+    return px, t  
+
+
+
 
 
 class TickerData:
+
 
     def __init__(self, ticker, filing_date_gte):
         self.ticker             = ticker
@@ -202,10 +221,33 @@ class TickerData:
         date_today              = dt.datetime.now().date() - BDay(1)
         self.date_today         = date_today.strftime('%Y-%m-%d')
 
-        
+    def get_daily_price_data(self):
+        """ 
+        Checks to see if we have already downloaded the data, so we can add to it and save it
+        """
+        path_to_daily       = Path('Daily')
+        pattern             = f"{self.ticker}_*_daily.csv"
+        file_path           = next(path_to_daily.glob(pattern), None)
+
+        return file_path
+    
+    def get_ratios_data(self):
+        """ 
+        Checks to see if we have already downloaded the data, so we can add to it and save it
+        """
+        path_to_daily       = Path('Daily') / Path('Fundamentals')
+        path_to_ratios      = Path('Daily') / Path('Earnings')
+        pattern             = f"{self.ticker}_*.csv"
+        file_path_ratios    = next(path_to_daily.glob(pattern), None)
+        file_path_earnings  = next(path_to_ratios.glob(pattern), None)
+
+        print(file_path_earnings)
+
+        return file_path_ratios, file_path_earnings
 
     def get_historical_prices(self, period='day', n = 1, limit=5000,
-                              start_date = False, end_date = False):
+                              start_date = False, end_date = False,
+                              date_updated = False):
 
         raw = []
         if start_date == False:
@@ -215,22 +257,42 @@ class TickerData:
 
         # Query API to get OHLC and volume data
         if period == 'day':
+
             print(f'Call {self.ticker}.calc_zscore_and_rets() to get returns data')
-            for a in client.list_aggs(
-                self.ticker,
-                n,
-                period,
-                start_date,
-                end_date,
-                limit = limit):
+            file_path = self.get_daily_price_data()
+            
+            if file_path != None:
+                existing_data              = pd.read_csv(file_path, index_col = ['Date'], parse_dates=True)
+
+                if date_updated == False:
+                    self.historical_prices = existing_data
+                    return None
                 
+                if date_updated == True:
+                    print(start_date)
+                    start_date             = file_path.stem.split('_')[1]
+                    
+            for a in client.list_aggs(self.ticker,
+                                      n,
+                                      period,
+                                      start_date,
+                                      end_date,
+                                      limit = limit):       
                 raw.append(a)
+            self.raw                  = raw
             df                      = pd.DataFrame(raw)
-            df['Date'] = pd.to_datetime(df['timestamp'], unit='ms').dt.strftime('%Y-%m-%d')
+            df['Date']              = pd.to_datetime(df['timestamp'], unit='ms').dt.strftime('%Y-%m-%d')
             df.set_index('Date', inplace = True)
+
+            if file_path != None:
+                df = pd.concat([existing_data, df], axis =0)
+                df = df.drop_duplicates(subset=['timestamp'])
+                df = df.sort_values(by='timestamp', ascending=True)
+            
             self.historical_prices  = df
             self.historical_prices.index = pd.to_datetime(self.historical_prices.index)
-
+            # Save to disk
+            self.historical_prices.to_csv(fr'Daily/{self.ticker}_{end_date}_daily.csv')
         # If we want minute level
         if period != 'day':
               try:
@@ -259,7 +321,6 @@ class TickerData:
                 df.index                  = df.index.tz_localize('UTC').tz_convert('US/Eastern')
                 self.minute_level_prices  = df
                 
-
     def get_fundamental_data(self, test : bool = False):
 
         fundamentals = {}
@@ -431,10 +492,22 @@ class TickerData:
         df = handle_missing_fundamental_data(df)
         self.fundamentals = df
     
-    def get_ratios(self):
+    def get_ratios(self, date_updated = False):
         """  
         Calculate P/E Ratios and TTM Earnings
         """
+        file_path_ratios, file_path_earnings = self.get_ratios_data()
+            
+        if file_path_ratios != None and file_path_earnings != None:
+            ratios_data               = pd.read_csv(file_path_ratios, index_col = ['Date'], parse_dates=True)
+            earnings_dates            = pd.read_csv(file_path_earnings, index_col = [0])
+            earnings_dates.iloc[:, 0] = pd.to_datetime(earnings_dates.iloc[:, 0])
+
+            if date_updated == False:
+                self.summary_data = ratios_data
+                self.earning_dates = earnings_dates
+
+                return None
 
         if not hasattr(self, 'fundamentals'):
             self.get_fundamental_data()
@@ -478,6 +551,9 @@ class TickerData:
 
         self.summary_data                  = merged[keep]            
         self.earning_dates                 = pd.Series(merged['earnings tag'].unique())
+        self.summary_data.to_csv(rf'Daily/Fundamentals/{self.ticker}_{self.date_today}.csv')
+        self.earning_dates.to_csv(rf'Daily/Earnings/{self.ticker}_{self.date_today}.csv')
+
 
     def map_earnings_to_prices(self,
                                method: str = "backward",
@@ -492,7 +568,7 @@ class TickerData:
         prices              = self.historical_prices
         earnings_dates      = self.earning_dates
 
-        events              = pd.DataFrame({"earnings_date": pd.to_datetime(earnings_dates.dropna().unique())})
+        events              = self.earning_dates
         events              = events.sort_values("earnings_date")
 
         merged = pd.merge_asof(
@@ -508,7 +584,7 @@ class TickerData:
         merged.index = pd.to_datetime(merged.index)
         self.earning_dates_with_prices = merged
 
-    def plot_single_timeseries(self, plot=True):
+    def plot_single_timeseries(self, plot=True, earnings_show=True):
         """ 
         Plots the time series with earning dates highlighted. Dependencies
             - Needs map_earnings_to_prices to get the share price on earnigns day
@@ -518,38 +594,43 @@ class TickerData:
         if not hasattr(self, 'historical_prices'):
             self.get_historical_prices()
 
-        if not hasattr(self, 'earning_dates'):
+        if not hasattr(self, 'earning_dates') and earnings_show == True:
             self.get_fundamental_data()
             self.get_ratios()
         
-        if not hasattr(self, 'earning_dates_with_prices'):
+        if not hasattr(self, 'earning_dates_with_prices') and earnings_show == True:
             self.map_earnings_to_prices()
 
-        df = self.summary_data
-        earnings_dates = self.earning_dates_with_prices
-
+        if earnings_show == True:
+            df = self.summary_data
+            earnings_dates = self.earning_dates_with_prices
+        else:
+            df = self.historical_prices
 
         if plot == True:                    
             fig, axs = plt.subplots(nrows=2, ncols=1, figsize=(12,8))
 
-            axs[0].scatter(earnings_dates.index, earnings_dates['close'],marker='x', color='tab:red', label='Earnings Date')
+            if earnings_show == True:
+                axs[0].scatter(earnings_dates.index, earnings_dates['close'],marker='x', color='tab:red', label='Earnings Date')
+                axs[1].plot(df['quarterly P/E diluted'], label='Quarterly P/E', alpha = 0.5, linestyle='--')
+                axs[1].plot(df['TTM P/E'], label='TTM P/E', color='tab:blue')
+
+                df.loc[:,'negative TTM P/E'] = np.where(df['TTM P/E'] < 1, df['TTM P/E'], np.nan)
+                df.loc[:,'negative Q P/E'] = np.where(df['quarterly P/E diluted'] < 1, df['quarterly P/E diluted'], np.nan)
+
+
+                axs[1].plot(df['negative TTM P/E'], color = 'lightgray', linewidth=3)
+                axs[1].plot(df['negative Q P/E'], color = 'lightgray',linewidth=3)
+                axs[1].grid()
+                axs[1].legend()
+                axs[1].set_title('P/E Ratios')
+
             axs[0].plot(df['close'], label='Close Price')
             axs[0].legend()
             axs[0].set_title(f'Share Price of {self.ticker}')
             axs[0].set_ylabel('$ Dollars')
             axs[0].grid()
-            axs[1].plot(df['quarterly P/E diluted'], label='Quarterly P/E', alpha = 0.5, linestyle='--')
-            axs[1].plot(df['TTM P/E'], label='TTM P/E', color='tab:blue')
 
-            df['negative TTM P/E'] = np.where(df['TTM P/E'] < 1, df['TTM P/E'], np.nan)
-            df['negative Q P/E'] = np.where(df['quarterly P/E diluted'] < 1, df['quarterly P/E diluted'], np.nan)
-
-
-            axs[1].plot(df['negative TTM P/E'], color = 'lightgray', linewidth=3)
-            axs[1].plot(df['negative Q P/E'], color = 'lightgray',linewidth=3)
-            axs[1].grid()
-            axs[1].legend()
-            axs[1].set_title('P/E Ratios')
 
     def calc_log_rets(self, returns):
         rets = self.summary_data[returns].pct_change().dropna()
@@ -569,8 +650,13 @@ class TickerData:
         Plot a histogram + KDE for returns.
         """
         # sanitize
-        self.calc_log_rets(returns=returns) 
-        r = self.returns 
+        if not hasattr(self, 'summary_returns_data'):
+            try:
+                self.calc_zscore_and_rets()
+            except Exception as e:
+                r = self.summary_data.apply(calc_log_rets)[returns].dropna().to_frame('returns')
+
+        r = self.summary_returns_data[returns].dropna().to_frame('returns') 
 
         if r.empty:
             raise ValueError("No non-NaN returns to plot.")
@@ -635,8 +721,8 @@ class TickerData:
         df                                                 = df.dropna(how='any', subset=['open', 'overnight'])
 
         if vwap:
-            zscores                                            = df[['open', 'high', 'low', 'close','vwap', 'intraday', 'overnight']].apply(zscore)
-            df[['z open', 'z high', 'z low', 'z close','z vwap', 'z intraday', 'z overnight']] = zscores
+            zscores                                            = df[['open', 'high', 'low', 'close','vwap', 'intraday', 'overnight']].copy().apply(zscore)
+            df.loc[:, ['z open', 'z high', 'z low', 'z close','z vwap', 'z intraday', 'z overnight']] = zscores
             rets    = []
             for i in ['open', 'high', 'low', 'close','vwap', 'intraday', 'overnight']:
                 returns                                  = df[f'{i}']
@@ -672,7 +758,6 @@ class TickerData:
 
             self.summary_returns_data = pd.concat(rets, axis=1)
 
-
     def calc_forward_log_return(self, window : int = 1):
         """
         Compute forward cumulative log return over 'window' days.
@@ -693,11 +778,10 @@ class TickerData:
             
         setattr(self, f'fwd_rets_{window}', df_.dropna(how='any'))
 
-
     def plot_fwd_returns_distribution_by_return_z(  self,
                                                     bucket_class    : str = 'Normal',
                                                     rets_type       : str = 'vwap',
-                                                    fwd_rets_type : str = 'intraday',
+                                                    fwd_rets_type   : str = 'intraday',
                                                     window          : int = 5,
                                                     filter_earnings : bool = True,
                                                     number_of_bins  : int = 25,
@@ -811,3 +895,149 @@ class TickerData:
                 rets.append(rets_filtered)
 
             self.summary_returns_data = pd.concat(rets, axis=1)
+
+
+class TickerComparison():
+
+
+    def __init__(self, tickers : list[str], filing_date_gte : str, waiting_time : int = 15):
+
+        self.tickers = tickers
+        self.filing_date_gte = filing_date_gte
+
+        tickers_time_series = {}
+        tickers_time_prices = {}
+        failed = []
+        counter = 0
+        for i in tickers:
+            try:
+                print('Counter :', counter)
+                print(f'Processing {i} : {counter+1} of {len(tickers)}')
+
+                ticker_i                    = TickerData(i, self.filing_date_gte)
+                # Must set deep copy or else the settingwithcopy fucks us
+                ticker_i.get_historical_prices()
+                actual_prices               = ticker_i.historical_prices.copy(deep=True)
+                tickers_time_prices[i]      = actual_prices
+                # Get returns data as well
+                ticker_i.calc_zscore_and_rets(earnings=False)
+                tickers_time_series[i]      = ticker_i.summary_returns_data
+                # Logic to prevent overusing polygon api
+                counter = counter + 1
+                if len(tickers) > 5:
+                    time.sleep(waiting_time) 
+            
+            except Exception as e:
+                print(f'Failed to process {i} because of {e}')
+                failed.append(i)
+                continue 
+
+        self.tickers_time_series_returns        = pd.concat(tickers_time_series,axis=1)
+        self.tickers_stocks_prices              = pd.concat(tickers_time_prices, axis=1)
+        self.failed_tickers                     = failed
+
+            
+    def analyse_correlations(self, ticker_X, ticker_y, plot : bool = True, returns : str = 'close'):
+        """
+        Given two tickers, compute the betas to each other, correlation, and plot scatter
+        """
+        X = self.tickers_time_series.loc[:, (ticker_X, returns)].to_numpy().reshape(-1,1)
+        y = self.tickers_time_series.loc[:, (ticker_y, returns)]
+
+        model       = LinearRegression(fit_intercept=False).fit(X,y)
+        beta_coef   = model.coef_[0]
+        r2          = model.score(X,y)
+
+        if plot == True:
+            plt.title(f'Slope : {np.round(beta_coef,2)}\nR^2 {np.round(r2,2)}')
+
+            plt.scatter(X,y)
+            plt.xlabel(f"{ticker_X}")
+            plt.ylabel(f'{ticker_y}')
+            plt.legend()
+            plt.show()
+    
+    def get_ratios(self):
+        """ 
+        For each ticker tries to get earnings
+        """
+        failed_earnings           = []
+        earnings_with_prices_dict = {}
+        stock_prices_with_ratios  = {}
+        for ticker in self.tickers:
+            
+            try: 
+                ticker_obj      = TickerData(ticker, filing_date_gte=self.filing_date_gte)
+                ticker_obj.get_ratios()
+                ticker_obj.plot_single_timeseries(plot=False)
+                stock_prices_with_ratios[ticker]     = ticker_obj.summary_data
+                earnings_with_prices_dict[ticker]    = ticker_obj.earning_dates_with_prices.copy(deep=True)
+            except KeyError as e:
+                print(ticker, ' failed to get earnings')
+                failed_earnings.append(ticker)
+            except TypeError as e:
+                print(ticker, 'failed due to', e)
+                failed_earnings.append(ticker)
+
+        self.earnings_with_prices   = pd.concat(earnings_with_prices_dict, axis = 1)
+        self.prices_with_ratios     = pd.concat(stock_prices_with_ratios, axis =1)
+        self.failed_earnings        = failed_earnings
+
+    def plot_time_series(self, earnings_show=True, plot=True):
+            """ 
+            Specify if we want to get earnings -> will try 
+            """
+            if earnings_show == True:
+                earnings_dates = self.earnings_with_prices
+                df_earnings    = self.prices_with_ratios.copy()
+                df_wo_earnings = self.tickers_stocks_prices.copy()
+
+                stock_with_earnings = df_earnings.columns.get_level_values(0)
+                df_wo_earnings      = df_wo_earnings.drop(columns=stock_with_earnings)
+            else:
+                df_wo_earnings = self.tickers_stocks_prices
+
+            if plot == True:                    
+                fig, axs = plt.subplots(2, 1, figsize=(12, 10))
+
+                for t in earnings_dates.columns.get_level_values(0).unique():
+                    earnings_to_plot = earnings_dates[t]['close'].dropna().copy()
+                    stock_prices     = df_earnings[t].copy()
+
+                    # Normalize to first price
+                    base = stock_prices['close'].iloc[0]
+                    earnings_to_plot      = earnings_to_plot / base
+                    stock_prices['close'] = stock_prices['close'] / base
+
+                    # 1) draw price line, capture its color
+                    (line,) = axs[0].plot(stock_prices.index, stock_prices['close'], label=t)
+                    col = line.get_color()
+
+                    # 2) reuse that color for earnings marks
+                    axs[0].scatter(earnings_to_plot.index, earnings_to_plot, marker='x', s=35, color='black', zorder=3)
+
+                    # --- P/E panel (optional: keep same base color for this ticker) ---
+                    axs[1].plot(stock_prices['quarterly P/E diluted'], label=f'{t} Q', alpha=0.5, linestyle='--', color=col)
+                    axs[1].plot(stock_prices['TTM P/E'], label=f'{t} TTM', color=col)
+
+                    neg_ttm = stock_prices['TTM P/E'].where(stock_prices['TTM P/E'] < 1)
+                    neg_q   = stock_prices['quarterly P/E diluted'].where(stock_prices['quarterly P/E diluted'] < 1)
+                    axs[1].plot(neg_ttm, alpha=0.6, linewidth=3, color=col, label='_nolegend_')
+                    axs[1].plot(neg_q,   alpha=0.6, linewidth=3, color=col, label='_nolegend_')
+
+                # Group without earnings
+                for t in df_wo_earnings.columns.get_level_values(0).unique():
+                    df = df_wo_earnings[t].copy()
+                    axs[0].plot(df.index, df['close'] / df['close'].iloc[0], label=t)  # will use cycle colors
+
+                axs[1].grid(); axs[1].legend(); axs[1].set_title('P/E Ratios')
+                axs[0].legend(); axs[0].set_title('Share Price Group Comparison')
+                axs[0].set_ylabel('Normalized to $1 Dollar'); axs[0].grid()
+        
+
+
+if __name__ == "__main__":
+
+
+    AVGO = TickerData('AVGO', filing_date_gte='2023-09-10')
+    AVGO.get_ratios()
