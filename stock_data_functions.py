@@ -1,3 +1,4 @@
+from asyncio import events
 from matplotlib import ticker
 import pandas as pd
 import numpy as np
@@ -5,6 +6,7 @@ import matplotlib.pyplot as plt
 from glob import glob 
 from pathlib import Path
 import os 
+pd.set_option('future.no_silent_downcasting', True)
 
 from polygon import RESTClient
 import datetime as dt
@@ -54,38 +56,44 @@ def get_top_N_US_stocks(N):
 
     return tickers[:N+1]
 
-def handle_missing_fundamental_data(df):
+def handle_missing_fundamental_data(df, *, eps=0.0):
     """
-    Calculates by backing out the share count and eps if it is missing
-        - Handles yearly vs quarterly cases differently
-        - Yearly average share count is rough approx 
+    Backfill missing share-counts and EPS (quarterly vs yearly handled separately).
+    Zero-division safe: any 0/NaN (or |den|<=eps) denominator yields NaN.
     """
-    # When share counts are missing (quarter-only) -> backout by dividing quarterly earnings and basic_eps (quarterly)
-    df['basic_avg_shares'] = np.where(df['basic_avg_shares'].isnull() & df['quarterly'] == True,
-                                                    df['earnings_quarterly'] / df['basic_eps'],
-                                                    df['basic_avg_shares'])
+    df = df.copy()
 
-    df['diluted_avg_shares'] = np.where(df['diluted_avg_shares'].isnull() & df['quarterly'] == True,
-                                                    df['earnings_quarterly'] / df['diluted_eps'],
-                                                    df['diluted_avg_shares'])
+    def safe_div(num, den):
+        num = pd.to_numeric(num, errors="coerce")
+        den = pd.to_numeric(den, errors="coerce")
+        ok = den.notna() & (den.abs() > eps)
+        out = pd.Series(np.nan, index=num.index, dtype=float)
+        out.loc[ok] = num.loc[ok] / den.loc[ok]
+        return out
 
-    # When share counts are missing (yearly) -> divide yearly earnings by yearly EPS to get rough approx for quarterly share count
-    df['basic_avg_shares'] = np.where(df['basic_avg_shares'].isnull() & df['quarterly'] == False,
-                                                    df['earnings'] / df['basic_eps_'],
-                                                    df['basic_avg_shares'])
+    q = df["quarterly"].fillna(False).astype(bool)
 
-    df['diluted_avg_shares'] = np.where(df['diluted_avg_shares'].isnull() & df['quarterly'] == False,
-                                                    df['earnings'] / df['diluted_eps_'],
-                                                    df['diluted_avg_shares'])
-    # When basic eps data is missing for yearly -> rough approx by dividing quarterly earnings and share count calculated above
-    df['basic_eps']          = np.where(df['basic_eps'].isna() & df['quarterly'] == False,
-                                                        df['earnings_quarterly'] / df['basic_avg_shares'],
-                                                        df['basic_eps'])
+    # -- Quarter-only: back out avg shares from quarterly earnings / EPS
+    m = df["basic_avg_shares"].isna() & q
+    df.loc[m, "basic_avg_shares"] = safe_div(df.loc[m, "earnings_quarterly"], df.loc[m, "basic_eps"])
 
-    df['diluted_eps']        = np.where(df['basic_eps'].isna() & df['quarterly'] == False,
-                                                        df['earnings_quarterly'] / df['diluted_avg_shares'],
-                                                        df['diluted_eps'])
-    
+    m = df["diluted_avg_shares"].isna() & q
+    df.loc[m, "diluted_avg_shares"] = safe_div(df.loc[m, "earnings_quarterly"], df.loc[m, "diluted_eps"])
+
+    # -- Yearly: rough approx avg shares from yearly earnings / yearly EPS
+    m = df["basic_avg_shares"].isna() & ~q
+    df.loc[m, "basic_avg_shares"] = safe_div(df.loc[m, "earnings"], df.loc[m, "basic_eps_"])
+
+    m = df["diluted_avg_shares"].isna() & ~q
+    df.loc[m, "diluted_avg_shares"] = safe_div(df.loc[m, "earnings"], df.loc[m, "diluted_eps_"])
+
+    # -- Fill missing yearly EPS from quarterly earnings and computed shares
+    m = df["basic_eps"].isna() & ~q
+    df.loc[m, "basic_eps"] = safe_div(df.loc[m, "earnings_quarterly"], df.loc[m, "basic_avg_shares"])
+
+    m = df["diluted_eps"].isna() & ~q
+    df.loc[m, "diluted_eps"] = safe_div(df.loc[m, "earnings_quarterly"], df.loc[m, "diluted_avg_shares"])
+
     return df
 
 def get_minute_level_data(ticker, n, period, start_date):
@@ -207,7 +215,13 @@ def load_benchmark(ticker, start):
     px.index = px.index.tz_localize(None) if hasattr(px.index, "tz") and px.index.tz is not None else px.index
     return px, t  
 
-
+def _safe_div_series(num, den, eps=0.0):
+    n = pd.to_numeric(num, errors="coerce")
+    d = pd.to_numeric(den, errors="coerce")
+    out = pd.Series(np.nan, index=n.index, dtype=float)
+    ok = d.notna() & (d.abs() > eps)
+    out.loc[ok] = n.loc[ok] / d.loc[ok]
+    return out
 
 
 
@@ -501,8 +515,10 @@ class TickerData:
         if file_path_ratios != None and file_path_earnings != None:
             ratios_data               = pd.read_csv(file_path_ratios, index_col = ['Date'], parse_dates=True)
             earnings_dates            = pd.read_csv(file_path_earnings, index_col = [0])
-            earnings_dates.iloc[:, 0] = pd.to_datetime(earnings_dates.iloc[:, 0])
-
+            earnings_dates            = earnings_dates.dropna()
+            earnings_dates.columns    = ['earnings_date']
+            earnings_dates['earnings_date'] = pd.to_datetime(earnings_dates['earnings_date'])
+   
             if date_updated == False:
                 self.summary_data = ratios_data
                 self.earning_dates = earnings_dates
@@ -535,10 +551,11 @@ class TickerData:
                                 direction           = 'backward',
                                 tolerance           = None
                                 )
+        EPS = 1e-12  
 
-        merged['TTM P/E']                   = merged['vwap'] / merged['TTM eps'] 
-        merged['quarterly P/E diluted']     = merged['vwap'] / merged['diluted_eps']    * 0.25 
-        merged['quarterly P/E basic']       = merged['vwap'] / merged['basic_eps']      * 0.25 
+        merged['TTM P/E']               = _safe_div_series(merged['vwap'], merged['TTM eps'],      eps=EPS)
+        merged['quarterly P/E diluted'] = _safe_div_series(merged['vwap'], merged['diluted_eps'],  eps=EPS) * 0.25
+        merged['quarterly P/E basic']   = _safe_div_series(merged['vwap'], merged['basic_eps'],    eps=EPS) * 0.25
         
         keep = ['open', 'high', 'low', 'close', 'vwap', 'quarterly P/E diluted', 'quarterly P/E basic', 'TTM P/E', 'TTM eps', 'TTM earnings']
 
@@ -548,9 +565,9 @@ class TickerData:
         merged['quarterly P/E diluted']    = np.where(merged['quarterly P/E diluted'] < 0, 0, merged['quarterly P/E diluted'])
         merged['quarterly P/E basic']      = np.where(merged['quarterly P/E basic'] < 0, 0, merged['quarterly P/E basic'])
         merged['earnings tag']             = pd.to_datetime(merged['earnings tag']).dt.strftime('%Y-%m-%d')
-
+        self.raw                           = merged
         self.summary_data                  = merged[keep]            
-        self.earning_dates                 = pd.Series(merged['earnings tag'].unique())
+        self.earning_dates                 = pd.Series(merged['earnings tag'].unique()).dropna()
         self.summary_data.to_csv(rf'Daily/Fundamentals/{self.ticker}_{self.date_today}.csv')
         self.earning_dates.to_csv(rf'Daily/Earnings/{self.ticker}_{self.date_today}.csv')
 
@@ -565,11 +582,13 @@ class TickerData:
                 2. Earning dates
         """
         
-        prices              = self.historical_prices
-        earnings_dates      = self.earning_dates
+        prices                                      = self.historical_prices
+        prices.index                                = pd.to_datetime(prices.index)
+        self.earning_dates.dropna(inplace=True)
+        self.earning_dates.columns                  = ['earnings_date']
+        self.earning_dates['earnings_date'] = pd.to_datetime(self.earning_dates['earnings_date'])
+        events                                      = self.earning_dates.copy()
 
-        events              = self.earning_dates
-        events              = events.sort_values("earnings_date")
 
         merged = pd.merge_asof(
             left=events,
@@ -1017,13 +1036,13 @@ class TickerComparison():
                     axs[0].scatter(earnings_to_plot.index, earnings_to_plot, marker='x', s=35, color='black', zorder=3)
 
                     # --- P/E panel (optional: keep same base color for this ticker) ---
-                    axs[1].plot(stock_prices['quarterly P/E diluted'], label=f'{t} Q', alpha=0.5, linestyle='--', color=col)
+                    # axs[1].plot(stock_prices['quarterly P/E diluted'], label=f'{t} Q', alpha=0.5, linestyle='--', color=col)
                     axs[1].plot(stock_prices['TTM P/E'], label=f'{t} TTM', color=col)
 
                     neg_ttm = stock_prices['TTM P/E'].where(stock_prices['TTM P/E'] < 1)
-                    neg_q   = stock_prices['quarterly P/E diluted'].where(stock_prices['quarterly P/E diluted'] < 1)
+                    # neg_q   = stock_prices['quarterly P/E diluted'].where(stock_prices['quarterly P/E diluted'] < 1)
                     axs[1].plot(neg_ttm, alpha=0.6, linewidth=3, color=col, label='_nolegend_')
-                    axs[1].plot(neg_q,   alpha=0.6, linewidth=3, color=col, label='_nolegend_')
+                    # axs[1].plot(neg_q,   alpha=0.6, linewidth=3, color=col, label='_nolegend_')
 
                 # Group without earnings
                 for t in df_wo_earnings.columns.get_level_values(0).unique():
@@ -1039,5 +1058,7 @@ class TickerComparison():
 if __name__ == "__main__":
 
 
-    AVGO = TickerData('AVGO', filing_date_gte='2023-09-10')
-    AVGO.get_ratios()
+    ALAB = TickerData('ALAB', filing_date_gte='2023-09-10')
+    ALAB.get_historical_prices()
+    ALAB.get_fundamental_data()
+    ALAB.get_ratios()
