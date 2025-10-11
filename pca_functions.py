@@ -49,7 +49,6 @@ def missing_tickers(collected_tickers, regular_df, sector_map = SECTOR_MAP):
     # Check if all the collected tickers are in the list
     present         = set().union(*(set(v) for v in sector_map.values()))
     missing         = set(collected_tickers).difference(present)
-    missing
 
     # Map into df space
     sector_dfs = {}
@@ -169,7 +168,7 @@ def top_stocks_per_pc(loadings, n = 20, top=10):
 
 def sector_centroids(loadings, sector_map = SECTOR_MAP):
     rows = []
-    for sector, names in sector_maps.items():
+    for sector, names in sector_map.items():
         names = [n for n in names if n in loadings.index]
         if not names: 
             continue
@@ -322,7 +321,7 @@ def plot_pca_vs_benchmark(n_pc : int,
     weighted_rets_df_test   = weighted_rets_df[weighted_rets_df.index.date > split_date.date()].copy()
     weighted_rets_df_train  = weighted_rets_df[weighted_rets_df.index.date < split_date.date()].copy()
 
-    benchmark_rets              = benchmark_series.apply(calc_log_rets)
+    benchmark_rets              = calc_log_rets(benchmark_series)
     benchmark_rets['Cum Rets']  = benchmark_rets.cumsum()
     benchmark_rets['Benchmark Gains'] = np.exp(benchmark_rets['Cum Rets']) 
 

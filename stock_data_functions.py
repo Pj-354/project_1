@@ -6,6 +6,9 @@ import matplotlib.pyplot as plt
 from glob import glob 
 from pathlib import Path
 import os 
+import re 
+from datetime import datetime
+from typing import Iterable, Optional
 pd.set_option('future.no_silent_downcasting', True)
 
 from polygon import RESTClient
@@ -19,6 +22,7 @@ import seaborn as sns
 from matplotlib.ticker import PercentFormatter
 from scipy.stats import zscore
 from sklearn.linear_model import LinearRegression
+
 
 
 API_key = 'tt2gOLH0fHAmPX70a4QURLFy59PRCZr3'
@@ -223,6 +227,45 @@ def _safe_div_series(num, den, eps=0.0):
     out.loc[ok] = n.loc[ok] / d.loc[ok]
     return out
 
+def latest_daily_file(glob_obj: Iterable[Path]) -> Optional[Path]:
+    """
+    Pick the newest file among matches like  ANYPREFIX_*_daily.csv
+    where * is a date/time string (e.g. YYYY-MM-DD, YYYYMMDD, ...).
+    Returns a Path or None.
+    """
+    candidates = [p for p in glob_obj if p.is_file()]
+    if not candidates:
+        return None
+
+    def parse_dt(p: Path) -> datetime:
+        # Expect '<prefix>_<datepart>_daily.csv'
+        m = re.match(r'^(.+?)_(.+?)_daily\.csv$', p.name)
+        if not m:
+            return datetime.min
+        s = m.group(2)  # the datepart between underscores
+
+        # Try common formats
+        for fmt in (
+            "%Y-%m-%d", "%Y%m%d",
+            "%Y-%m-%d_%H%M%S", "%Y%m%d_%H%M%S",
+            "%Y-%m-%dT%H%M%S", "%Y%m%dT%H%M%S",
+        ):
+            try:
+                return datetime.strptime(s, fmt)
+            except ValueError:
+                pass
+
+        # Fallback: strip to digits and try again
+        digits = re.sub(r"\D", "", s)
+        for fmt in ("%Y%m%d%H%M%S", "%Y%m%d"):
+            try:
+                return datetime.strptime(digits, fmt)
+            except ValueError:
+                pass
+
+        return datetime.min
+
+    return max(candidates, key=parse_dt, default=None)
 
 
 class TickerData:
@@ -234,34 +277,34 @@ class TickerData:
         self.forecast_date      = (pd.to_datetime(filing_date_gte) - dt.timedelta(days =365*2)).strftime('%Y-%m-%d')
         date_today              = dt.datetime.now().date() - BDay(1)
         self.date_today         = date_today.strftime('%Y-%m-%d')
-
+   
     def get_daily_price_data(self):
-        """ 
-        Checks to see if we have already downloaded the data, so we can add to it and save it
-        """
-        path_to_daily       = Path('Daily')
-        pattern             = f"{self.ticker}_*_daily.csv"
-        file_path           = next(path_to_daily.glob(pattern), None)
-
-        return file_path
+        """Return the most recent daily CSV Path (or None)."""
+        path_to_daily = Path("Daily")
+        pattern = f"{self.ticker}_*_daily.csv"
+        latest_path = latest_daily_file(path_to_daily.glob(pattern))
+        return latest_path
     
-    def get_ratios_data(self):
+    def get_latest_ratios_data(self):
         """ 
         Checks to see if we have already downloaded the data, so we can add to it and save it
         """
         path_to_daily       = Path('Daily') / Path('Fundamentals')
         path_to_ratios      = Path('Daily') / Path('Earnings')
         pattern             = f"{self.ticker}_*.csv"
-        file_path_ratios    = next(path_to_daily.glob(pattern), None)
-        file_path_earnings  = next(path_to_ratios.glob(pattern), None)
-
-        print(file_path_earnings)
+        file_path_ratios    = latest_daily_file(path_to_daily.glob(pattern))
+        file_path_earnings  = latest_daily_file(path_to_ratios.glob(pattern))
 
         return file_path_ratios, file_path_earnings
 
-    def get_historical_prices(self, period='day', n = 1, limit=5000,
-                              start_date = False, end_date = False,
-                              date_updated = False):
+    def get_historical_prices(self,
+                              date_updated = False,
+                              period='day',
+                              n = 1,
+                              limit=5000,
+                              start_date = False,
+                              end_date = False,
+    ):
 
         raw = []
         if start_date == False:
@@ -510,7 +553,7 @@ class TickerData:
         """  
         Calculate P/E Ratios and TTM Earnings
         """
-        file_path_ratios, file_path_earnings = self.get_ratios_data()
+        file_path_ratios, file_path_earnings = self.get_latest_ratios_data()
             
         if file_path_ratios != None and file_path_earnings != None:
             ratios_data               = pd.read_csv(file_path_ratios, index_col = ['Date'], parse_dates=True)
@@ -649,7 +692,6 @@ class TickerData:
             axs[0].set_title(f'Share Price of {self.ticker}')
             axs[0].set_ylabel('$ Dollars')
             axs[0].grid()
-
 
     def calc_log_rets(self, returns):
         rets = self.summary_data[returns].pct_change().dropna()
@@ -954,7 +996,6 @@ class TickerComparison():
         self.tickers_time_series_returns        = pd.concat(tickers_time_series,axis=1)
         self.tickers_stocks_prices              = pd.concat(tickers_time_prices, axis=1)
         self.failed_tickers                     = failed
-
             
     def analyse_correlations(self, ticker_X, ticker_y, plot : bool = True, returns : str = 'close'):
         """

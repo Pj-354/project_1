@@ -6,11 +6,11 @@ import requests
 from io import StringIO
 import warnings
 import datetime as dt
+from datetime import datetime
 import time 
 from stock_data_functions import TickerData
 from pathlib import Path
 from glob import glob 
-
 
 # Mute the specific warnings you showed
 warnings.filterwarnings("ignore", category=FutureWarning, module=r"^pandas\.io\.html")
@@ -32,6 +32,7 @@ sector_tickers = {'Semiconductor'       : ['NVDA', 'AVGO', 'AMAT', 'AMD', 'MU', 
     'Power'               : ['ETN', 'HON', 'GE', 'NEE', 'DE'],
     'Oil & Gas'           : ['CVX', 'COP'],
     'Other'               : ['CMCSA', 'DIS', 'GE', 'BA', 'PGR', 'WMT', 'UNP','WELL', 'BKNG', 'RTX']}
+
 
 
 def read_sector_tickers(*sectors : str
@@ -103,16 +104,17 @@ def get_sub_sectors_names():
 
     # Handle the market cap stuff
     for i in dfs:
-        i['Market Cap'] = i['Market Cap'].str.replace('B', '000000000')\
-                                             .str.replace('M','000000')\
-                                             .str.replace(',','')
-        i['Market Cap'] = i['Market Cap'].astype(float)
-        i.sort_values(by = 'Market Cap', ascending = False, inplace= True)
+
+        clean = i['Market Cap'].str.replace(',', '', regex=False).str.upper()
+        parts = clean.str.extract(r'(?P<value>\d*\.?\d+)\s*(?P<unit>[MB])')
         
+        i['Market Cap'] = (
+                pd.to_numeric(parts['value'], errors='coerce') *
+                parts['unit'].map({'M': 1.0, 'B': 1000.0})
+            )
+
 
     return dfs
-
-
 
 def isolate_sector_tickers(df_symbols       : pd.DataFrame,
                            sector_to_remove : str,
@@ -142,9 +144,9 @@ def read_etf_returns(*categories : str)-> pd.DataFrame:
     """
 
     df_registry = {
-        'SECTOR' : 'sector_ETF_rets.csv',
-        'STYLE'  : 'style_ETF_rets.csv',
-        'THEME'  : 'theme_ETF_rets.csv'
+        'SECTOR' : 'Daily/sector_ETF_rets.csv',
+        'STYLE'  : 'Daily/style_ETF_rets.csv',
+        'THEME'  : 'Daily/theme_ETF_rets.csv'
                 }
     
     if not categories:
@@ -289,9 +291,11 @@ SUB_SECTOR_DICT       = {
 
 def get_sub_sectors_tickers(sector : str,
                             sub_sector_dict : dict = SUB_SECTOR_DICT,
-                            n : int = 50):
+                            n : int = 50
+    )-> pd.DataFrame:
     """ 
-    Get the stock tickers of each sub sector 
+    Returns a dataframe of the stocks and market cap of each 
+    subsectors in the sector
 
     Input :
         - sub sector : the dataframe of all the sub sectors in a sector
@@ -310,12 +314,14 @@ def get_sub_sectors_tickers(sector : str,
         
             tables  = pd.read_html(StringIO(r.text))
             symbols = tables[0][['Symbol', 'Market Cap']]
-            symbols['Market Cap'] = symbols['Market Cap'].str.replace('B', '000000000')\
-                                                        .str.replace('M','000000')\
-                                                        .str.replace(',','')
                     
-
-            symbols['Market Cap'] = pd.to_numeric(symbols['Market Cap'], errors='coerce')
+            clean   = symbols['Market Cap'].str.replace(',', '', regex=False).str.upper()
+            parts   = clean.str.extract(r'(?P<value>\d*\.?\d+)\s*(?P<unit>[MB])')
+            
+            symbols['Market Cap'] = (
+                pd.to_numeric(parts['value'], errors='coerce') *
+                parts['unit'].map({'M': 1.0, 'B': 1000.0})
+            )
             frames[i]             = symbols.set_index('Symbol').sort_values(by='Market Cap', ascending=False)
         except ValueError as e:
             print(f"Error processing {i}: {e}")
