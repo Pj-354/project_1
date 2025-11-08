@@ -1,4 +1,4 @@
-from stock_data_functions import TickerData, TickerComparison, calc_log_rets
+from .stock_data_functions import TickerData, TickerComparison, calc_log_rets
 import numpy as np
 import pandas as pd
 from statsmodels.stats import diagnostic as smd

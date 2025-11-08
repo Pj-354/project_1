@@ -6,3 +6,7 @@
 /__pycache__/
 /Voleon_WorkSample/
 /Modules/results/
+/*.parquet/
+/*.csv/
+/*.md/
+/.venv/
