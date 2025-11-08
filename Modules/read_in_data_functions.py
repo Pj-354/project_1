@@ -141,9 +141,9 @@ def read_etf_returns(*categories : str)-> pd.DataFrame:
     """
 
     df_registry = {
-        'SECTOR' : 'Daily/sector_ETF_rets.csv',
-        'STYLE'  : 'Daily/style_ETF_rets.csv',
-        'THEME'  : 'Daily/theme_ETF_rets.csv'
+        'SECTOR' : 'data/daily/sector_ETF_rets.csv',
+        'STYLE'  : 'data/daily/style_ETF_rets.csv',
+        'THEME'  : 'data/daily/theme_ETF_rets.csv'
                 }
     
     if not categories:

@@ -294,7 +294,7 @@ def fetch_in_six_month_chunks(
     print('Success')
     start_dt = pd.to_datetime(start_dt).strftime('%Y-%m')
     combined.index = pd.to_datetime(combined['timestamp'], unit='ms').tz_localize('UTC').tz_convert('US/Eastern')
-    combined.to_csv(f'Datasets/{ticker}_{n}{period}_{start_dt}_minute_level_data.csv')
+    combined.to_csv(f'data/datasets/{ticker}_{n}{period}_{start_dt}_minute_level_data.csv')
 
     return combined
 
@@ -486,7 +486,7 @@ class TickerData:
             self.no_call_needed = False
 
             # Save one file per run (your convention)
-            out = Path("Daily") / f"{self.ticker}_{end_date}_daily.csv"
+            out = Path("data/daily") / f"{self.ticker}_{end_date}_daily.csv"
             out.parent.mkdir(parents=True, exist_ok=True)
             self.historical_prices.to_csv(out)
 
@@ -652,7 +652,7 @@ class TickerData:
 
     def get_daily_price_data(self) -> Optional[Path]:
         """Return the most recent daily CSV Path (or None)."""
-        path_to_daily = Path("Daily")
+        path_to_daily = Path("data/daily")
         pattern = f"{self.ticker}_*_daily.csv"
         latest_path = latest_daily_file(path_to_daily.glob(pattern))
         return latest_path
@@ -934,8 +934,8 @@ class TickerData:
         self.raw                           = merged
         self.summary_data                  = merged[keep]            
         self.earning_dates                 = pd.Series(merged['earnings tag'].unique()).dropna()
-        self.summary_data.to_csv(rf'Daily/Fundamentals/{self.ticker}_{self.date_today}.csv')
-        self.earning_dates.to_csv(rf'Daily/Earnings/{self.ticker}_{self.date_today}.csv')
+        self.summary_data.to_csv(rf'data/daily/Fundamentals/{self.ticker}_{self.date_today}.csv')
+        self.earning_dates.to_csv(rf'data/daily/Earnings/{self.ticker}_{self.date_today}.csv')
 
     def map_earnings_to_prices(self,
                                method: str = "backward",
