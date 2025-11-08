@@ -116,7 +116,7 @@ def get_minute_level_data(
     n: int,
     period: str,
     start_date: str,
-    base_dir: str = "Datasets",
+    base_dir: str = "data/datasets",
     verbose: bool = False,
 ) -> pd.DataFrame:
     """
@@ -129,7 +129,7 @@ def get_minute_level_data(
     # --- where are we searching? ---
     cwd = Path.cwd()
     primary_base = Path(base_dir)
-    fallback_base = Path(__file__).resolve().parent.parent / base_dir  # e.g., project_root/Datasets
+    fallback_base = Path(__file__).resolve().parent.parent / "data/datasets"  # e.g., project_root/data/datasets
 
     searched = []
     candidates = []
@@ -644,7 +644,7 @@ class TickerData:
         return df
 
     def _save_minute_pq(self, *, n: int, period: str, month_tag: str) -> None:
-        out = Path("Datasets") / f"{self.ticker}_{n}{period}_{month_tag}_minute_level_data.parquet"
+        out = Path("data/datasets") / f"{self.ticker}_{n}{period}_{month_tag}_minute_level_data.parquet"
         out.parent.mkdir(parents=True, exist_ok=True)
         print(self.minute_level_prices.index[-1], self.ticker)
         # writes pandas DataFrame to Parquet; stores tz-aware datetimes via pyarrow metadata
