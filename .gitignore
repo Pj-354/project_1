@@ -10,6 +10,7 @@
 /*.csv/
 /*.md/
 /.venv/
+/data/
 
 # large data
 /data_cleaning_practice/
