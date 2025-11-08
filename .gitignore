@@ -11,6 +11,7 @@
 /*.md/
 /.venv/
 /data/
+/archive/
 
 # large data
 /data_cleaning_practice/

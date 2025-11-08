@@ -1,8 +1,0 @@
-You are tasked with creating a new report for the trading staff summarizing positions and risk across the firm's factor neutral global equities portfolio.  This report will be reviewed daily prior to the market open to determine if there are unintended exposures in the portfolio.
-
-A mock portfolio in csv format is provided.  Each row in the table corresponds to a single position.  Rows have:
-- Stock specific information like country, currency, sector, beta, and average daily volume.
-- Position information like the cost basis, current market price, and size of the position, all in local currency.
-
-Create the report using any appropriate tooling and share your work back to us.  It will be reviewed during your in-house interview.  Suggested output is a plaintext report using a scripting language (Python or R), or entirely within Excel.  If you write code, include it as part of your response packet.
-
