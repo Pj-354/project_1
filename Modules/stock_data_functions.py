@@ -1,4 +1,3 @@
-from asyncio import events
 from matplotlib import ticker
 import pandas as pd
 import numpy as np
@@ -8,37 +7,109 @@ from pathlib import Path
 import os 
 import re 
 from datetime import datetime, timedelta
-from typing import Iterable, Optional, Dict
+from typing import Iterable, Optional, Dict, List
 pd.set_option('future.no_silent_downcasting', True)
-
 from polygon import RESTClient
 import datetime as dt
 from pandas.tseries.offsets import BDay
 import requests
 import time
-import json
-from matplotlib.dates import MonthLocator, AutoDateFormatter, AutoDateFormatter
 import seaborn as sns
 from matplotlib.ticker import PercentFormatter
 from scipy.stats import zscore
 from sklearn.linear_model import LinearRegression
 
+from ib_insync import Stock, util
+import pandas as pd, time
+from datetime import timedelta
 
 
-API_key = 'tt2gOLH0fHAmPX70a4QURLFy59PRCZr3'
-client = RESTClient(API_key, trace=True)
+
+##############################################################################################################
+##############################################################################################################
+
+API_key  = 'tt2gOLH0fHAmPX70a4QURLFy59PRCZr3'
+client   = RESTClient(API_key, trace=True, verbose=True)
 base_url = "https://api.polygon.io/vX/reference/financials"
-headers = {"Authorization": f"Bearer {API_key}"}
+headers  = {"Authorization": f"Bearer {API_key}"}
 
-BINS = [-np.inf, -2, -1, 1, 2, np.inf]
-LABELS = ["Large Negative", "Moderate Negative", "Normal", "Moderate Positive", "Large Positive"]
+BINS     = [-np.inf, -2, -1, 1, 2, np.inf]
+LABELS   = ["Large Negative", "Moderate Negative", "Normal", "Moderate Positive", "Large Positive"]
+DATASETS_ROOT = Path(
+    os.environ.get("MOON2_DATASETS","/Users/phillip/Desktop/Moon2/data/datasets")
+).expanduser().resolve()
+DAILY_ROOT = Path(
+    os.environ.get("MOON2_DATASETS", "/Users/phillip/Desktop/Moon2/data/daily2")
+).expanduser().resolve()
+
+IP = "192.168.1.92"
+PORT = 7497  # paper
 
 
-def rate_limited_request(url, headers, params):
-    
-    response = requests.get(url, headers=headers, params=params)
+##############################################################################################################
+##############################################################################################################
 
-    return response
+
+
+# --- Canonicalizers: IBKR -> "Polygon-like" frames --------------------------
+
+def _convert_ikbr_to_poly_minute(df_raw: pd.DataFrame) -> pd.DataFrame:
+    """
+    Input: util.df(bars) with columns: date, open, high, low, close, volume, average, barCount, ...
+    Output:
+      - Index: tz-aware US/Eastern 5-minute endpoints
+      - Columns: open, high, low, close, volume, vwap, timestamp, transactions, otc
+      - 'timestamp' = Unix ms in UTC (integer)
+    """
+    if df_raw.empty:
+        return df_raw
+
+    df = df_raw.copy()
+    ts_utc = pd.to_datetime(df["date"], utc=True)                 # make UTC-aware
+    ts_east = ts_utc.dt.tz_convert("US/Eastern")                  # index in Eastern
+
+    df["vwap"] = df.get("average")
+    df["transactions"] = df.get("barCount")
+    df["otc"] = pd.NA
+
+    # integer milliseconds since epoch in UTC
+    df["timestamp"] = (ts_utc.view("int64") // 1_000_000).astype("int64")
+
+    out = df
+    out.index = ts_east
+    out.index.name = "Date"
+
+    col_order = ["open","high","low","close","volume","vwap","timestamp","transactions","otc"]
+    return out.loc[:, col_order].sort_index()
+
+
+def _convert_ikbr_to_poly_day(df_raw: pd.DataFrame) -> pd.DataFrame:
+    """
+    Output:
+      - Index: string YYYY-MM-DD (like your Polygon daily normalizer)
+      - Columns: open, high, low, close, volume, vwap, timestamp, transactions, otc
+      - 'timestamp' = Unix ms at 00:00:00 UTC for that date
+    """
+    if df_raw.empty:
+        return df_raw
+
+    df = df_raw.copy()
+    ts_utc = pd.to_datetime(df["date"], utc=True).dt.normalize()  # midnight UTC
+    # optional: align to Eastern calendar; you keep daily index as strings
+    idx_str = ts_utc.dt.strftime("%Y-%m-%d")
+
+    df["vwap"] = df.get("average")
+    df["transactions"] = df.get("barCount")
+    df["otc"] = pd.NA
+    df["timestamp"] = (ts_utc.view("int64") // 1_000_000).astype("int64")
+
+    out = df.rename(columns={"open":"open","high":"high","low":"low",
+                             "close":"close","volume":"volume"})
+    out.index = idx_str
+    out.index.name = "Date"
+
+    col_order = ["open","high","low","close","volume","vwap","timestamp","transactions","otc"]
+    return out.loc[:, col_order]
 
 
 def calc_log_rets(df: pd.DataFrame):
@@ -52,7 +123,6 @@ def calc_log_rets(df: pd.DataFrame):
     with np.errstate(divide="ignore", invalid="ignore"):
         rets = np.log(ratio)                  # log(p_t / p_{t-1})
     return rets.dropna(how="all")
-
 
 def get_top_N_US_stocks(N):
 
@@ -108,9 +178,6 @@ def handle_missing_fundamental_data(df, *, eps=0.0):
 
     return df
 
-from pathlib import Path
-import re, pandas as pd, numpy as np, datetime as dt
-
 def get_minute_level_data(
     ticker: str,
     n: int,
@@ -127,26 +194,22 @@ def get_minute_level_data(
     - FFill OHLC only
     """
     # --- where are we searching? ---
-    cwd = Path.cwd()
-    primary_base = Path(base_dir)
-    fallback_base = Path(__file__).resolve().parent.parent / "data/datasets"  # e.g., project_root/data/datasets
-
     searched = []
     candidates = []
 
-    def _collect(base: Path):
-        searched.append(str(base.resolve()))
-        if base.exists():
-            candidates.extend(base.rglob(f"{ticker}_*minute_*_minute_level_data.parquet"))
+    base = DATASETS_ROOT
+    searched.append(str(base))
 
-    _collect(primary_base)
-    if fallback_base != primary_base:
-        _collect(fallback_base)
+    if not base.exists():
+        raise FileNotFoundError(
+            f"Configured datasets dir does not exist: {base}\n"
+            f"(Set MOON2_DATASETS env var to override.)"
+        )
+
+    candidates = list(base.rglob(f"{ticker}_*minute_*_minute_level_data.parquet"))
 
     if verbose:
-        print(f"[get_minute_level_data] CWD: {cwd}")
-        print(f"[get_minute_level_data] Searched: {searched}")
-        print(f"[get_minute_level_data] Found: {[p.name for p in candidates]}")
+        print(f"[get_minute_level_data] Searched: {candidates}")
 
     if not candidates:
         raise FileNotFoundError(f"No files found for {ticker} under: {searched}")
@@ -176,15 +239,16 @@ def get_minute_level_data(
     # --- load & normalize datetime index (tz-aware) ---
     df = pd.read_parquet(path)
     if "Date" in df.columns:
-        idx = pd.to_datetime(df["Date"], utc=True, errors="coerce")
+        df.index = pd.to_datetime(df["Date"], utc=True, errors="coerce").dt.tz_convert('US/Eastern')
         df = df.drop(columns=["Date"])
     elif isinstance(df.index, pd.DatetimeIndex):
         idx = df.index
-        idx = idx.dt.tz_localize("UTC") if idx.tz is None else idx.tz_convert("UTC")
+        idx = idx.tz_localize("UTC") if idx.tz is None else idx.tz_convert("UTC")
+        df.index = idx.tz_convert("US/Eastern")
+
     else:
         raise ValueError("Expected 'Date' column or DatetimeIndex in parquet.")
 
-    df.index = idx.dt.tz_convert("US/Eastern")
     df = df[~df.index.duplicated(keep="last")].sort_index()
 
     if df.empty:
@@ -214,7 +278,6 @@ def get_minute_level_data(
     if verbose:
         print(f"[get_minute_level_data] Loaded {len(df)} rows | last={df.index.max()}")
     return df
-
 
 def map_earnings_to_fwd_rets(fwd_df, earnings_with_prices):
 
@@ -294,7 +357,12 @@ def fetch_in_six_month_chunks(
     print('Success')
     start_dt = pd.to_datetime(start_dt).strftime('%Y-%m')
     combined.index = pd.to_datetime(combined['timestamp'], unit='ms').tz_localize('UTC').tz_convert('US/Eastern')
-    combined.to_csv(f'data/datasets/{ticker}_{n}{period}_{start_dt}_minute_level_data.csv')
+    
+    # Use project root for consistent paths
+    project_root = Path(__file__).resolve().parent.parent
+    save_path = project_root / "data/datasets" / f'{ticker}_{n}{period}_{start_dt}_minute_level_data.csv'
+    save_path.parent.mkdir(parents=True, exist_ok=True)
+    combined.to_csv(save_path)
 
     return combined
 
@@ -327,7 +395,7 @@ def latest_daily_file(glob_obj: Iterable[Path]) -> Optional[Path]:
 
     def parse_dt(p: Path) -> datetime:
         # Expect '<prefix>_<datepart>_daily.csv'
-        m = re.match(r'^(.+?)_(.+?)_daily\.csv$', p.name)
+        m = re.match(r'^(.+?)_(.+?)_daily\.parquet$', p.name)
         if not m:
             return datetime.min
         s = m.group(2)  # the datepart between underscores
@@ -360,17 +428,20 @@ def latest_daily_file(glob_obj: Iterable[Path]) -> Optional[Path]:
 
 class TickerData:
 
-    def __init__(self, ticker: str, filing_date_gte: str):
+    def __init__(self, ticker: str, filing_date_gte: str = '2023-11-01', client_id: int = 10012, ticker_type: str = None):
         self.ticker = ticker
         self.filing_date_gte = filing_date_gte
-        self.forecast_date = (pd.to_datetime(filing_date_gte) - pd.Timedelta(days=365 * 2)).strftime("%Y-%m-%d")
-        date_today = (pd.Timestamp.today(tz="UTC").tz_convert("US/Eastern")).date()
-        self.date_today = pd.Timestamp(date_today).strftime("%Y-%m-%d")
+        self.date_today = dt.datetime.today().strftime('%Y-%m-%d')
+        self.ticker_type = ticker_type  # 'etfs' or 'stocks' for organized subdirectories
 
         # populated later
         self.historical_prices: Optional[pd.DataFrame] = None
         self.minute_level_prices: Optional[pd.DataFrame] = None
         self.no_call_needed: bool = False
+
+        self.client_id = client_id
+        self.host      = IP
+        self.port      = PORT 
 
     def get_historical_prices(
             self,
@@ -378,13 +449,13 @@ class TickerData:
             date_updated: bool = False,
             period: str = "day",
             n: int = 1,
+            method : str = 'polygon',
             start_date: str | bool = False,
             end_date: str | bool = False,
-            limit: int = 50000,
+            limit: int = 500000,
             fetch_in_chunks: bool = False,
-            chunksize: int = 90,
-            cooldown_sec: int = 12,
-            time_delta: int = 0
+            chunksize: int = 300,
+            cooldown_sec: int = 30,
         ) -> None:
             """
             Router: daily vs minute. Keeps your original signature so callers don't change.
@@ -392,9 +463,12 @@ class TickerData:
             - minute: n is always forced to 5
             """
             if not start_date:
+                print('start date ', self.filing_date_gte)
                 start_date = self.filing_date_gte
             if not end_date:
-                end_date = (pd.to_datetime(self.date_today) - pd.Timedelta(days=time_delta)).strftime("%Y-%m-%d")
+                end_date = (pd.to_datetime(self.date_today) + BDay(1)).strftime('%Y-%m-%d') if method == 'IKBR' else pd.to_datetime(self.date_today)
+                print('because you did not specify end date: ', end_date)
+
 
             if period == "day":
                 n = 1  # enforce daily bars
@@ -406,9 +480,11 @@ class TickerData:
                     fetch_in_chunks=fetch_in_chunks,
                     chunksize=chunksize,
                     cooldown_sec=cooldown_sec,
+                    method=method
                 )
             else:
                 n = 5  # enforce 5-minute bars
+                print('Sync Minute')
                 self._sync_minute(
                     n=n,
                     start_date=start_date,
@@ -419,6 +495,7 @@ class TickerData:
                     chunksize=chunksize,
                     cooldown_sec=cooldown_sec,
                     period=period,
+                    method=method
                 )
 
     def _sync_daily(
@@ -431,6 +508,7 @@ class TickerData:
             fetch_in_chunks: bool,
             chunksize: int,
             cooldown_sec: int,
+            method: str = 'IKBR',
         ) -> None:
             """
             Daily: load existing file if present; if date_updated=True, fetch tail and merge; always save Daily/{TICKER}_{end_date}_daily.csv
@@ -441,36 +519,87 @@ class TickerData:
                 end_date = self.date_today
 
             if have_file:
-                existing = pd.read_csv(daily_path, index_col=0, parse_dates=True)
+                print('File Found')
+                existing = pd.read_parquet(daily_path)
+                self.daily_path = daily_path
+                # if index is already datetime
+                self.existing = existing
+
+                # Handles if the parquet has datetime as index or not
+                if isinstance(existing.index, pd.DatetimeIndex):
+                    if existing.index.name == 'Date':
+                        pass
+                    else:
+                        existing.index.name == 'Date'  
+                else:
+                    existing.rename(columns={existing.columns[0] : 'Date'}, inplace=True)
+                    existing.set_index('Date', inplace=True)
+                    existing.index = pd.to_datetime(existing.index, utc=True)
+                if existing.index.tzinfo is not None:
+                    existing.index = existing.index.tz_convert('UTC').tz_localize(None)
+
             else:
+                print('Cannot find Existing File (sync_daily)')
                 existing = None
+
+
 
             if have_file and not date_updated:
                 # Use file only
+                existing = existing[~existing.index.duplicated(keep='first')]  # default
                 self.historical_prices = existing
                 self.no_call_needed = True
                 return
 
             # Determine API range
             api_start = start_date
+            needs_backfill = False
+            
             if have_file and date_updated:
-                # parse the last cached day from the CSV index
-                last_idx = pd.to_datetime(existing.index).max()
-                api_start = last_idx.strftime("%Y-%m-%d")  # inclusive; dedupe later
+                good = existing['timestamp'].notna()
+                first_idx = pd.to_datetime(existing[good].index).min()
+                last_idx = pd.to_datetime(existing[good].index).max()
+                
+                # Check if requested start_date is earlier than existing data
+                requested_start = pd.to_datetime(start_date)
+                if requested_start < first_idx:
+                    print(f'Requested start_date {start_date} is earlier than existing data start {first_idx.strftime("%Y-%m-%d")}')
+                    print('Will fetch from earlier date and overwrite existing file')
+                    api_start = requested_start.strftime("%Y-%m-%d")
+                    needs_backfill = True
+                    existing = None  # Don't merge with existing, will overwrite
+                else:
+                    api_start = last_idx.strftime("%Y-%m-%d")  # inclusive; dedupe later
+            else:
+                api_start = pd.to_datetime(start_date).strftime('%Y-%m-%d')
 
             # fetch
-            fresh = self._fetch_aggs(
-                n=1,
-                period="day",
-                start_date=api_start,
-                end_date=end_date,
-                limit=limit,
-                fetch_in_chunks=fetch_in_chunks,
-                chunksize=chunksize,
-                cooldown_sec=cooldown_sec,
-            )
-            fresh = self._normalize_aggs(fresh, period="day")
-
+            if method == 'IKBR':
+                print('Using IKBR')
+                fresh = self._fetch_aggs_ikbr(
+                    n=1,
+                    period='day',
+                    start_date=api_start,
+                    end_date=end_date,
+                    fetch_in_chunks=fetch_in_chunks,
+                    chunksize=chunksize,
+                    cooldown_sec=cooldown_sec
+                )
+                self.fresh = fresh
+            if method != 'IKBR':
+                print(f'Calling polygon api for {self.ticker}')
+                fresh = self._fetch_aggs(
+                    n=1,
+                    period="day",
+                    start_date=api_start,
+                    end_date=end_date,
+                    limit=limit,
+                    fetch_in_chunks=fetch_in_chunks,
+                    chunksize=chunksize,
+                    cooldown_sec=cooldown_sec,
+                )
+                fresh = self._normalize_aggs(fresh, period="day")
+            self.fresh = fresh
             # merge
             if have_file:
                 df = pd.concat([existing, fresh], axis=0)
@@ -480,15 +609,16 @@ class TickerData:
             # de-dup by 'timestamp' then sort by 'timestamp'
             if "timestamp" in df.columns:
                 df = df.sort_values("timestamp").drop_duplicates(subset=["timestamp"], keep="last")
+                df = df[~df.index.duplicated(keep='first')]  # default
+            
+            df = df.copy()
             df.index = pd.to_datetime(df.index)
-
             self.historical_prices = df
             self.no_call_needed = False
 
             # Save one file per run (your convention)
-            out = Path("data/daily") / f"{self.ticker}_{end_date}_daily.csv"
-            out.parent.mkdir(parents=True, exist_ok=True)
-            self.historical_prices.to_csv(out)
+            print('Saving Daily Data')
+            self._save_daily_pq(df)
 
         # --------------------------- Minute flow -----------------------------
 
@@ -504,6 +634,7 @@ class TickerData:
         chunksize: int,
         cooldown_sec: int,
         period: str,
+        method : str,
     ) -> None:
         """
         Minute: try to load the file named by oldest month (derived from the provided start_date month),
@@ -513,38 +644,56 @@ class TickerData:
         try:
             df_file = get_minute_level_data(self.ticker, n, period, start_date)  # index tz-aware Eastern
             have_file = True
+            print('File Located')
         except Exception as e:
-            print(f"[{self.ticker}] No minute CSV found: {e}")
+            print(f"[{self.ticker}] No minute parquet found: {e}")
             df_file = None
             have_file = False
 
         if have_file and not date_updated:
-            # Use file only
+            print('We have the file')
+            good = df_file["timestamp"].notna()
+            last_east = pd.to_datetime(df_file.index[good]).max()       # tz-aware Eastern
+            api_start = last_east.tz_convert("US/Eastern").strftime("%Y-%m-%d")
             self.minute_level_prices = df_file.sort_index()
             self.no_call_needed = True
-            # Ensure we save back using the month of the true oldest entry
-            oldest_month = pd.to_datetime(self.minute_level_prices.index.min()).strftime("%Y-%m")
-            print(f'saving because we have the file and we do not want to update date : {self.minute_level_prices.index[-1]}')
-            self._sav(n=n, period=period, month_tag=oldest_month)
-            return
-
-        # When we must fetch (either file missing, or date_updated=True)
-        if have_file and date_updated:
-            api_start = pd.to_datetime(df_file.index.max()).strftime("%Y-%m-%d")  # inclusive
+            return df_file.sort_index()
         else:
             api_start = pd.to_datetime(start_date).strftime("%Y-%m-%d")
 
-        fresh = self._fetch_aggs(
-            n=n,
-            period=period,
-            start_date=api_start,
-            end_date=end_date,
-            limit=limit,
-            fetch_in_chunks=fetch_in_chunks,
-            chunksize=chunksize,
-            cooldown_sec=cooldown_sec,
-        )
-        fresh = self._normalize_aggs(fresh, period="minute")  # tz-aware Eastern index
+        # When we must fetch (either file missing, or date_updated=True)
+        if have_file and date_updated:
+            mask_d = df_file['timestamp'].notna()
+            api_start = pd.to_datetime(df_file[mask_d].index.max()).strftime("%Y-%m-%d")  # inclusive
+        else:
+            api_start = pd.to_datetime(start_date).strftime("%Y-%m-%d")
+
+# fetch
+        if method == 'IKBR':
+            print('Fetching IKBR aggs')
+            fresh = self._fetch_aggs_ikbr(
+                n=5,
+                period='minute',
+                start_date=api_start,
+                end_date=end_date,
+                fetch_in_chunks=fetch_in_chunks,
+                chunksize=chunksize,
+                cooldown_sec=cooldown_sec
+            )
+            self.fresh = fresh
+        if method != 'IKBR':
+            print(f'Calling polygon api for {self.ticker}')
+            fresh = self._fetch_aggs(
+                n=5,
+                period="minute",
+                start_date=api_start,
+                end_date=end_date,
+                limit=limit,
+                fetch_in_chunks=fetch_in_chunks,
+                chunksize=chunksize,
+                cooldown_sec=cooldown_sec,
+            )
+            fresh = self._normalize_aggs(fresh, period="minute")
 
         if have_file:
             print('merging old and new')
@@ -554,10 +703,9 @@ class TickerData:
             merged = fresh
 
         # de-dup by 'timestamp' then sort by 'timestamp'
-        if "timestamp" in merged.columns:
-            merged = merged.sort_values("timestamp").drop_duplicates(subset=["timestamp"], keep="last")
-
-        self.minute_level_prices = merged.sort_index()
+        merged = merged[ merged["timestamp"].notna() ]
+        merged = merged[ ~merged.index.duplicated(keep="last") ].sort_index()
+        self.minute_level_prices = merged
         self.no_call_needed = False
 
         # Save to the month derived from the **true oldest entry** in the merged frame
@@ -581,7 +729,7 @@ class TickerData:
         """Unified Polygon fetch, supports optional chunking. Dates are YYYY-MM-DD strings."""
         start_s = pd.to_datetime(start_date).strftime("%Y-%m-%d")
         end_s = pd.to_datetime(end_date).strftime("%Y-%m-%d")
-
+        print('start_date : ', start_s)
         def _fetch_chunk(s_ts: pd.Timestamp, e_ts: pd.Timestamp) -> pd.DataFrame:
             raw = []
             for a in client.list_aggs(
@@ -614,6 +762,8 @@ class TickerData:
         end_ts = pd.Timestamp(end_s)
         delta = timedelta(days=chunksize)
         while cur_start < end_ts:
+            if cur_start < end_ts: # REMOVE WHEN DONE 
+                time.sleep(cooldown_sec)
             cur_end = min(cur_start + delta, end_ts)
             frames.append(_fetch_chunk(cur_start, cur_end))
             cur_start = cur_end
@@ -643,56 +793,157 @@ class TickerData:
         df.set_index("Date", inplace=True)
         return df
 
+    def _fetch_aggs_ikbr(
+        self,
+        *,
+        n: int,
+        period: str,
+        start_date: str,
+        end_date: str = dt.datetime.today().strftime('%Y-%m-%d'),
+        fetch_in_chunks: bool = False,
+        chunksize: int = 50000,          # days per chunk
+        cooldown_sec: int = 30,
+    ) -> pd.DataFrame:
+        """ 
+        Initialises IB() for TickerData. Then routes by period:
+            1. 'minute' : set bar size to 'n mins'
+            2. 'day'    : set bar size to '1 day'
+        
+        Defines start_timestamp (start_ts) and ending_timestamp (end_ts) to select the
+        minimum required date window to get. 
+
+        Specify with (useRTH) to True for day -> regular hour OHLC is inaccurate otherwise
+        Specify useRTH to False for minute -> we want all data 
+        
+        
+        """
+        # --- contract ---
+        from ib_async import IB, Stock
+        self.ib = IB()
+        c = Stock(self.ticker, "SMART", "USD")
+        self.ib.connect(self.host, self.port, clientId=self.client_id, readonly=True)
+        self.ib.qualifyContracts(c)
+
+        # --- bar size / whatToShow ---
+        if period == "minute":
+            print('Minute Parameters set')
+            bar_size    = f"{n} mins"   # e.g., 5 mins
+            what        = "TRADES"
+            use_RTH     = False
+            canon       = _convert_ikbr_to_poly_minute
+        elif period == "day":
+            print('Day Parameters Set')
+            bar_size    = "1 day"       # IBKR has no multi-day bar
+            what        = "TRADES"          # change to "ADJUSTED_LAST" if you want adjusted daily
+            use_RTH     = True
+            canon       = _convert_ikbr_to_poly_day
+        else:
+            self.ib.disconnect()
+            raise ValueError("period must be 'minute' or 'day'")
+
+        start_ts = pd.to_datetime(start_date, utc=True).tz_convert('US/Eastern')
+        end_ts   = pd.to_datetime(end_date, utc=True).tz_convert('US/Eastern') + pd.Timedelta(hours=23, minutes=59, seconds=59)
+
+        def _fetch_chunk(end_point: pd.Timestamp, days: int) -> pd.DataFrame:
+            bars = self.ib.reqHistoricalData(
+                c,
+                endDateTime=end_point.strftime("%Y%m%d %H:%M:%S"),
+                durationStr=f"{max(days,1)} D",
+                barSizeSetting=bar_size,
+                whatToShow=what,
+                useRTH=use_RTH,
+                formatDate=2,
+                keepUpToDate=False,
+            )
+            df_raw = util.df(bars)
+            if df_raw.empty:
+                return df_raw
+            # normalize timestamp to Unix ms to match Polygon
+            df = canon(df_raw)
+            if period == 'minute':
+                mask = (df.index >= start_ts) & (df.index <= end_ts)
+                return df.loc[mask]
+            else:
+                # Daily index is object
+                idx = pd.to_datetime(df.index, utc=True).tz_convert('US/Eastern')
+                mask = (idx >= start_ts.tz_convert('UTC')) & (idx <= end_ts.tz_convert('UTC'))
+                return df.loc[mask]
+
+        if not fetch_in_chunks:
+            total_days = max(1, int((end_ts - start_ts).ceil('D').days))
+            out = _fetch_chunk(end_ts, total_days)
+        else:
+            frames = []
+            cur_start = start_ts
+            while cur_start < end_ts:
+                cur_end = min(cur_start + pd.Timedelta(days=chunksize) - pd.Timedelta(seconds=1), end_ts)
+                days = max(1, int((cur_end - cur_start).ceil('D').days))
+                frames.append(_fetch_chunk(cur_end, days))
+                cur_start = (cur_end + pd.Timedelta(seconds=1)).normalize()
+                if cur_start <= end_ts and cooldown_sec > 0:
+                    time.sleep(cooldown_sec)
+            out = pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
+        self.ib.disconnect()
+        if out.empty or out is None:
+            return out
+        if period == "minute":
+            out = out[ out["timestamp"].notna() ]
+            out = out[ ~out.index.duplicated(keep="last") ].sort_index()
+        else:
+            out = out[ out["timestamp"].notna() ]
+            out = out[ ~out.index.duplicated(keep="last") ].sort_index()
+        return out
+        
     def _save_minute_pq(self, *, n: int, period: str, month_tag: str) -> None:
-        out = Path("data/datasets") / f"{self.ticker}_{n}{period}_{month_tag}_minute_level_data.parquet"
+        project_root = Path(__file__).resolve().parent.parent
+        out = project_root / "data/datasets" / f"{self.ticker}_{n}{period}_{month_tag}_minute_level_data.parquet"
+        print(out)
         out.parent.mkdir(parents=True, exist_ok=True)
         print(self.minute_level_prices.index[-1], self.ticker)
         # writes pandas DataFrame to Parquet; stores tz-aware datetimes via pyarrow metadata
         self.minute_level_prices.to_parquet(out, engine="pyarrow", compression="snappy", index=True)
 
+    def _save_daily_pq(self, df) -> None:
+        if df.index.tz is not None:
+            df.index = df.index.tz_localize('UTC')
+            df.index = df.index.normalize()
+        if not hasattr(self, 'daily_path'):
+            # Determine the subdirectory based on ticker_type
+            if self.ticker_type == 'etfs':
+                save_dir = DAILY_ROOT / 'etfs'
+            elif self.ticker_type == 'stocks':
+                save_dir = DAILY_ROOT / 'stocks'
+            else:
+                # Default to root if no ticker_type specified
+                save_dir = DAILY_ROOT
+            
+            save_dir.mkdir(parents=True, exist_ok=True)
+            self.daily_path = save_dir / f"{self.ticker}_{self.date_today}_daily.parquet"
+        df.to_parquet(self.daily_path, engine="pyarrow", compression="snappy", index=True)
+        print(df.index[-1], self.ticker, self.daily_path)
+
     def get_daily_price_data(self) -> Optional[Path]:
         """Return the most recent daily CSV Path (or None)."""
-        path_to_daily = Path("data/daily")
-        pattern = f"{self.ticker}_*_daily.csv"
+        # Check subdirectories based on ticker_type
+        if self.ticker_type == 'etfs':
+            path_to_daily = DAILY_ROOT / 'etfs'
+        elif self.ticker_type == 'stocks':
+            path_to_daily = DAILY_ROOT / 'stocks'
+        else:
+            # Default to checking all locations
+            path_to_daily = DAILY_ROOT
+        
+        pattern = f"{self.ticker}_*_daily.parquet"
         latest_path = latest_daily_file(path_to_daily.glob(pattern))
         return latest_path
-
-    def latest_daily_file(glob_obj: Iterable[Path]) -> Optional[Path]:
-        """
-        Pick the newest file among matches like ANYPREFIX_*_daily.csv
-        where * is a date/time string (YYYY-MM-DD, YYYYMMDD, etc.).
-        """
-        candidates = [p for p in glob_obj if p.is_file()]
-        if not candidates:
-            return None
-
-        def parse_dt(p: Path) -> datetime:
-            m = re.match(r"^(.+?)_(.+?)_daily\.csv$", p.name)
-            if not m:
-                return datetime.min
-            s = m.group(2)
-
-            for fmt in ("%Y-%m-%d", "%Y%m%d", "%Y-%m-%d_%H%M%S", "%Y%m%d_%H%M%S", "%Y-%m-%dT%H%M%S", "%Y%m%dT%H%M%S"):
-                try:
-                    return datetime.strptime(s, fmt)
-                except ValueError:
-                    pass
-            digits = re.sub(r"\D", "", s)
-            for fmt in ("%Y%m%d%H%M%S", "%Y%m%d"):
-                try:
-                    return datetime.strptime(digits, fmt)
-                except ValueError:
-                    pass
-            return datetime.min
-
-        return max(candidates, key=parse_dt, default=None)
 
     def get_latest_ratios_data(self):
         """ 
         Checks to see if we have already downloaded the data, so we can add to it and save it
         """
-        path_to_daily       = Path('Daily') / Path('Fundamentals')
-        path_to_ratios      = Path('Daily') / Path('Earnings')
+        project_root = Path(__file__).resolve().parent.parent
+        path_to_daily       = project_root / "data/daily/Fundamentals"
+        path_to_ratios      = project_root / "data/daily/Earnings"
         pattern             = f"{self.ticker}_*.csv"
         file_path_ratios    = latest_daily_file(path_to_daily.glob(pattern))
         file_path_earnings  = latest_daily_file(path_to_ratios.glob(pattern))
@@ -934,8 +1185,16 @@ class TickerData:
         self.raw                           = merged
         self.summary_data                  = merged[keep]            
         self.earning_dates                 = pd.Series(merged['earnings tag'].unique()).dropna()
-        self.summary_data.to_csv(rf'data/daily/Fundamentals/{self.ticker}_{self.date_today}.csv')
-        self.earning_dates.to_csv(rf'data/daily/Earnings/{self.ticker}_{self.date_today}.csv')
+        
+        # Use project root for consistent paths
+        project_root = Path(__file__).resolve().parent.parent
+        fundamentals_dir = project_root / "data/daily/Fundamentals"
+        earnings_dir = project_root / "data/daily/Earnings"
+        fundamentals_dir.mkdir(parents=True, exist_ok=True)
+        earnings_dir.mkdir(parents=True, exist_ok=True)
+        
+        self.summary_data.to_csv(fundamentals_dir / f'{self.ticker}_{self.date_today}.csv')
+        self.earning_dates.to_csv(earnings_dir / f'{self.ticker}_{self.date_today}.csv')
 
     def map_earnings_to_prices(self,
                                method: str = "backward",
@@ -1301,6 +1560,7 @@ class TickerComparison():
         self,
         tickers: List[str],
         filing_date_gte: str,
+        method : str = 'polygon',
         *,
         period: str = "day",
         date_updated: bool = False,
@@ -1309,7 +1569,8 @@ class TickerComparison():
         # (optional) you can pass through a global start/end, or let TickerData use its defaults
         start_date: Optional[str] = None,
         end_date: Optional[str] = None,
-        chunksize : int = 200
+        chunksize : int = 200,
+        ticker_type: Optional[str] = None  # 'etfs' or 'stocks' for organized subdirectories
     ):
         self.tickers = tickers
         self.filing_date_gte = filing_date_gte
@@ -1320,6 +1581,7 @@ class TickerComparison():
         self.start_date = start_date
         self.end_date = end_date
         self.chunksize = chunksize
+        self.ticker_type = ticker_type
 
         prices_by_ticker: Dict[str, pd.DataFrame] = {}
         returns_by_ticker: Dict[str, pd.DataFrame] = {}
@@ -1332,12 +1594,13 @@ class TickerComparison():
             try:
                 print(f"[{idx}/{len(tickers)}] {tkr}: start")
 
-                td = TickerData(tkr, self.filing_date_gte)
+                td = TickerData(tkr, self.filing_date_gte, ticker_type=self.ticker_type)
 
                 # Route to TickerData; it enforces n=1 (day) / n=5 (minute)
                 td.get_historical_prices(
                     period=self.period,
                     date_updated=self.date_updated,
+                    method=method,
                     fetch_in_chunks=self.fetch_in_chunks,
                     cooldown_sec=self.waiting_time,
                     start_date=self.start_date if self.start_date else None,
@@ -1345,9 +1608,6 @@ class TickerComparison():
                     chunksize = self.chunksize,
                     limit = 500000                
                     )
-
-                # Decide if we hit the API (TickerData sets this)
-                last_call_hit_api = not getattr(td, "no_call_needed", False)
 
                 # Prices (always)
                 if self.period == "minute":
@@ -1359,26 +1619,25 @@ class TickerComparison():
                         raise ValueError("historical_prices is empty")
                     prices_by_ticker[tkr] = td.historical_prices.copy(deep=True)
 
-                    # Daily returns/z-scores (if available)
-                    if hasattr(td, "summary_returns_data") and td.summary_returns_data is not None:
-                        returns_by_ticker[tkr] = td.summary_returns_data.copy(deep=True)
-
                 print(f"[{idx}/{len(tickers)}] {tkr}: done")
 
             except Exception as e:
                 print(f"[{tkr}] failed: {e}")
                 failed.append(tkr)
                 # Don’t sleep on failures, and don’t mark as API call
-                last_call_hit_api = False
                 time.sleep(waiting_time)
                 continue
 
         # --- Collate outputs (outer join by index for different trading calendars/timestamps) ---
         # Prices
         if prices_by_ticker:
+            try:
             # axis=1 concat keeps each ticker as a column block; outer join by index is default.
             # This is the standard pattern for combining aligned time series. :contentReference[oaicite:0]{index=0}
-            self.tickers_stocks_prices = pd.concat(prices_by_ticker, axis=1)
+                self.tickers_stocks_prices = pd.concat(prices_by_ticker, axis=1)
+            except Exception as e:
+                print(f'returning as dict : {e}')
+                self.tickers_stocks_prices_dict = prices_by_ticker
         else:
             self.tickers_stocks_prices = pd.DataFrame()
 

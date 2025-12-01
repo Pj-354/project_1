@@ -8,7 +8,7 @@ import warnings
 import datetime as dt
 from datetime import datetime
 import time 
-from .stock_data_functions import TickerData
+from Modules.stock_data_functions import TickerData
 from pathlib import Path
 from glob import glob 
 
@@ -17,21 +17,6 @@ warnings.filterwarnings("ignore", category=FutureWarning, module=r"^pandas\.io\.
 warnings.filterwarnings("ignore", category=pd.errors.SettingWithCopyWarning)
 
 filing_date = dt.datetime.today().date() - pd.Timedelta(days=365*2 -1)
-sector_tickers = {'Semiconductor'       : ['NVDA', 'AVGO', 'AMAT', 'AMD', 'MU', 'QCOM', 'TXN','INTC', 'ADI', 'MRVL', 'NXPI', 'MPWR', 'MCHP', 'ALAB', 'CRDO', 'STM', 'ASX', 'ON', 'GFS', 'UMC', 'SMTC', 'LRCX', 'KLAC', 'TSM', 'TER', 'ENTG', 'ARM', 'RMBS', 'MTSI'],
-                  'Biotech'             : ['GILD', 'ABBV', 'BSX', 'AMGN', 'ISRG', 'MDT', 'ABT', 'TMO', 'LLY', 'DHR', 'SYK','DHR'],
-                  'Consumer'            : ['HD', 'LOW', 'PG', 'PEP', 'AMZN', 'MRK', 'JNJ', 'DASH', 'KO', 'APP', 'PM', 'BKNG', 'TJX','COST', 'MCD'],
-                  'Healthcare'          : ['AMGN','MRK', 'UNH'],
-                  'Business Software'   : ['CSCO', 'NOW', 'ORCL', 'PANW', 'CRM', 'AMZN', 'CRWD', 'ADP', 'ADBE', 'IBM', 'MSFT'],
-    'Telecoms'            : ['T', 'VZ', 'APH', 'TMUS', 'INTU'],
-    'Mega-Cap Tech'       : ['AAPL', 'UBER', 'META', 'CSCO', 'ORCL', 'NFLX', 'AMZN', 'AVGO', 'PLTR', 'DASH','APP',
-                             'GOOGL', 'IBM', 'MSFT', 'ANET'],
-    'Financials'          : ['AXP', 'V', 'MA', 'BAC', 'SPGI', 'BLK', 'SCHW', 'BX', 'PGR', 'C', 'CB', 'MS', 'ACN'
-                             ,'WFC', 'KKR', 'GS', 'JPM'] ,
-    'Industrials'         : ['LIN', 'HON', 'PG', 'GE', 'BA', 'CAT', 'RTX'],
-    'Semi'                : ['AMAT', 'TXN', 'QCOM', 'AMD', 'AVGO', 'MU', 'KLAC', 'ADI', 'ANET', 'LRCX'],
-    'Power'               : ['ETN', 'HON', 'GE', 'NEE', 'DE'],
-    'Oil & Gas'           : ['CVX', 'COP'],
-    'Other'               : ['CMCSA', 'DIS', 'GE', 'BA', 'PGR', 'WMT', 'UNP','WELL', 'BKNG', 'RTX']}
 
 
 def read_sector_tickers(*sectors : str
@@ -113,80 +98,6 @@ def get_sub_sectors_names():
 
     return dfs
 
-def isolate_sector_tickers(df_symbols       : pd.DataFrame,
-                           sector_to_remove : str,
-                           sector_tickers   : dict = sector_tickers,
-                           n_components     : int = 50
-    )-> pd.DataFrame:
-    """ 
-    Isolate sector tickers from a set of symbols : removes sector tickers from request call 
-    """
-    symbols             = set(df_symbols.index) 
-    symbols_to_remove   = set(sector_tickers[sector_to_remove])
-    
-    isolated_tickers    = symbols - symbols_to_remove
-    isolated_tickers    = list(isolated_tickers)
-
-    df = df_symbols.loc[isolated_tickers]
-    df = df.sort_values(by='Market Cap', ascending=False)
-
-    return df.iloc[:n_components, :]
-
-def read_etf_returns(*categories : str)-> pd.DataFrame:
-    """ 
-    Returns ETF returns 
-        1. Sector
-        2. Style
-        3. Theme
-    """
-
-    df_registry = {
-        'SECTOR' : 'data/daily/sector_ETF_rets.csv',
-        'STYLE'  : 'data/daily/style_ETF_rets.csv',
-        'THEME'  : 'data/daily/theme_ETF_rets.csv'
-                }
-    
-    if not categories:
-        categories = tuple(df_registry.keys())
-    else:
-        categories = [i.upper() for i in categories]
-        unknown    = set(categories) - set(df_registry.keys())
-        print('Invalid keys : ', unknown)
-        categories = set(categories) - set(unknown)
-    
-    frames = []
-    for name in categories:
-        print(name)
-        file_name = df_registry[name]
-        df        = pd.read_csv(file_name, index_col = [0], parse_dates=True)
-        frames.append(df)
-
-    return pd.concat(frames, axis=1)
-
-def get_rets_cumsum(rets     : pd.DataFrame,
-                    constant : int = 1):
-    """ 
-    Must be log returns -> turns series of log returns into the price
-    Can be normalized so starts at value of 1 -> use constant
-    """
-    if isinstance(rets.index, pd.core.indexes.datetimes.DatetimeIndex):
-        rets_cumsum     = rets.cumsum()
-        rets_cumsum     = np.exp(rets_cumsum)
-        start_date      = rets_cumsum.index[0]
-        rets_cumsum.loc[start_date, :] = constant
-        rets_cumsum.sort_index(inplace=True)
-        return rets_cumsum
-    else:
-        print('Must fix index') 
-
-def get_existing_subsector_stock_prices(sector, filing_date, n_stocks_per):
-
-    daily_base_path     = Path('Daily')
-    pattern             = f"Daily_{sector}_*_prices.csv"
-    file_path           = next(daily_base_path.glob(pattern), None)
-
-    return file_path
-
 def check_columns(col, df_old, n = 20):
     """ 
     Checks column by column
@@ -266,11 +177,57 @@ def map_sub_sector_differences(df_old: pd.DataFrame, df_new: pd.DataFrame, n: in
         
     return pd.concat(old_entries_dict), total_change_in_market_cap_per_sector
 
+def pull_all_stocks_tickers_industries(n):
+
+    def flatten_sectors_industries(wide: pd.DataFrame,sector : str = None):
+        """
+        wide: MultiIndex columns like {industry}->{Symbol, Market Cap}
+            or {sector, industry}->{Symbol, Market Cap}
+        meta: optional lookup indexed by ticker with column 'sector'
+        returns DataFrame with columns: ticker, market_cap, sector, industry
+        """
+        if wide.columns.nlevels == 2:
+            wide.columns.names = ['industry', 'field']
+            out = (wide.stack(0, future_stack=True)  # bring 'industry' to rows
+                        .rename(columns={'Symbol':'ticker','Market Cap':'market_cap'})
+                        .dropna(subset=['ticker'])
+                        .reset_index(names=['rank','industry'])
+                        [['ticker','market_cap','industry']])
+            # add sector if provided
+            if sector is not None:
+                out['sector'] = sector
+            else:
+                out['sector'] = pd.NA
+            return out[['ticker','market_cap','sector','industry']]
+
+        # three levels: sector, industry -> {Symbol, Market Cap}
+        wide.columns.names = ['sector','industry','field']
+        out = (wide.stack(['sector','industry'])
+                .rename(columns={'Symbol':'ticker','Market Cap':'market_cap'})
+                .dropna(subset=['ticker'])
+                .reset_index(names=['rank','sector','industry'])
+                [['ticker','market_cap','sector','industry']])
+        return out
+
+    def quick_clean(frames):
+        d = pd.concat(frames)
+        d.set_index('ticker', inplace=True)
+        d['sector'] = d['sector'].str.replace('/', '')
+        return d
+
+    sectors = SUB_SECTOR_DICT.keys()
+    frames = []
+    for i in sectors:
+        print(i)
+        temp = get_sub_sectors_tickers(i, n=n)
+        temp = flatten_sectors_industries(temp, i)
+        frames.append(temp)
+
+    return quick_clean(frames)
 
 ####################################################################################
 
 sub_sector_names      = get_sub_sectors_names()
-    
 SUB_SECTOR_DICT       = { 
         'Healthcare'             : sub_sector_names[0],
         'Financials'             : sub_sector_names[1],
@@ -285,9 +242,19 @@ SUB_SECTOR_DICT       = {
         'Utilities'              : sub_sector_names[10]
     }
 
+####################################################################################
+
+replacement_urls = {'oil-and-gas-exploration-and-production': 'oil-gas-e-and-p/',
+                    'oil-and-gas-midstream':'oil-gas-midstream',
+                    'oil-and-gas-equipment-and-services':'oil-gas-equipment-and-services',
+                    'oil-and-gas-drilling':'oil-gas-drilling/',
+                    'oil-and-gas-refining-and-marketing':'oil-gas-refining-and-marketing/',
+                    'furnishings,-fixtures-and-appliances':'oil-gas-drilling/',
+                    'oil-and-gas-integrated':'oil-gas-integrated/'}
 
 def get_sub_sectors_tickers(sector : str,
                             sub_sector_dict : dict = SUB_SECTOR_DICT,
+                            replacement_urls : dict = replacement_urls,
                             n : int = 50
     )-> pd.DataFrame:
     """ 
@@ -306,7 +273,13 @@ def get_sub_sectors_tickers(sector : str,
     frames = {}
     for i in url_suffixes:
         try:
-            url     = f'https://stockanalysis.com/stocks/industry/{i}'
+            if i in replacement_urls:
+                print(f'substituting in for url : {i}')
+                i = replacement_urls[i]
+
+            url     = f'https://stockanalysis.com/stocks/industry/{i}/'
+            
+
             r       = requests.get(url)
         
             tables  = pd.read_html(StringIO(r.text))
@@ -327,7 +300,6 @@ def get_sub_sectors_tickers(sector : str,
     
     frames = {k:v.reset_index()[:n] for k,v in frames.items()}
     return pd.concat(frames, axis=1)
-
 
 def get_subsector_tickers_stock_prices(sub_sector_dict : dict = SUB_SECTOR_DICT,
                                        sector          : str = 'Technology',
@@ -379,18 +351,3 @@ def get_subsector_tickers_stock_prices(sub_sector_dict : dict = SUB_SECTOR_DICT,
 
     return frames, failed
 
-
-
-
-
-if __name__ == '__main__':
-
-    # df = read_sector_tickers('Technology')
-    # non_semi = isolate_sector_tickers(df['Technology'], 'Semiconductor')
-
-    pathfile     = get_existing_subsector_stock_prices('Technology', '2025-09-01', 10)
-    df           = pd.read_csv(pathfile, index_col = [0], parse_dates = True, header = [0,1,2])
-    last_date    = pathfile.stem.split('_')[2]
-    tickers_list = df.columns.get_level_values(2).unique()
-
-    tickers_sub = get_sub_sectors_tickers('Technology')

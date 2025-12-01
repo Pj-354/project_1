@@ -1,0 +1,3553 @@
+{
+  "provider": "finn",
+  "aliases": {
+    "accounts_payable": [
+      "accounts_payable",
+      "Accounts Payable",
+      "trade_payables",
+      "Trade Payables",
+      "AccountsPayableCurrent",
+      "accounts_payable_current"
+    ],
+    "assets": [
+      "assets",
+      "total_assets",
+      "Total Assets",
+      "Assets"
+    ],
+    "basic_average_shares": [
+      "basic_average_shares",
+      "Basic Average Shares",
+      "weighted_average_shares_basic",
+      "Weighted Average Shares Outstanding, Basic",
+      "WeightedAverageNumberOfSharesOutstandingBasic",
+      "WeightedAverageNumberOfSharesOutstandingBasic",
+      "weighted_average_number_of_share_outstanding_basic_and_diluted",
+      "weighted_average_number_of_shares_outstanding_basic"
+    ],
+    "basic_earnings_per_share": [
+      "basic_earnings_per_share",
+      "Basic Earnings Per Share",
+      "eps_basic",
+      "Earnings Per Share, Basic",
+      "EarningsPerShareBasic",
+      "EarningsPerShareBasicAndDiluted",
+      "earnings_per_share_basic",
+      "earnings_per_share_basic_and_diluted"
+    ],
+    "benefits_costs_expenses": [
+      "benefits_costs_expenses",
+      "Benefits Costs and Expenses"
+    ],
+    "costs_and_expenses": [
+      "costs_and_expenses",
+      "Costs And Expenses",
+      "total_costs_and_expenses",
+      "Total Costs and Expenses",
+      "CostsAndExpenses"
+    ],
+    "comprehensive_income_loss": [
+      "comprehensive_income_loss",
+      "Comprehensive Income/Loss",
+      "total_comprehensive_income",
+      "Total Comprehensive Income"
+    ],
+    "comprehensive_income_loss_attributable_to_noncontrolling_interest": [
+      "comprehensive_income_loss_attributable_to_noncontrolling_interest",
+      "Comprehensive Income/Loss Attributable To Noncontrolling Interest",
+      "ComprehensiveIncomeNetOfTaxAttributableToNoncontrollingInterest",
+      "comprehensive_income_net_of_tax_attributable_to_noncontrolling_interest"
+    ],
+    "comprehensive_income_loss_attributable_to_parent": [
+      "comprehensive_income_loss_attributable_to_parent",
+      "Comprehensive Income/Loss Attributable To Parent"
+    ],
+    "cost_of_revenue": [
+      "cost_of_revenue",
+      "Cost Of Revenue",
+      "Cost of revenues",
+      "cost of revenue",
+      "cost_of_sales",
+      "Cost Of Sales",
+      "cost of sales",
+      "CostOfRevenue"
+    ],
+    "cost_of_goods_sold": [
+      "cost_of_goods_sold",
+      "Cost Of Goods Sold",
+      "cost of goods sold",
+      "cogs",
+      "COGS",
+      "CostOfGoodsSold"
+    ],
+    "cost_of_revenue_goods": [
+      "cost_of_revenue_goods",
+      "Cost Of Revenue, Goods",
+      "cost of revenue, goods"
+    ],
+    "current_assets": [
+      "current_assets",
+      "Current Assets",
+      "total_current_assets",
+      "Total Current Assets",
+      "AssetsCurrent",
+      "assets_current"
+    ],
+    "current_liabilities": [
+      "current_liabilities",
+      "Current Liabilities",
+      "total_current_liabilities",
+      "Total Current Liabilities",
+      "LiabilitiesCurrent",
+      "liabilities_current"
+    ],
+    "diluted_average_shares": [
+      "diluted_average_shares",
+      "Diluted Average Shares",
+      "weighted_average_shares_diluted",
+      "Weighted Average Shares Outstanding, Diluted",
+      "WeightedAverageNumberOfDilutedSharesOutstanding",
+      "weighted_average_number_of_diluted_shares_outstanding",
+      "WeightedAverageNumberDilutedSharesOutstandingAdjustment",
+      "weighted_average_number_diluted_shares_outstanding_adjustment"
+    ],
+    "diluted_earnings_per_share": [
+      "diluted_earnings_per_share",
+      "Diluted Earnings Per Share",
+      "eps_diluted",
+      "Earnings Per Share, Diluted",
+      "EarningsPerShareDiluted",
+      "earnings_per_share_diluted"
+    ],
+    "equity": [
+      "equity",
+      "Equity",
+      "total_equity",
+      "Total Equity"
+    ],
+    "equity_attributable_to_noncontrolling_interest": [
+      "equity_attributable_to_noncontrolling_interest",
+      "Equity Attributable To Noncontrolling Interest",
+      "noncontrolling_interest",
+      "Noncontrolling Interest",
+      "MinorityInterest",
+      "OtherMinorityInterests",
+      "minority_interest",
+      "other_minority_interests"
+    ],
+    "equity_attributable_to_parent": [
+      "equity_attributable_to_parent",
+      "Equity Attributable To Parent",
+      "equity_attributable_to_owners_of_parent",
+      "Equity Attributable to Owners of the Parent"
+    ],
+    "exchange_gains_losses": [
+      "exchange_gains_losses",
+      "Exchange Gains/Losses",
+      "foreign_exchange_gains_losses",
+      "Foreign Exchange Gains/Losses"
+    ],
+    "gross_profit": [
+      "gross_profit",
+      "gross_income",
+      "Gross Profit",
+      "Gross Income",
+      "GrossProfit"
+    ],
+    "income_loss_from_continuing_operations_after_tax": [
+      "income_loss_from_continuing_operations_after_tax",
+      "Income/Loss From Continuing Operations After Tax",
+      "income_from_continuing_operations_after_tax",
+      "Income From Continuing Operations After Tax"
+    ],
+    "income_loss_from_continuing_operations_before_tax": [
+      "income_loss_from_continuing_operations_before_tax",
+      "Income/Loss From Continuing Operations Before Tax",
+      "income_from_continuing_operations_before_tax",
+      "Income From Continuing Operations Before Tax",
+      "income_before_income_taxes",
+      "Income Before Income Taxes",
+      "IncomeLossFromContinuingOperationsBeforeIncomeTaxes",
+      "income_loss_from_continuing_operations_before_income_taxes"
+    ],
+    "income_tax_expense_benefit": [
+      "income_tax_expense_benefit",
+      "Income Tax Expense/Benefit",
+      "income_tax_expense",
+      "Income Tax Expense",
+      "income_tax_benefit",
+      "Income Tax Benefit",
+      "IncomeTaxExpenseBenefit"
+    ],
+    "income_tax_expense_benefit_deferred": [
+      "income_tax_expense_benefit_deferred",
+      "Income Tax Expense/Benefit, Deferred",
+      "deferred_income_tax_expense",
+      "Deferred Income Tax Expense",
+      "deferred_income_tax_benefit",
+      "Deferred Income Tax Benefit"
+    ],
+    "total_liabilities": [
+      "liabilities",
+      "Liabilities",
+      "us-gaap_Liabilities",
+      "total_liabilities",
+      "Total Liabilities"
+    ],
+    "liabilities_and_equity": [
+      "liabilities_and_equity",
+      "Liabilities And Equity",
+      "total_liabilities_and_equity",
+      "Total Liabilities and Equity",
+      "LiabilitiesAndStockholdersEquity",
+      "liabilities_and_stockholders_equity"
+    ],
+    "net_cash_flow": [
+      "net_cash_flow",
+      "Net Cash Flow",
+      "net_increase_decrease_in_cash",
+      "Net Increase (Decrease) In Cash"
+    ],
+    "net_cash_flow_without_fx": [
+      "CashAndCashEquivalentsPeriodIncreaseDecrease",
+      "cash_and_cash_equivalents_period_increase_decrease"
+    ],
+    "net_cash_flow_inc_restricted_without_fx": [
+      "CashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect",
+      "cash_cash_equivalents_restricted_cash_and_restricted_cash_equivalents_period_increase_decrease_excluding_exchange_rate_effect",
+      "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseExcludingExchangeRateEffect"
+    ],
+    "effect_of_exchange_rate_on_cash_cash_equivalents_restricted_cash_and_restricted_cash_equivalents": [
+      "EffectOfExchangeRateOnCashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+      "effect_of_exchange_rate_on_cash_cash_equivalents_restricted_cash_and_restricted_cash_equivalents",
+      "EffectOfExchangeRateOnCashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsIncludingDisposalGroupAndDiscontinuedOperations",
+      "effect_of_exchange_rate_on_cash_cash_equivalents_restricted_cash_and_restricted_cash_equivalents_including_disposal_group_and_discontinued_operations"
+    ],
+    "net_cash_flow_inc_restricted_cash_and_cash_equivalents": [
+      "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect",
+      "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffectDisposalGroupIncludingDiscontinuedOperations",
+      "cash_cash_equivalents_restricted_cash_and_restricted_cash_equivalents_period_increase_decrease_including_exchange_rate_effect_disposal_group_including_discontinued_operations",
+      "cash_cash_equivalents_restricted_cash_and_restricted_cash_equivalents_period_increase_decrease_including_exchange_rate_effect"
+    ],
+    "net_cash_flow_continuing": [
+      "net_cash_flow_continuing",
+      "Net Cash Flow, Continuing",
+      "net_cash_flow_from_continuing_operations",
+      "Net Cash Flow From Continuing Operations"
+    ],
+    "net_cash_flow_from_financing_activities": [
+      "net_cash_flow_from_financing_activities",
+      "Net Cash Flow From Financing Activities",
+      "net_cash_provided_by_financing_activities",
+      "Net Cash Provided By Financing Activities",
+      "NetCashProvidedByUsedInFinancingActivities",
+      "net_cash_provided_by_used_in_financing_activities"
+    ],
+    "net_cash_flow_from_financing_activities_continuing": [
+      "net_cash_flow_from_financing_activities_continuing",
+      "Net Cash Flow From Financing Activities, Continuing",
+      "NetCashProvidedByUsedInFinancingActivitiesContinuingOperations",
+      "net_cash_provided_by_used_in_financing_activities_continuing_operations"
+    ],
+    "net_cash_flow_from_investing_activities": [
+      "net_cash_flow_from_investing_activities",
+      "Net Cash Flow From Investing Activities",
+      "net_cash_provided_by_investing_activities",
+      "Net Cash Provided By Investing Activities",
+      "NetCashProvidedByUsedInInvestingActivities",
+      "net_cash_provided_by_used_in_investing_activities"
+    ],
+    "net_cash_flow_from_investing_activities_continuing": [
+      "net_cash_flow_from_investing_activities_continuing",
+      "Net Cash Flow From Investing Activities, Continuing",
+      "NetCashProvidedByUsedInInvestingActivitiesContinuingOperations",
+      "net_cash_provided_by_used_in_investing_activities_continuing_operations"
+    ],
+    "net_cash_flow_from_operating_activities": [
+      "net_cash_flow_from_operating_activities",
+      "Net Cash Flow From Operating Activities",
+      "net_cash_provided_by_operating_activities",
+      "Net Cash Provided By Operating Activities",
+      "NetCashProvidedByUsedInOperatingActivities",
+      "net_cash_provided_by_used_in_operating_activities"
+    ],
+    "net_cash_flow_from_operating_activities_continuing": [
+      "net_cash_flow_from_operating_activities_continuing",
+      "Net Cash Flow From Operating Activities, Continuing",
+      "NetCashProvidedByUsedInOperatingActivitiesContinuingOperations",
+      "net_cash_provided_by_used_in_operating_activities_continuing_operations"
+    ],
+    "net_income_loss": [
+      "net_income_loss",
+      "net_income",
+      "net_loss",
+      "Net Income/Loss",
+      "Net Income",
+      "Net Loss",
+      "net_earnings",
+      "Net Earnings",
+      "NetIncomeLoss",
+      "ProfitLoss",
+      "profit_loss"
+    ],
+    "net_income_loss_attributable_to_noncontrolling_interest": [
+      "net_income_loss_attributable_to_noncontrolling_interest",
+      "Net Income/Loss Attributable To Noncontrolling Interest",
+      "net_income_attributable_to_noncontrolling_interest",
+      "Net Income Attributable To Noncontrolling Interest",
+      "NetIncomeLossAttributableToNoncontrollingInterest"
+    ],
+    "net_income_loss_attributable_to_parent": [
+      "net_income_loss_attributable_to_parent",
+      "Net Income/Loss Attributable To Parent",
+      "net_income_attributable_to_parent",
+      "Net Income Attributable To Parent",
+      "net_income_attributable_to_owners_of_parent",
+      "Net Income Attributable To Owners of the Parent"
+    ],
+    "net_income_loss_available_to_common_stockholders_basic": [
+      "net_income_loss_available_to_common_stockholders_basic",
+      "Net Income/Loss Available To Common Stockholders, Basic",
+      "net_income_available_to_common_shareholders",
+      "Net Income Available To Common Shareholders",
+      "NetIncomeLossAvailableToCommonStockholdersBasic"
+    ],
+    "noncurrent_assets": [
+      "noncurrent_assets",
+      "Noncurrent Assets",
+      "total_noncurrent_assets",
+      "Total Noncurrent Assets",
+      "AssetsNoncurrent",
+      "assets_noncurrent"
+    ],
+    "noncurrent_liabilities": [
+      "noncurrent_liabilities",
+      "Noncurrent Liabilities",
+      "long_term_liabilities",
+      "Long-Term Liabilities",
+      "total_noncurrent_liabilities",
+      "Total Noncurrent Liabilities",
+      "LiabilitiesNoncurrent",
+      "liabilities_noncurrent"
+    ],
+    "operating_expenses": [
+      "operating_expense",
+      "operating_expenses",
+      "Operating Expenses",
+      "OperatingExpenses"
+    ],
+    "operating_income_loss": [
+      "operating_income_loss",
+      "operating_income",
+      "Operating Income/Loss",
+      "Operating Income",
+      "OperatingIncomeLoss"
+    ],
+    "operating_loss": [
+      "Operating Loss",
+      "operating_loss",
+      "operatingloss"
+    ],
+    "operating_profit": [
+      "operating_income",
+      "operating_profit",
+      "operating profit"
+    ],
+    "other_comprehensive_income_loss": [
+      "other_comprehensive_income_loss",
+      "Other Comprehensive Income/Loss",
+      "OtherComprehensiveIncomeLossNetOfTax",
+      "other_comprehensive_income_loss_net_of_tax"
+    ],
+    "other_comprehensive_income_loss_attributable_to_parent": [
+      "other_comprehensive_income_loss_attributable_to_parent",
+      "Other Comprehensive Income/Loss Attributable To Parent"
+    ],
+    "other_current_liabilities": [
+      "other_current_liabilities",
+      "Other Current Liabilities",
+      "OtherLiabilitiesCurrent",
+      "other_liabilities_current"
+    ],
+    "other_noncurrent_assets": [
+      "other_noncurrent_assets",
+      "Other Non-current Assets",
+      "OtherAssetsNoncurrent",
+      "other_assets_noncurrent"
+    ],
+    "other_operating_expenses": [
+      "other_operating_expenses",
+      "Other Operating Expenses"
+    ],
+    "net_other_operating_income": [
+      "Other Operating Income/Expenses"
+    ],
+    "participating_securities_distributed_and_undistributed_earnings_loss_basic": [
+      "participating_securities_distributed_and_undistributed_earnings_loss_basic",
+      "Participating Securities, Distributed And Undistributed Earnings/Loss, Basic"
+    ],
+    "preferred_stock_dividends_and_other_adjustments": [
+      "preferred_stock_dividends_and_other_adjustments",
+      "Preferred Stock Dividends And Other Adjustments"
+    ],
+    "research_and_development": [
+      "research_and_development",
+      "Research and Development",
+      "r_and_d",
+      "R&D Expense",
+      "r&d_expense",
+      "research_and_development_expense"
+    ],
+    "revenues": [
+      "revenues",
+      "revenue",
+      "total_revenue",
+      "total revenues",
+      "total_revenues",
+      "sales",
+      "Sales",
+      "Revenues",
+      "net_revenue",
+      "Net Revenue",
+      "net_revenues",
+      "Net Revenues"
+    ],
+    "sales_revenue_net": [
+      "SalesRevenueNet",
+      "sales_revenue_net"
+    ],
+    "wages": [
+      "wages",
+      "Wages",
+      "salaries_and_wages",
+      "Salaries and Wages"
+    ],
+    "interest_expense_operating": [
+      "interest_expense_operating",
+      "Interest Expense, Operating",
+      "operating_interest_expense",
+      "Operating Interest Expense",
+      "InterestExpenseOperating"
+    ],
+    "other_operating_income": [
+      "other_operating_income",
+      "Other Operating Income",
+      "OtherOperatingIncome"
+    ],
+    "other_operating_income_expenses": [
+      "other_operating_income_expenses",
+      "Other Operating Income/Expenses",
+      "Other Operating Income (Expenses)",
+      "net_other_operating_income",
+      "other_net_operating_income"
+    ],
+    "income_loss_from_equity_method_investments": [
+      "income_loss_from_equity_method_investments",
+      "Income/Loss From Equity Method Investments",
+      "income_from_equity_method_investments",
+      "Income From Equity Method Investments",
+      "IncomeLossFromEquityMethodInvestments"
+    ],
+    "income_before_equity_method_investments": [
+      "income_before_equity_method_investments",
+      "Income/Loss Before Equity Method Investments",
+      "Income Before Equity Method Investments"
+    ],
+    "accounts_receivable": [
+      "accounts_receivable",
+      "Accounts Receivable",
+      "trade_receivables",
+      "Trade Receivables",
+      "AccountsReceivableNetCurrent",
+      "ReceivablesNetCurrent",
+      "accounts_receivable_net_current",
+      "receivables_net_current"
+    ],
+    "other_current_assets": [
+      "Other Current Assets",
+      "OtherAssetsCurrent",
+      "other_assets_current"
+    ],
+    "commitments_and_contingencies": [
+      "commitments_and_contingencies",
+      "Commitments and Contingencies",
+      "CommitmentsAndContingencies"
+    ],
+    "inventory": [
+      "Inventory"
+    ],
+    "other_noncurrent_liabilities": [
+      "Other Non-current Liabilities",
+      "OtherLiabilitiesNoncurrent",
+      "other_liabilities_noncurrent"
+    ],
+    "long_term_debt": [
+      "Long-term Debt",
+      "LongTermDebt",
+      "long_term_debt"
+    ],
+    "long_term_debt_noncurrent": [
+      "long_term_debt_noncurrent",
+      "LongTermDebtNoncurrent"
+    ],
+    "cash_and_cash_equivalents": [
+      "cash_and_cash_equivalents",
+      "Cash and Cash Equivalents",
+      "Cash and cash equivalents",
+      "CashAndCashEquivalentsAtCarryingValue",
+      "cash_and_cash_equivalents_at_carrying_value"
+    ],
+    "cash": [
+      "cash",
+      "Cash"
+    ],
+    "intangible_assets": [
+      "intangible_assets",
+      "Intangible Assets",
+      "Intangible Assets, Net"
+    ],
+    "income_loss_from_discontinued_operations_after_tax": [
+      "Income/Loss From Discontinued Operations Net Of Tax",
+      "Income/Loss From Discontinued Operations Net Of Tax Gain/Loss On Disposal",
+      "Income/Loss From Discontinued Operations Net Of Tax During Phase Out",
+      "IncomeLossFromDiscontinuedOperationsNetOfTax",
+      "income_loss_from_discontinued_operations_net_of_tax"
+    ],
+    "selling_general_and_administrative_expenses": [
+      "selling_general_and_administrative",
+      "Selling, General and Administrative",
+      "Selling, General, and Administrative",
+      "Selling, General & Administrative",
+      "selling_general_and_administrative_expenses",
+      "Selling, General and Administrative Expenses",
+      "SellingGeneralAndAdministrativeExpense",
+      "selling_general_and_administrative_expense"
+    ],
+    "provision_for_loan_lease_and_other_losses": [
+      "provision_for_loan_lease_and_other_losses",
+      "Provision For Loan, Lease, And Other Losses",
+      "ProvisionForLoanLeaseAndOtherLosses"
+    ],
+    "common_stock_dividends": [
+      "Common Stock Dividends"
+    ],
+    "temporary_equity": [
+      "Temporary Equity"
+    ],
+    "prepaid_expenses": [
+      "Prepaid Expenses",
+      "PrepaidExpenseCurrent",
+      "prepaid_expense_current"
+    ],
+    "temporary_equity_attributable_to_parent": [
+      "Temporary Equity Attributable To Parent",
+      "TemporaryEquityCarryingAmountAttributableToParent",
+      "temporary_equity_carrying_amount_attributable_to_parent"
+    ],
+    "non_current_prepaid_expenses": [
+      "Non-current Prepaid Expenses"
+    ],
+    "net_cash_flow_discontinued": [
+      "Net Cash Flow, Discontinued"
+    ],
+    "net_cash_flow_from_investing_activities_discontinued": [
+      "Net Cash Flow From Investing Activities, Discontinued"
+    ],
+    "net_cash_flow_from_operating_activities_discontinued": [
+      "Net Cash Flow From Operating Activities, Discontinued"
+    ],
+    "cost_of_revenue_services": [
+      "Cost Of Revenue, Services",
+      "cost_of_revenue_services",
+      "CostOfServices",
+      "cost_of_services"
+    ],
+    "net_interest_expense": [
+      "Interest And Debt Expense",
+      "InterestIncomeExpenseNet",
+      "interest_income_expense_net",
+      "interest_revenue_expense_net",
+      "net_interest_expense"
+    ],
+    "net_interest_cash_paid": [
+      "interest_paid_net",
+      "InterestPaidNet"
+    ],
+    "undistributed_earnings_basic": [
+      "Undistributed Earnings/Loss Allocated To Participating Securities, Basic"
+    ],
+    "other_comprehensive_income_attributable_to_noncontrolling_interest": [
+      "Other Comprehensive Income/Loss Attributable To Noncontrolling Interest"
+    ],
+    "redeemable_non_controlling_interest": [
+      "Redeemable Noncontrolling Interest"
+    ],
+    "net_income_redeemable_non_controlling_interest": [
+      "Net Income/Loss Attributable To Redeemable Noncontrolling Interest"
+    ],
+    "net_cash_flow_from_financing_activities_discontinued": [
+      "Net Cash Flow From Financing Activities, Discontinued",
+      "net_cash_flow_from_financing_activities_discontinued"
+    ],
+    "net_income_nonredeemable_non_controlling_interest": [
+      "Net Income/Loss Attributable To Nonredeemable Noncontrolling Interest"
+    ],
+    "non_operating_income_loss": [
+      "Nonoperating Income/Loss",
+      "NonoperatingIncomeExpense",
+      "nonoperating_income_expense"
+    ],
+    "income_tax_expense_benefit_current": [
+      "Income Tax Expense/Benefit, Current"
+    ],
+    "preferred_stock_redeemable_non_controlling_interest": [
+      "Redeemable Noncontrolling Interest, Preferred"
+    ],
+    "other_selling_general_and_administrative_expense": [
+      "OtherSellingGeneralAndAdministrativeExpense",
+      "other_selling_general_and_administrative_expense"
+    ],
+    "accounts_payable_and_accrued_liabilities": [
+      "AccountsPayableAndAccruedLiabilitiesCurrent",
+      "accounts_payable_and_accrued_liabilities_current"
+    ],
+    "accounts_payable_and_accrued_liabilities_current_and_noncurrent": [
+      "AccountsPayableAndAccruedLiabilitiesCurrentAndNoncurrent",
+      "accounts_payable_and_accrued_liabilities_current_and_noncurrent"
+    ],
+    "accounts_payable_and_other_liabilities": [
+      "AccountsPayableAndOtherLiabilities",
+      "accounts_payable_and_other_liabilities"
+    ],
+    "accrued_and_other_current_liabilities": [
+      "AccruedAndOtherCurrentLiabilities",
+      "accrued_and_other_current_liabilities"
+    ],
+    "accrued_income_taxes_current": [
+      "AccruedIncomeTaxesCurrent",
+      "accrued_income_taxes_current"
+    ],
+    "accrued_liabilities_current": [
+      "AccruedLiabilitiesCurrent",
+      "accrued_liabilities_current"
+    ],
+    "accumulated_oci_cash_flow_hedges_net_of_tax": [
+      "AccumulatedOtherComprehensiveIncomeLossCumulativeChangesInNetGainLossFromCashFlowHedgesEffectNetOfTax",
+      "accumulated_other_comprehensive_income_loss_cumulative_changes_in_net_gain_loss_from_cash_flow_hedges_effect_net_of_tax"
+    ],
+    "accumulated_oci_defined_benefit_plans_net_of_tax": [
+      "AccumulatedOtherComprehensiveIncomeLossDefinedBenefitPensionAndOtherPostretirementPlansNetOfTax",
+      "accumulated_other_comprehensive_income_loss_defined_benefit_pension_and_other_postretirement_plans_net_of_tax"
+    ],
+    "accumulated_oci_fx_translation_net_of_tax": [
+      "AccumulatedOtherComprehensiveIncomeLossForeignCurrencyTranslationAdjustmentNetOfTax",
+      "accumulated_other_comprehensive_income_loss_foreign_currency_translation_adjustment_net_of_tax"
+    ],
+    "accumulated_oci_net_of_tax": [
+      "AccumulatedOtherComprehensiveIncomeLossNetOfTax",
+      "accumulated_other_comprehensive_income_loss_net_of_tax"
+    ],
+    "additional_paid_in_capital": [
+      "AdditionalPaidInCapital",
+      "additional_paid_in_capital"
+    ],
+    "additional_paid_in_capital_common_stock": [
+      "AdditionalPaidInCapitalCommonStock",
+      "additional_paid_in_capital_common_stock"
+    ],
+    "assets_disposal_group_including_discontinued_current": [
+      "AssetsOfDisposalGroupIncludingDiscontinuedOperationCurrent",
+      "assets_of_disposal_group_including_discontinued_operation_current"
+    ],
+    "assets_disposal_group_including_discontinued_noncurrent": [
+      "DisposalGroupIncludingDiscontinuedOperationAssetsNoncurrent",
+      "disposal_group_including_discontinued_operation_assets_noncurrent"
+    ],
+    "assets_held_for_sale": [
+      "AssetsHeldForSaleAtCarryingValue",
+      "assets_held_for_sale_at_carrying_value"
+    ],
+    "assets_held_for_sale_current": [
+      "AssetsHeldForSaleCurrent",
+      "assets_held_for_sale_current"
+    ],
+    "assets_held_for_sale_not_disposal_group_current_other": [
+      "AssetsHeldForSaleNotPartOfDisposalGroupCurrentOther",
+      "assets_held_for_sale_not_part_of_disposal_group_current_other"
+    ],
+    "available_for_sale_debt_securities": [
+      "AvailableForSaleSecuritiesDebtSecurities",
+      "available_for_sale_securities_debt_securities"
+    ],
+    "available_for_sale_debt_securities_current": [
+      "AvailableForSaleSecuritiesDebtSecuritiesCurrent",
+      "available_for_sale_securities_debt_securities_current"
+    ],
+    "available_for_sale_debt_securities_noncurrent": [
+      "AvailableForSaleSecuritiesDebtSecuritiesNoncurrent",
+      "available_for_sale_securities_debt_securities_noncurrent"
+    ],
+    "available_for_sale_securities_current": [
+      "AvailableForSaleSecuritiesCurrent",
+      "available_for_sale_securities_current"
+    ],
+    "available_for_sale_securities_noncurrent": [
+      "AvailableForSaleSecuritiesNoncurrent",
+      "available_for_sale_securities_noncurrent"
+    ],
+    "basic_average_shares_alt1": [
+      "WeightedAverageNumberOfSharesOutstandingBasicAndDiluted1",
+      "weighted_average_number_of_shares_outstanding_basic_and_diluted1"
+    ],
+    "basic_average_shares_alt2": [
+      "WeightedAverageNumberOfSharesOutstandingBasicAndDilutedOne",
+      "weighted_average_number_of_shares_outstanding_basic_and_diluted_one"
+    ],
+    "buildings_and_improvements_gross": [
+      "BuildingsAndImprovementsGross",
+      "buildings_and_improvements_gross"
+    ],
+    "payments_to_acquire_property_plant_and_equipment": [
+      "PaymentsToAcquirePropertyPlantAndEquipment",
+      "payments_to_acquire_property_plant_and_equipment"
+    ],
+    "payments_for_solar_energy_systems": [
+      "PaymentsForSolarEnergySystems",
+      "payments_for_solar_energy_systems"
+    ],
+    "payments_for_solar_energy_systems_leased_and_to_be_leased": [
+      "PaymentsForSolarEnergySystemsLeasedAndToBeLeased",
+      "payments_for_solar_energy_systems_leased_and_to_be_leased"
+    ],
+    "payments_for_solar_energy_systems_net_of_sales": [
+      "PaymentsForSolarEnergySystemsNetOfSales",
+      "payments_for_solar_energy_systems_net_of_sales"
+    ],
+    "capital_leased_assets_gross": [
+      "CapitalLeasedAssetsGross",
+      "capital_leased_assets_gross"
+    ],
+    "capital_leased_assets_net": [
+      "CapitalLeasesBalanceSheetAssetsByMajorClassNet",
+      "capital_leases_balance_sheet_assets_by_major_class_net"
+    ],
+    "cash_and_cash_equivalents_and_restricted": [
+      "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+      "cash_cash_equivalents_restricted_cash_and_restricted_cash_equivalents"
+    ],
+    "cash_and_cash_equivalents_short_term_investments": [
+      "CashCashEquivalentsAndShortTermInvestments",
+      "cash_and_cash_equivalents_and_short_term_investments"
+    ],
+    "cash_and_due_from_banks": [
+      "CashAndDueFromBanks",
+      "cash_and_due_from_banks"
+    ],
+    "change_in_accounts_payable": [
+      "IncreaseDecreaseInAccountsPayable",
+      "increase_decrease_in_accounts_payable"
+    ],
+    "change_in_accounts_payable_and_accrued_liabilities": [
+      "IncreaseDecreaseInAccountsPayableAndAccruedLiabilities",
+      "increase_decrease_in_accounts_payable_and_accrued_liabilities"
+    ],
+    "change_in_accounts_receivable": [
+      "IncreaseDecreaseInAccountsReceivable",
+      "increase_decrease_in_accounts_receivable"
+    ],
+    "change_in_accrued_liabilities": [
+      "IncreaseDecreaseInAccruedLiabilities",
+      "increase_decrease_in_accrued_liabilities"
+    ],
+    "change_in_contract_with_customer_liability": [
+      "IncreaseDecreaseInContractWithCustomerLiability",
+      "increase_decrease_in_contract_with_customer_liability"
+    ],
+    "change_in_deferred_revenue": [
+      "IncreaseDecreaseInDeferredRevenue",
+      "increase_decrease_in_deferred_revenue"
+    ],
+    "change_in_operating_lease_liability": [
+      "IncreaseDecreaseInOperatingLeaseLiabilityCurrentAndNoncurrent",
+      "increase_decrease_in_operating_lease_liability_current_and_noncurrent"
+    ],
+    "change_in_other_noncurrent_assets": [
+      "IncreaseDecreaseInOtherNoncurrentAssets",
+      "increase_decrease_in_other_noncurrent_assets"
+    ],
+    "change_in_other_noncurrent_liabilities": [
+      "IncreaseDecreaseInOtherNoncurrentLiabilities",
+      "increase_decrease_in_other_noncurrent_liabilities"
+    ],
+    "change_in_other_operating_liabilities": [
+      "IncreaseDecreaseInOtherOperatingLiabilities",
+      "increase_decrease_in_other_operating_liabilities"
+    ],
+    "change_in_prepaid_and_other_assets": [
+      "IncreaseDecreaseInPrepaidDeferredExpenseAndOtherAssets",
+      "increase_decrease_in_prepaid_deferred_expense_and_other_assets"
+    ],
+    "common_stock_including_apic": [
+      "CommonStockIncludingAdditionalPaidInCapital",
+      "common_stock_including_additional_paid_in_capital"
+    ],
+    "common_stock_par_value_per_share": [
+      "CommonStockParOrStatedValuePerShare",
+      "common_stock_par_or_stated_value_per_share"
+    ],
+    "common_stock_shares_authorized": [
+      "CommonStockSharesAuthorized",
+      "common_stock_shares_authorized"
+    ],
+    "common_stock_shares_issued": [
+      "CommonStockSharesIssued",
+      "common_stock_shares_issued"
+    ],
+    "common_stock_shares_outstanding": [
+      "CommonStockSharesOutstanding",
+      "common_stock_shares_outstanding"
+    ],
+    "common_stock_value": [
+      "CommonStockValue",
+      "common_stock_value"
+    ],
+    "common_stocks_including_apic": [
+      "CommonStocksIncludingAdditionalPaidInCapital",
+      "common_stocks_including_additional_paid_in_capital"
+    ],
+    "comprehensive_income_including_nci": [
+      "ComprehensiveIncomeNetOfTaxIncludingPortionAttributableToNoncontrollingInterest",
+      "comprehensive_income_net_of_tax_including_portion_attributable_to_noncontrolling_interest"
+    ],
+    "comprehensive_income_including_nci_total": [
+      "ComprehensiveIncomeIncludingNCI",
+      "comprehensive_income_including_nci"
+    ],
+    "comprehensive_income_net_of_tax": [
+      "ComprehensiveIncomeNetOfTax",
+      "comprehensive_income_net_of_tax"
+    ],
+    "contract_with_customer_liability_current": [
+      "ContractWithCustomerLiabilityCurrent",
+      "contract_with_customer_liability_current"
+    ],
+    "contract_with_customer_liability_noncurrent": [
+      "ContractWithCustomerLiabilityNoncurrent",
+      "contract_with_customer_liability_noncurrent"
+    ],
+    "cost_of_automotive_leasing": [
+      "CostOfAutomotiveLeasing",
+      "cost_of_automotive_leasing"
+    ],
+    "cost_of_goods_and_services_sold": [
+      "CostOfGoodsAndServicesSold",
+      "cost_of_goods_and_services_sold"
+    ],
+    "cost_of_revenue_automotive": [
+      "AutomotiveCostOfRevenues",
+      "automotive_cost_of_revenues"
+    ],
+    "cost_of_services_and_other": [
+      "CostOfServicesAndOther",
+      "cost_of_services_and_other"
+    ],
+    "cost_of_services_energy_services": [
+      "CostOfServicesEnergyServices",
+      "cost_of_services_energy_services"
+    ],
+    "crude_oil_and_product_purchases": [
+      "CrudeOilAndProductPurchases",
+      "crude_oil_and_product_purchases"
+    ],
+    "customer_deposits": [
+      "CustomerDeposits",
+      "customer_deposits"
+    ],
+    "customer_deposits_current": [
+      "CustomerDepositsCurrent",
+      "CustomerDepositsLiabilitiesCurrent",
+      "customer_deposits_current",
+      "customer_deposits_liabilities_current"
+    ],
+    "customer_deposits_noncurrent": [
+      "CustomerDepositsNoncurrent",
+      "customer_deposits_noncurrent"
+    ],
+    "debt_and_equity_securities_unrealized_gain_loss": [
+      "DebtAndEquitySecuritiesUnrealizedGainLoss",
+      "debt_and_equity_securities_unrealized_gain_loss"
+    ],
+    "debt_securities_afs_realized_gain_loss": [
+      "DebtSecuritiesAvailableForSaleRealizedGainLoss",
+      "debt_securities_available_for_sale_realized_gain_loss"
+    ],
+    "debt_securities_available_for_sale_and_held_to_maturity": [
+      "DebtSecuritiesAvailableForSaleAndHeldToMaturity",
+      "debt_securities_available_for_sale_and_held_to_maturity"
+    ],
+    "debt_securities_available_for_sale_excl_accrued_interest": [
+      "DebtSecuritiesAvailableForSaleExcludingAccruedInterest",
+      "debt_securities_available_for_sale_excluding_accrued_interest"
+    ],
+    "debt_securities_held_to_maturity_excl_accrued_after_allowance": [
+      "DebtSecuritiesHeldToMaturityExcludingAccruedInterestAfterAllowanceForCreditLoss",
+      "debt_securities_held_to_maturity_excluding_accrued_interest_after_allowance_for_credit_loss"
+    ],
+    "debt_securities_held_to_maturity_net_of_allowance": [
+      "DebtSecuritiesHeldToMaturityNetOfAllowanceForCreditLosses",
+      "debt_securities_held_to_maturity_net_of_allowance_for_credit_losses"
+    ],
+    "debt_securities_net_carrying_amount": [
+      "DebtSecuritiesNetCarryingAmount",
+      "debt_securities_net_carrying_amount"
+    ],
+    "deferred_income_tax_and_other_liabilities_noncurrent": [
+      "DeferredIncomeTaxAndOtherLiabilitiesNoncurrent",
+      "deferred_income_tax_and_other_liabilities_noncurrent"
+    ],
+    "deferred_income_tax_assets_net": [
+      "DeferredIncomeTaxAssetsNet",
+      "deferred_income_tax_assets_net"
+    ],
+    "deferred_income_tax_expense_benefit": [
+      "DeferredIncomeTaxExpenseBenefit",
+      "deferred_income_tax_expense_benefit"
+    ],
+    "deferred_revenue_current": [
+      "DeferredRevenueCurrent",
+      "deferred_revenue_current"
+    ],
+    "deferred_revenue_noncurrent": [
+      "DeferredRevenueNoncurrent",
+      "deferred_revenue_noncurrent"
+    ],
+    "deferred_tax_assets_current_net": [
+      "DeferredTaxAssetsNetCurrent",
+      "deferred_tax_assets_net_current"
+    ],
+    "deferred_tax_assets_liabilities_net_current": [
+      "DeferredTaxAssetsLiabilitiesNetCurrent",
+      "deferred_tax_assets_liabilities_net_current"
+    ],
+    "deferred_tax_assets_liabilities_net_noncurrent": [
+      "DeferredTaxAssetsLiabilitiesNetNoncurrent",
+      "deferred_tax_assets_liabilities_net_noncurrent"
+    ],
+    "deferred_tax_assets_noncurrent_net": [
+      "DeferredTaxAssetsNetNoncurrent",
+      "deferred_tax_assets_net_noncurrent"
+    ],
+    "deferred_income_tax_liabilities": [
+      "DeferredIncomeTaxLiabilities",
+      "deferred_income_tax_liabilities"
+    ],
+    "deferred_tax_liabilities_noncurrent": [
+      "DeferredTaxLiabilitiesNoncurrent",
+      "deferred_tax_liabilities_noncurrent"
+    ],
+    "deferred_tax_liabilities": [
+      "DeferredTaxLiabilities",
+      "deferred_tax_liabilities"
+    ],
+    "dividends_payable": [
+      "DividendsPayableCurrent",
+      "dividends_payable_current"
+    ],
+    "energy_related_inventory": [
+      "EnergyRelatedInventory",
+      "energy_related_inventory"
+    ],
+    "stockholders_equity_including_portion_attributable_to_noncontrolling_interest": [
+      "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest",
+      "stockholders_equity_including_portion_attributable_to_noncontrolling_interest"
+    ],
+    "stockholders_equity": [
+      "StockholdersEquity",
+      "stockholders_equity"
+    ],
+    "equity_securities_fvni_gain_loss": [
+      "EquitySecuritiesFvNiGainLoss",
+      "equity_securities_fv_ni_gain_loss"
+    ],
+    "excise_and_sales_taxes": [
+      "ExciseAndSalesTaxes",
+      "excise_and_sales_taxes"
+    ],
+    "finance_lease_interest_expense": [
+      "FinanceLeaseInterestExpense",
+      "finance_lease_interest_expense"
+    ],
+    "finance_lease_liability_current": [
+      "FinanceLeaseLiabilityCurrent",
+      "finance_lease_liability_current"
+    ],
+    "finance_lease_liability_noncurrent": [
+      "FinanceLeaseLiabilityNoncurrent",
+      "finance_lease_liability_noncurrent"
+    ],
+    "finance_lease_right_of_use_asset": [
+      "FinanceLeaseRightOfUseAsset",
+      "finance_lease_right_of_use_asset"
+    ],
+    "finite_lived_intangible_assets_net": [
+      "FiniteLivedIntangibleAssetsNet",
+      "finite_lived_intangible_assets_net"
+    ],
+    "fulfillment_expense": [
+      "FulfillmentExpense",
+      "fulfillment_expense"
+    ],
+    "general_and_administrative": [
+      "GeneralAndAdministrativeExpense",
+      "general_and_administrative_expense"
+    ],
+    "goodwill": [
+      "Goodwill",
+      "goodwill"
+    ],
+    "goodwill_and_intangibles_net": [
+      "GoodwillAndIntangibleAssetsNet",
+      "goodwill_and_intangible_assets_net"
+    ],
+    "gross_margin_pct": [
+      "GrossProfitPercentToSales",
+      "gross_profit_percent_to_sales"
+    ],
+    "income_loss_from_continuing_operations": [
+      "IncomeLossFromContinuingOperations",
+      "income_loss_from_continuing_operations"
+    ],
+    "income_loss_from_continuing_operations_before_tax_and_extraordinary_items_nci": [
+      "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+      "income_loss_from_continuing_operations_before_income_taxes_extraordinary_items_noncontrolling_interest"
+    ],
+    "income_tax_expense_benefit_pct_of_sales": [
+      "IncomeTaxExpenseBenefitPercentToSales",
+      "income_tax_expense_benefit_percent_to_sales"
+    ],
+    "income_taxes_paid": [
+      "IncomeTaxesPaid",
+      "income_taxes_paid"
+    ],
+    "income_taxes_paid_net": [
+      "IncomeTaxesPaidNet",
+      "income_taxes_paid_net"
+    ],
+    "income_taxes_receivable": [
+      "IncomeTaxesReceivable",
+      "income_taxes_receivable"
+    ],
+    "intangible_assets_other": [
+      "OtherIntangibleAssetsNet",
+      "other_intangible_assets_net"
+    ],
+    "interest_bearing_deposits_in_banks": [
+      "InterestBearingDepositsInBanks",
+      "interest_bearing_deposits_in_banks"
+    ],
+    "interest_expense_debt": [
+      "InterestExpenseDebt",
+      "interest_expense_debt"
+    ],
+    "interest_expense_nonoperating": [
+      "InterestExpenseNonoperating",
+      "interest_expense_nonoperating"
+    ],
+    "interest_expense": [
+      "InterestExpense",
+      "interest_expense"
+    ],
+    "interest_income_operating": [
+      "InterestIncomeOperating",
+      "interest_income_operating"
+    ],
+    "interest_paid": [
+      "InterestPaid",
+      "interest_paid"
+    ],
+    "inventory_net": [
+      "InventoryNet",
+      "inventory_net"
+    ],
+    "inventory_finished_goods": [
+      "InventoryFinishedGoods",
+      "inventory_finished_goods"
+    ],
+    "inventory_finished_goods_and_wip": [
+      "InventoryFinishedGoodsAndWorkInProcess",
+      "inventory_finished_goods_and_work_in_process"
+    ],
+    "inventory_finished_goods_net_of_reserves": [
+      "InventoryFinishedGoodsNetOfReserves",
+      "inventory_finished_goods_net_of_reserves"
+    ],
+    "inventory_parts_and_components_net_of_reserves": [
+      "InventoryPartsAndComponentsNetOfReserves",
+      "inventory_parts_and_components_net_of_reserves"
+    ],
+    "inventory_raw_materials": [
+      "InventoryRawMaterialsAndSupplies",
+      "inventory_raw_materials_and_supplies"
+    ],
+    "inventory_raw_materials_net_of_reserves": [
+      "InventoryRawMaterialsAndSuppliesNetOfReserves",
+      "inventory_raw_materials_and_supplies_net_of_reserves"
+    ],
+    "inventory_work_in_process": [
+      "InventoryWorkInProcess",
+      "inventory_work_in_process"
+    ],
+    "inventory_work_in_process_net_of_reserves": [
+      "InventoryWorkInProcessNetOfReserves",
+      "inventory_work_in_process_net_of_reserves"
+    ],
+    "investment_income_interest": [
+      "InvestmentIncomeInterest",
+      "investment_income_interest"
+    ],
+    "investment_income_interest_pct_of_sales": [
+      "InvestmentIncomeInterestPercentToSales",
+      "investment_income_interest_percent_to_sales"
+    ],
+    "labor_and_related_expense": [
+      "LaborAndRelatedExpense",
+      "labor_and_related_expense"
+    ],
+    "liabilities_disposal_group_including_discontinued_current": [
+      "LiabilitiesOfDisposalGroupIncludingDiscontinuedOperationCurrent",
+      "liabilities_of_disposal_group_including_discontinued_operation_current"
+    ],
+    "liabilities_disposal_group_including_discontinued_noncurrent": [
+      "LiabilitiesOfDisposalGroupIncludingDiscontinuedOperationNoncurrent",
+      "liabilities_of_disposal_group_including_discontinued_operation_noncurrent"
+    ],
+    "liabilities_of_assets_held_for_sale": [
+      "LiabilitiesOfAssetsHeldForSale",
+      "liabilities_of_assets_held_for_sale"
+    ],
+    "loans_receivable_net": [
+      "LoansReceivableNet",
+      "loans_receivable_net"
+    ],
+    "loans_receivable_net_of_deferred_income": [
+      "LoansReceivableNetofDeferredIncome",
+      "loans_receivable_netof_deferred_income"
+    ],
+    "long_term_debt_and_capital_leases": [
+      "LongTermDebtAndCapitalLeaseObligations",
+      "long_term_debt_and_capital_lease_obligations"
+    ],
+    "long_term_debt_and_capital_leases_current": [
+      "LongTermDebtAndCapitalLeaseObligationsCurrent",
+      "long_term_debt_and_capital_lease_obligations_current"
+    ],
+    "long_term_debt_and_capital_leases_incl_current": [
+      "LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities",
+      "long_term_debt_and_capital_lease_obligations_including_current_maturities"
+    ],
+    "long_term_debt_and_finance_leases_current": [
+      "LongTermDebtAndFinanceLeasesCurrent",
+      "long_term_debt_and_finance_leases_current"
+    ],
+    "long_term_debt_and_finance_leases_noncurrent": [
+      "LongTermDebtAndFinanceLeasesNoncurrent",
+      "long_term_debt_and_finance_leases_noncurrent"
+    ],
+    "long_term_debt_current": [
+      "LongTermDebtCurrent",
+      "long_term_debt_current"
+    ],
+    "long_term_investments": [
+      "LongTermInvestments",
+      "long_term_investments"
+    ],
+    "machinery_and_equipment_gross": [
+      "MachineryAndEquipmentGross",
+      "machinery_and_equipment_gross"
+    ],
+    "marketable_securities_current": [
+      "MarketableSecuritiesCurrent",
+      "marketable_securities_current"
+    ],
+    "marketable_securities_gain_loss": [
+      "MarketableSecuritiesGainLoss",
+      "marketable_securities_gain_loss"
+    ],
+    "marketable_securities_noncurrent": [
+      "MarketableSecuritiesNoncurrent",
+      "marketable_securities_noncurrent"
+    ],
+    "marketing_and_advertising_expense": [
+      "MarketingAndAdvertisingExpense",
+      "marketing_and_advertising_expense"
+    ],
+    "mortgage_servicing_rights": [
+      "MortgageServicingRights",
+      "mortgage_servicing_rights"
+    ],
+    "net_cash_flow_other_financing_activities": [
+      "ProceedsFromPaymentsForOtherFinancingActivities",
+      "proceeds_from_payments_for_other_financing_activities"
+    ],
+    "net_cash_flow_other_investing_activities": [
+      "PaymentsForProceedsFromOtherInvestingActivities",
+      "payments_for_proceeds_from_other_investing_activities"
+    ],
+    "net_income_loss_attributable_to_noncontrolling_interest_excl_redeemable": [
+      "NetIncomeLossAttributableToNoncontrollingInterestExcludingRedeemable",
+      "net_income_loss_attributable_to_noncontrolling_interest_excluding_redeemable"
+    ],
+    "net_income_loss_attributable_to_nonredeemable_nci": [
+      "NetIncomeLossAttributableToNonredeemableNoncontrollingInterest",
+      "net_income_loss_attributable_to_nonredeemable_noncontrolling_interest"
+    ],
+    "net_income_loss_attributable_to_redeemable_nci": [
+      "NetIncomeLossAttributableToRedeemableNoncontrollingInterest",
+      "net_income_loss_attributable_to_redeemable_noncontrolling_interest"
+    ],
+    "net_income_loss_available_to_common_stockholders_diluted": [
+      "NetIncomeLossAvailableToCommonStockholdersDiluted",
+      "net_income_loss_available_to_common_stockholders_diluted"
+    ],
+    "net_interest_expense_nonoperating": [
+      "InterestIncomeExpenseNonoperatingNet",
+      "interest_income_expense_nonoperating_net"
+    ],
+    "noncash_consideration": [
+      "NoncashConsideration",
+      "noncash_consideration"
+    ],
+    "noncash_consideration_received": [
+      "NoncashConsiderationReceived",
+      "noncash_consideration_received"
+    ],
+    "noncash_operating_lease_cost": [
+      "NoncashOperatingLeaseCost",
+      "noncash_operating_lease_cost"
+    ],
+    "oci_available_for_sale_securities_net_of_tax": [
+      "OtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentNetOfTax",
+      "other_comprehensive_income_loss_available_for_sale_securities_adjustment_net_of_tax"
+    ],
+    "oci_fx_translation_adjustment_net_of_tax": [
+      "OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationAdjustmentNetOfTax",
+      "other_comprehensive_income_loss_foreign_currency_transaction_and_translation_adjustment_net_of_tax"
+    ],
+    "operating_lease_liability_current": [
+      "OperatingLeaseLiabilityCurrent",
+      "operating_lease_liability_current"
+    ],
+    "operating_lease_liability_noncurrent": [
+      "OperatingLeaseLiabilityNoncurrent",
+      "operating_lease_liability_noncurrent"
+    ],
+    "operating_lease_right_of_use_asset": [
+      "OperatingLeaseRightOfUseAsset",
+      "operating_lease_right_of_use_asset"
+    ],
+    "other_assets": [
+      "OtherAssets",
+      "other_assets",
+      "TotalOtherAssets",
+      "totalotherassets",
+      "total_other_assets"
+    ],
+    "other_long_term_investments": [
+      "OtherLongTermInvestments",
+      "other_long_term_investments"
+    ],
+    "other_nonoperating_income_expense": [
+      "OtherNonoperatingIncomeExpense",
+      "other_nonoperating_income_expense"
+    ],
+    "other_operating_activities_cash_flow_statement": [
+      "OtherOperatingActivitiesCashFlowStatement",
+      "other_operating_activities_cash_flow_statement"
+    ],
+    "other_operating_income_expense_net": [
+      "OtherOperatingIncomeExpenseNet",
+      "other_operating_income_expense_net"
+    ],
+    "other_receivables_current": [
+      "NontradeReceivablesCurrent",
+      "nontrade_receivables_current"
+    ],
+    "payments_for_repurchase_of_common_stock": [
+      "PaymentsForRepurchaseOfCommonStock",
+      "payments_for_repurchase_of_common_stock"
+    ],
+    "payments_for_tax_withholding_share_based_comp": [
+      "PaymentsRelatedToTaxWithholdingForShareBasedCompensation",
+      "payments_related_to_tax_withholding_for_share_based_compensation"
+    ],
+    "payments_to_acquire_marketable_securities": [
+      "PaymentsToAcquireMarketableSecurities",
+      "payments_to_acquire_marketable_securities"
+    ],
+    "payments_to_acquire_other_investments": [
+      "PaymentsToAcquireOtherInvestments",
+      "payments_to_acquire_other_investments"
+    ],
+    "pension_and_postretirement_liabilities": [
+      "PensionAndOtherPostretirementDefinedBenefitPlansLiabilitiesNoncurrent",
+      "pension_and_other_postretirement_defined_benefit_plans_liabilities_noncurrent"
+    ],
+    "preferred_stock_including_apic_net_of_discount": [
+      "PreferredStockIncludingAdditionalPaidInCapitalNetOfDiscount",
+      "preferred_stock_including_additional_paid_in_capital_net_of_discount"
+    ],
+    "preferred_stock_par_value_per_share": [
+      "PreferredStockParOrStatedValuePerShare",
+      "preferred_stock_par_or_stated_value_per_share"
+    ],
+    "preferred_stock_shares_authorized": [
+      "PreferredStockSharesAuthorized",
+      "preferred_stock_shares_authorized"
+    ],
+    "preferred_stock_shares_issued": [
+      "PreferredStockSharesIssued",
+      "preferred_stock_shares_issued"
+    ],
+    "preferred_stock_shares_outstanding": [
+      "PreferredStockSharesOutstanding",
+      "preferred_stock_shares_outstanding"
+    ],
+    "preferred_stock_value": [
+      "PreferredStockValue",
+      "preferred_stock_value"
+    ],
+    "preferred_stocks_value": [
+      "PreferredStocksValue",
+      "preferred_stocks_value"
+    ],
+    "prepaid_expenses_and_other_current_assets": [
+      "PrepaidExpenseAndOtherAssetsCurrent",
+      "prepaid_expense_and_other_assets_current"
+    ],
+    "prepaid_expenses_and_other_receivables": [
+      "PrepaidExpensesAndOtherReceivables",
+      "prepaid_expenses_and_other_receivables"
+    ],
+    "prepaid_revenue_share_and_other_current_assets": [
+      "PrepaidRevenueShareExpensesAndOtherAssetsCurrent",
+      "prepaid_revenue_share_expenses_and_other_assets_current",
+      "goog_PrepaidRevenueShareExpensesAndOtherAssetsCurrent"
+    ],
+    "proceeds_from_sale_and_maturity_of_marketable_securities": [
+      "ProceedsFromSaleAndMaturityOfMarketableSecurities",
+      "proceeds_from_sale_and_maturity_of_marketable_securities"
+    ],
+    "proceeds_from_sale_of_equity_securities_fvni": [
+      "ProceedsFromSaleOfEquitySecuritiesFvNi",
+      "proceeds_from_sale_of_equity_securities_fv_ni"
+    ],
+    "proceeds_from_sale_of_pp_and_e": [
+      "ProceedsFromSaleOfPropertyPlantAndEquipment",
+      "proceeds_from_sale_of_property_plant_and_equipment"
+    ],
+    "proceeds_from_sales_of_alternative_investments": [
+      "ProceedsFromSalesOfAlternativeInvestments",
+      "proceeds_from_sales_of_alternative_investments"
+    ],
+    "proceeds_from_stock_options_exercised": [
+      "ProceedsFromStockOptionsExercised",
+      "proceeds_from_stock_options_exercised"
+    ],
+    "production_and_manufacturing_expenses": [
+      "ProductionAndManufacturingExpenses",
+      "production_and_manufacturing_expenses"
+    ],
+    "professional_and_contract_services_expense": [
+      "ProfessionalAndContractServicesExpense",
+      "professional_and_contract_services_expense"
+    ],
+    "property_plant_and_equipment_and_capitalized_software": [
+      "PropertyPlantAndEquipmentAndCapitalizedSoftwareNet",
+      "property_plant_and_equipment_and_capitalized_software_net"
+    ],
+    "property_plant_and_equipment_gross": [
+      "PropertyPlantAndEquipmentGross",
+      "property_plant_and_equipment_gross",
+      "property_plant_and_equipment",
+      "fixed_assets",
+      "Fixed Assets"
+    ],
+    "provision_for_loan_lease_and_other_losses_excl_policy_conformity": [
+      "ProvisionForLoanLeaseAndOtherLossesExcludingAccountingPolicyConformity",
+      "provision_for_loan_lease_and_other_losses_excluding_accounting_policy_conformity"
+    ],
+    "revenue_from_contract_with_customer_excl_tax": [
+      "RevenueFromContractWithCustomerExcludingAssessedTax",
+      "revenue_from_contract_with_customer_excluding_assessed_tax"
+    ],
+    "revenue_from_goods": [
+      "SalesRevenueGoodsNet",
+      "sales_revenue_goods_net"
+    ],
+    "revenue_from_services": [
+      "SalesRevenueServicesNet",
+      "sales_revenue_services_net"
+    ],
+    "revenue_from_services_and_other": [
+      "SalesRevenueServicesAndOtherNet",
+      "sales_revenue_services_and_other_net"
+    ],
+    "sales_and_other_operating_revenue_incl_sales_based_taxes": [
+      "SalesAndOtherOperatingRevenueIncludingSalesBasedTaxes",
+      "sales_and_other_operating_revenue_including_sales_based_taxes"
+    ],
+    "sales_revenue_goods_net_pct_of_sales": [
+      "SalesRevenueGoodsNetPercentToSales",
+      "sales_revenue_goods_net_percent_to_sales"
+    ],
+    "securities_gains": [
+      "SecuritiesGains",
+      "securities_gains"
+    ],
+    "selling_and_marketing_expense": [
+      "SellingAndMarketingExpense",
+      "selling_and_marketing_expense"
+    ],
+    "share_based_compensation": [
+      "ShareBasedCompensation",
+      "share_based_compensation"
+    ],
+    "unrealized_gain_loss_on_investments": [
+      "UnrealizedGainLossOnInvestments",
+      "unrealized_gain_loss_on_investments"
+    ],
+    "taxes_paid_for_net_share_settlement_equity_awards": [
+      "AccruedTaxesRelatedToNetShareSettlementOfEquityAwards",
+      "accrued_taxes_related_to_net_share_settlement_of_equity_awards"
+    ],
+    "step_acquisition_remeasurement_gain": [
+      "BusinessCombinationStepAcquisitionEquityInterestInAcquireeRemeasurementGain",
+      "business_combination_step_acquisition_equity_interest_in_acquiree_remeasurement_gain"
+    ],
+    "payments_to_acquire_businesses_net_of_cash_acquired": [
+      "PaymentsToAcquireBusinessesNetOfCashAcquired",
+      "payments_to_acquire_businesses_net_of_cash_acquired"
+    ],
+    "oci_net_of_tax_attributable_to_noncontrolling_interest": [
+      "OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToNoncontrollingInterest",
+      "other_comprehensive_income_loss_net_of_tax_portion_attributable_to_noncontrolling_interest"
+    ],
+    "cash_acquired_in_excess_of_payments_to_acquire_business": [
+      "CashAcquiredInExcessOfPaymentsToAcquireBusiness",
+      "cash_acquired_in_excess_of_payments_to_acquire_business"
+    ],
+    "proceeds_from_sale_of_other_assets": [
+      "ProceedsFromSaleOfOtherAssetsInvestingActivities",
+      "proceeds_from_sale_of_other_assets_investing_activities"
+    ],
+    "proceeds_from_issuance_of_common_stock": [
+      "ProceedsFromIssuanceOfCommonStock",
+      "proceeds_from_issuance_of_common_stock"
+    ],
+    "proceeds_from_debt_net_of_issuance_costs": [
+      "ProceedsFromDebtNetOfIssuanceCosts",
+      "proceeds_from_debt_net_of_issuance_costs"
+    ],
+    "stock_conversion_amount": [
+      "ConversionOfStockAmountConverted1",
+      "conversion_of_stock_amount_converted1"
+    ],
+    "asset_impairment_charges": [
+      "AssetImpairmentCharges",
+      "asset_impairment_charges"
+    ],
+    "unrealized_and_realized_gain_loss_from_marketable_securities_net": [
+      "UnrealizedAndRealizedLossGainFromMarketableSecuritiesNet",
+      "unrealized_and_realized_loss_gain_from_marketable_securities_net"
+    ],
+    "payments_to_acquire_equity_method_investments": [
+      "PaymentsToAcquireEquityMethodInvestments",
+      "payments_to_acquire_equity_method_investments"
+    ],
+    "proceeds_from_equity_method_investment_dividends_or_return_of_capital": [
+      "ProceedsFromEquityMethodInvestmentDividendsOrDistributionsReturnOfCapital",
+      "proceeds_from_equity_method_investment_dividends_or_distributions_return_of_capital"
+    ],
+    "payments_for_repurchase_of_redeemable_convertible_preferred_stock": [
+      "PaymentsForRepurchaseOfRedeemableConvertiblePreferredStock",
+      "payments_for_repurchase_of_redeemable_convertible_preferred_stock"
+    ],
+    "payments_for_repurchase_of_convertible_preferred_stock": [
+      "PaymentsForRepurchaseOfConvertiblePreferredStock",
+      "payments_for_repurchase_of_convertible_preferred_stock"
+    ],
+    "short_term_borrowings": [
+      "ShortTermBorrowings",
+      "short_term_borrowings"
+    ],
+    "short_term_borrowings_other": [
+      "OtherShortTermBorrowings",
+      "other_short_term_borrowings"
+    ],
+    "short_term_debt": [
+      "DebtCurrent",
+      "debt_current"
+    ],
+    "short_term_investments": [
+      "ShortTermInvestments",
+      "short_term_investments"
+    ],
+    "technology_and_content_expense": [
+      "TechnologyAndContentExpense",
+      "technology_and_content_expense"
+    ],
+    "technology_and_infrastructure_expense": [
+      "TechnologyAndInfrastructureExpense",
+      "technology_and_infrastructure_expense"
+    ],
+    "technology_communications_and_equipment_expense": [
+      "TechnologyCommunicationsAndEquipmentExpense",
+      "technology_communications_and_equipment_expense"
+    ],
+    "temporary_equity_attributable_to_parent_and_nci": [
+      "TemporaryEquityCarryingAmountAttributableToParentNoncontrollingInterest",
+      "temporary_equity_carrying_amount_attributable_to_parent_noncontrolling_interest"
+    ],
+    "total_revenues_and_other_income": [
+      "TotalRevenuesAndOtherIncome",
+      "total_revenues_and_other_income"
+    ],
+    "reclassification_redeemable_convertible_pref_stock_option_expiration": [
+      "ReclassificationOfRedeemableConvertiblePreferredStockIntoConvertiblePreferredStockUponExpirationOfRedemptionOption",
+      "reclassification_of_redeemable_convertible_preferred_stock_into_convertible_preferred_stock_upon_expiration_of_redemption_option"
+    ],
+    "other_comprehensive_income_unrealized_holding_gain_loss_on_securities_arising_during_period_net_of_tax": [
+      "OtherComprehensiveIncomeUnrealizedHoldingGainLossOnSecuritiesArisingDuringPeriodNetOfTax",
+      "other_comprehensive_income_unrealized_holding_gain_loss_on_securities_arising_during_period_net_of_tax"
+    ],
+    "other_comprehensive_income_loss_available_for_sale_securities_adjustment_and_other_net_of_tax": [
+      "OtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentAndOtherNetOfTax",
+      "other_comprehensive_income_loss_available_for_sale_securities_adjustment_and_other_net_of_tax",
+      "OtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentAndOtherNetOfTax",
+      "other_comprehensive_income_loss_available_for_sale_securities_adjustment_and_other_netof_tax",
+      "fb_OtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentAndOtherNetOfTax"
+    ],
+    "allocated_share_based_compensation_expense": [
+      "AllocatedShareBasedCompensationExpense",
+      "allocated_share_based_compensation_expense"
+    ],
+    "accounts_payable_trade_current": [
+      "AccountsPayableTradeCurrent",
+      "accounts_payable_trade_current"
+    ],
+    "accrued_income_taxes_noncurrent": [
+      "AccruedIncomeTaxesNoncurrent",
+      "accrued_income_taxes_noncurrent"
+    ],
+    "nonmarketable_equity_securities_carrying_value": [
+      "NonmarketableEquitySecuritiesCarryingValue",
+      "nonmarketable_equity_securities_carrying_value",
+      "fb_NonmarketableEquitySecuritiesCarryingValue"
+    ],
+    "accounts_payable_other_current": [
+      "AccountsPayableOtherCurrent",
+      "accounts_payable_other_current"
+    ],
+    "intangible_assets_net_excluding_goodwill": [
+      "IntangibleAssetsNetExcludingGoodwill",
+      "intangible_assets_net_excluding_goodwill"
+    ],
+    "contract_with_customer_liability_and_unused_deposits": [
+      "ContractWithCustomerLiabilityAndUnusedDeposits",
+      "contract_with_customer_liability_and_unused_deposits",
+      "fb_ContractWithCustomerLiabilityAndUnusedDeposits"
+    ],
+    "acquisition_of_business_and_intangible_assets": [
+      "AcquisitionOfBusinessAndIntangibleAssets",
+      "acquisition_of_business_and_intangible_assets"
+    ],
+    "capital_expenditures_incurred_but_not_yet_paid": [
+      "CapitalExpendituresIncurredButNotYetPaid",
+      "capital_expenditures_incurred_but_not_yet_paid"
+    ],
+    "equity_securities_fv_ni_unrealized_gain_loss": [
+      "EquitySecuritiesFvNiUnrealizedGainLoss",
+      "equity_securities_fv_ni_unrealized_gain_loss"
+    ],
+    "finance_lease_principal_payments": [
+      "FinanceLeasePrincipalPayments",
+      "finance_lease_principal_payments"
+    ],
+    "increase_decrease_in_accounts_payable_trade": [
+      "IncreaseDecreaseInAccountsPayableTrade",
+      "increase_decrease_in_accounts_payable_trade"
+    ],
+    "increase_decrease_in_other_operating_assets": [
+      "IncreaseDecreaseInOtherOperatingAssets",
+      "increase_decrease_in_other_operating_assets"
+    ],
+    "other_noncash_income_expense": [
+      "OtherNoncashIncomeExpense",
+      "other_noncash_income_expense"
+    ],
+    "payments_for_equity_securities_without_readily_determinable_fair_value": [
+      "PaymentsForEquitySecuritiesWithoutReadilyDeterminableFairValue",
+      "payments_for_equity_securities_without_readily_determinable_fair_value",
+      "fb_PaymentsForEquitySecuritiesWithoutReadilyDeterminableFairValue"
+    ],
+    "payments_for_held_for_sale_assets": [
+      "PaymentsForHeldForSaleAssets",
+      "payments_for_held_for_sale_assets"
+    ],
+    "payments_of_dividends": [
+      "PaymentsOfDividends",
+      "payments_of_dividends"
+    ],
+    "payments_to_acquire_available_for_sale_securities_debt": [
+      "PaymentsToAcquireAvailableForSaleSecuritiesDebt",
+      "payments_to_acquire_available_for_sale_securities_debt"
+    ],
+    "payments_to_acquire_businesses_net_of_cash_acquired_and_purchases_of_intangible_and_other_assets": [
+      "PaymentsToAcquireBusinessesNetOfCashAcquiredAndPurchasesOfIntangibleAndOtherAssets",
+      "payments_to_acquire_businesses_net_of_cash_acquired_and_purchases_of_intangible_and_other_assets",
+      "fb_PaymentsToAcquireBusinessesNetOfCashAcquiredAndPurchasesOfIntangibleAndOtherAssets"
+    ],
+    "proceeds_from_issuance_of_long_term_debt": [
+      "ProceedsFromIssuanceOfLongTermDebt",
+      "proceeds_from_issuance_of_long_term_debt"
+    ],
+    "proceeds_from_sale_and_maturity_of_available_for_sale_securities": [
+      "ProceedsFromSaleAndMaturityOfAvailableForSaleSecurities",
+      "proceeds_from_sale_and_maturity_of_available_for_sale_securities"
+    ],
+    "repurchase_of_common_stock_in_accrued_expenses_and_other_current_liabilities": [
+      "RepurchaseOfCommonStockInAccruedExpensesAndOtherCurrentLiabilities",
+      "repurchase_of_common_stock_in_accrued_expenses_and_other_current_liabilities",
+      "fb_RepurchaseOfCommonStockInAccruedExpensesAndOtherCurrentLiabilities"
+    ],
+    "impairment_of_long_lived_assets_held_for_use": [
+      "ImpairmentOfLongLivedAssetsHeldForUse",
+      "impairment_of_long_lived_assets_held_for_use"
+    ],
+    "acquisition_incurred_but_not_yet_paid": [
+      "AcquisitionIncurredButNotYetPaid",
+      "acquisition_incurred_but_not_yet_paid",
+      "fb_AcquisitionIncurredButNotYetPaid"
+    ],
+    "increase_decrease_in_other_accounts_payable": [
+      "IncreaseDecreaseInOtherAccountsPayable",
+      "increase_decrease_in_other_accounts_payable"
+    ],
+    "other_significant_noncash_transaction": [
+      "OtherSignificantNoncashTransaction",
+      "other_significant_noncash_transaction",
+      "fb_OtherSignificantNoncashTransaction"
+    ],
+    "settlement_of_convertible_notes_in_exchange_of_equity_securities_in_other_current_assets": [
+      "SettlementOfConvertibleNotesInExchangeOfEquitySecuritiesInOtherCurrentAssets",
+      "settlement_of_convertible_notes_in_exchange_of_equity_securities_in_other_current_assets"
+    ],
+    "acquisition_of_businesses_in_accrued_expenses_and_other_current_liabilities_and_other_liabilities": [
+      "AcquisitionOfBusinessesInAccruedExpensesAndOtherCurrentLiabilitiesAndOtherLiabilities",
+      "acquisition_of_businesses_in_accrued_expenses_and_other_current_liabilities_and_other_liabilities"
+    ],
+    "increase_decrease_in_contract_with_customer_liability_and_unused_deposits": [
+      "IncreaseDecreaseInContractWithCustomerLiabilityAndUnusedDeposits",
+      "increase_decrease_in_contract_with_customer_liability_and_unused_deposits"
+    ],
+    "payments_to_acquire_businesses_and_intangible_assets": [
+      "PaymentsToAcquireBusinessesAndIntangibleAssets",
+      "payments_to_acquire_businesses_and_intangible_assets"
+    ],
+    "proceeds_from_maturities_prepayments_and_calls_of_available_for_sale_securities": [
+      "ProceedsFromMaturitiesPrepaymentsAndCallsOfAvailableForSaleSecurities",
+      "proceeds_from_maturities_prepayments_and_calls_of_available_for_sale_securities"
+    ],
+    "proceeds_from_repayments_of_bank_overdrafts": [
+      "ProceedsFromRepaymentsOfBankOverdrafts",
+      "proceeds_from_repayments_of_bank_overdrafts"
+    ],
+    "proceeds_from_sale_of_available_for_sale_securities_debt": [
+      "ProceedsFromSaleOfAvailableForSaleSecuritiesDebt",
+      "proceeds_from_sale_of_available_for_sale_securities_debt"
+    ],
+    "settlement_of_conversion_notes_with_marketable_equity_securities": [
+      "SettlementOfConversionNotesWithMarketableEquitySecurities",
+      "settlement_of_conversion_notes_with_marketable_equity_securities"
+    ],
+    "deferred_income_taxes_and_tax_credits": [
+      "DeferredIncomeTaxesAndTaxCredits",
+      "deferred_income_taxes_and_tax_credits"
+    ],
+    "restructuring_charges": [
+      "RestructuringCharges",
+      "RestructuringCosts",
+      "restructuring_charges",
+      "restructuring_costs"
+    ],
+    "crypto_asset_realized_and_unrealized_gain_loss_nonoperating": [
+      "CryptoAssetRealizedAndUnrealizedGainLossNonoperating",
+      "crypto_asset_realized_and_unrealized_gain_loss_nonoperating"
+    ],
+    "crypto_asset_realized_and_unrealized_gain_loss_operating": [
+      "CryptoAssetRealizedAndUnrealizedGainLossOperating",
+      "crypto_asset_realized_and_unrealized_gain_loss_operating"
+    ],
+    "information_technology_and_data_processing": [
+      "InformationTechnologyAndDataProcessing",
+      "information_technology_and_data_processing"
+    ],
+    "other_comprehensive_income_loss_foreign_currency_transaction_and_translation_adjustment_before_tax": [
+      "OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationAdjustmentBeforeTax",
+      "other_comprehensive_income_loss_foreign_currency_transaction_and_translation_adjustment_before_tax"
+    ],
+    "other_comprehensive_income_loss_foreign_currency_translation_adjustment_tax": [
+      "OtherComprehensiveIncomeLossForeignCurrencyTranslationAdjustmentTax",
+      "other_comprehensive_income_loss_foreign_currency_translation_adjustment_tax"
+    ],
+    "crypto_asset_impairment_net": [
+      "CryptoAssetImpairmentNet",
+      "crypto_asset_impairment_net"
+    ],
+    "client_custodial_funds_current": [
+      "ClientCustodialFundsCurrent",
+      "client_custodial_funds_current"
+    ],
+    "crypto_asset_fair_value_borrowed": [
+      "CryptoAssetFairValueBorrowed",
+      "crypto_asset_fair_value_borrowed"
+    ],
+    "crypto_asset_fair_value_borrowings": [
+      "CryptoAssetFairValueBorrowings",
+      "crypto_asset_fair_value_borrowings"
+    ],
+    "crypto_asset_fair_value_held_as_collateral": [
+      "CryptoAssetFairValueHeldAsCollateral",
+      "crypto_asset_fair_value_held_as_collateral"
+    ],
+    "crypto_asset_fair_value_noncurrent": [
+      "CryptoAssetFairValueNoncurrent",
+      "crypto_asset_fair_value_noncurrent"
+    ],
+    "crypto_asset_fair_value_operations": [
+      "CryptoAssetFairValueOperations",
+      "crypto_asset_fair_value_operations"
+    ],
+    "crypto_currency_current": [
+      "CryptoCurrencyCurrent",
+      "crypto_currency_current"
+    ],
+    "custodial_cash_liabilities_current": [
+      "CustodialCashLiabilitiesCurrent",
+      "custodial_cash_liabilities_current"
+    ],
+    "equity_securities_fv_ni_and_without_readily_determinable_fair_value": [
+      "EquitySecuritiesFvNiAndWithoutReadilyDeterminableFairValue",
+      "equity_securities_fv_ni_and_without_readily_determinable_fair_value"
+    ],
+    "financing_receivable_excluding_accrued_interest_before_allowance_for_credit_loss_current": [
+      "FinancingReceivableExcludingAccruedInterestBeforeAllowanceForCreditLossCurrent",
+      "financing_receivable_excluding_accrued_interest_before_allowance_for_credit_loss_current"
+    ],
+    "obligation_to_return_collateral": [
+      "ObligationToReturnCollateral",
+      "obligation_to_return_collateral"
+    ],
+    "safeguarding_asset_platform_operator_crypto_asset": [
+      "SafeguardingAssetPlatformOperatorCryptoAsset",
+      "safeguarding_asset_platform_operator_crypto_asset"
+    ],
+    "safeguarding_liability_platform_operator_crypto_asset": [
+      "SafeguardingLiabilityPlatformOperatorCryptoAsset",
+      "safeguarding_liability_platform_operator_crypto_asset"
+    ],
+    "client_custodial_cash_current": [
+      "ClientCustodialCashCurrent",
+      "client_custodial_cash_current"
+    ],
+    "crypto_asset_fair_value": [
+      "CryptoAssetFairValue",
+      "crypto_asset_fair_value"
+    ],
+    "accounts_notes_and_loans_receivable_net_current": [
+      "AccountsNotesAndLoansReceivableNetCurrent",
+      "accounts_notes_and_loans_receivable_net_current"
+    ],
+    "derivative_liabilities_current": [
+      "DerivativeLiabilitiesCurrent",
+      "derivative_liabilities_current"
+    ],
+    "indefinite_lived_crypto_assets": [
+      "IndefiniteLivedCryptoAssets",
+      "indefinite_lived_crypto_assets"
+    ],
+    "intangible_assets_net_excluding_goodwill_and_indefinite_lived_crypto_assets": [
+      "IntangibleAssetsNetExcludingGoodwillAndIndefiniteLivedCryptoAssets",
+      "intangible_assets_net_excluding_goodwill_and_indefinite_lived_crypto_assets"
+    ],
+    "custodial_cash_due_to_clients_current": [
+      "CustodialCashDueToClientsCurrent",
+      "custodial_cash_due_to_clients_current"
+    ],
+    "custodial_funds_due_to_clients_current": [
+      "CustodialFundsDueToClientsCurrent",
+      "custodial_funds_due_to_clients_current"
+    ],
+    "increase_decrease_in_deposits": [
+      "IncreaseDecreaseInDeposits",
+      "increase_decrease_in_deposits"
+    ],
+    "increase_decrease_in_operating_capital": [
+      "IncreaseDecreaseInOperatingCapital",
+      "increase_decrease_in_operating_capital"
+    ],
+    "payments_for_capped_calls_purchase_financing_activities": [
+      "PaymentsForCappedCallsPurchaseFinancingActivities",
+      "payments_for_capped_calls_purchase_financing_activities"
+    ],
+    "payments_for_collateral_assets_returned": [
+      "PaymentsForCollateralAssetsReturned",
+      "payments_for_collateral_assets_returned"
+    ],
+    "payments_to_acquire_indefinite_lived_intangible_crypto_assets": [
+      "PaymentsToAcquireIndefiniteLivedIntangibleCryptoAssets",
+      "payments_to_acquire_indefinite_lived_intangible_crypto_assets"
+    ],
+    "payments_to_issue_loans": [
+      "PaymentsToIssueLoans",
+      "payments_to_issue_loans"
+    ],
+    "proceeds_from_assets_received_as_collateral": [
+      "ProceedsFromAssetsReceivedAsCollateral",
+      "proceeds_from_assets_received_as_collateral"
+    ],
+    "proceeds_from_collection_of_loans": [
+      "ProceedsFromCollectionOfLoans",
+      "proceeds_from_collection_of_loans"
+    ],
+    "proceeds_from_convertible_debt": [
+      "ProceedsFromConvertibleDebt",
+      "proceeds_from_convertible_debt"
+    ],
+    "proceeds_from_disposal_of_indefinite_lived_crypto_assets": [
+      "ProceedsFromDisposalOfIndefiniteLivedCryptoAssets",
+      "proceeds_from_disposal_of_indefinite_lived_crypto_assets"
+    ],
+    "crypto_asset_impairment_charges": [
+      "CryptoAssetImpairmentCharges",
+      "crypto_asset_impairment_charges"
+    ],
+    "gain_loss_on_indefinite_lived_crypto_future_contracts": [
+      "GainLossOnIndefiniteLivedCryptoFutureContracts",
+      "gain_loss_on_indefinite_lived_crypto_future_contracts"
+    ],
+    "gains_losses_on_extinguishment_of_debt": [
+      "GainsLossesOnExtinguishmentOfDebt",
+      "gains_losses_on_extinguishment_of_debt"
+    ],
+    "indefinite_lived_crypto_assets_received_as_revenue": [
+      "IndefiniteLivedCryptoAssetsReceivedAsRevenue",
+      "indefinite_lived_crypto_assets_received_as_revenue"
+    ],
+    "operating_lease_non_cash_expenses": [
+      "OperatingLeaseNonCashExpenses",
+      "operating_lease_non_cash_expenses"
+    ],
+    "payments_for_operating_expenses_by_indefinite_lived_intangible_crypto_assets": [
+      "PaymentsForOperatingExpensesByIndefiniteLivedIntangibleCryptoAssets",
+      "payments_for_operating_expenses_by_indefinite_lived_intangible_crypto_assets"
+    ],
+    "payments_to_settle_crypto_hedge_derivatives": [
+      "PaymentsToSettleCryptoHedgeDerivatives",
+      "payments_to_settle_crypto_hedge_derivatives"
+    ],
+    "repayments_of_long_term_debt": [
+      "RepaymentsOfLongTermDebt",
+      "repayments_of_long_term_debt"
+    ],
+    "share_based_payment_arrangement_expense_restructuring": [
+      "ShareBasedPaymentArrangementExpenseRestructuring",
+      "share_based_payment_arrangement_expense_restructuring"
+    ],
+    "capital_lease_obligations_incurred": [
+      "CapitalLeaseObligationsIncurred",
+      "capital_lease_obligations_incurred"
+    ],
+    "crypto_asset_realized_and_unrealized_gain_loss_operating_and_nonoperating": [
+      "CryptoAssetRealizedAndUnrealizedGainLossOperatingAndNonoperating",
+      "crypto_asset_realized_and_unrealized_gain_loss_operating_and_nonoperating"
+    ],
+    "gain_loss_on_crypto_assets_borrowed_and_crypto_asset_borrowings": [
+      "GainLossOnCryptoAssetsBorrowedAndCryptoAssetBorrowings",
+      "gain_loss_on_crypto_assets_borrowed_and_crypto_asset_borrowings"
+    ],
+    "repayments_of_convertible_debt": [
+      "RepaymentsOfConvertibleDebt",
+      "repayments_of_convertible_debt"
+    ],
+    "asset_and_liabilities_fair_value_adjustment_of_derivatives": [
+      "AssetAndLiabilitiesFairValueAdjustmentOfDerivatives",
+      "asset_and_liabilities_fair_value_adjustment_of_derivatives"
+    ],
+    "foreign_currency_transaction_gain_loss_unrealized": [
+      "ForeignCurrencyTransactionGainLossUnrealized",
+      "foreign_currency_transaction_gain_loss_unrealized"
+    ],
+    "gain_loss_on_indefinite_lived_crypto_assets": [
+      "GainLossOnIndefiniteLivedCryptoAssets",
+      "gain_loss_on_indefinite_lived_crypto_assets"
+    ],
+    "proceeds_from_stock_plans": [
+      "ProceedsFromStockPlans",
+      "proceeds_from_stock_plans"
+    ],
+    "asset_acquisition_fair_value_adjustment_of_contingent_consideration": [
+      "AssetAcquisitionFairValueAdjustmentOfContingentConsideration",
+      "asset_acquisition_fair_value_adjustment_of_contingent_consideration"
+    ],
+    "equity_method_investment_other_than_temporary_impairment": [
+      "EquityMethodInvestmentOtherThanTemporaryImpairment",
+      "equity_method_investment_other_than_temporary_impairment"
+    ],
+    "gain_loss_on_investments": [
+      "GainLossOnInvestments",
+      "gain_loss_on_investments"
+    ],
+    "gain_loss_on_sale_of_property_plant_equipment": [
+      "GainLossOnSaleOfPropertyPlantEquipment",
+      "gain_loss_on_sale_of_property_plant_equipment"
+    ],
+    "increase_decrease_in_crypto_currency": [
+      "IncreaseDecreaseInCryptoCurrency",
+      "increase_decrease_in_crypto_currency"
+    ],
+    "increase_decrease_in_deposit_other_assets": [
+      "IncreaseDecreaseInDepositOtherAssets",
+      "increase_decrease_in_deposit_other_assets"
+    ],
+    "increase_decrease_in_income_taxes_payable_net_of_income_taxes_receivable": [
+      "IncreaseDecreaseInIncomeTaxesPayableNetOfIncomeTaxesReceivable",
+      "increase_decrease_in_income_taxes_payable_net_of_income_taxes_receivable"
+    ],
+    "increase_decrease_in_operating_lease_liability": [
+      "IncreaseDecreaseInOperatingLeaseLiability",
+      "increase_decrease_in_operating_lease_liability"
+    ],
+    "increase_decrease_in_receivables": [
+      "IncreaseDecreaseInReceivables",
+      "increase_decrease_in_receivables"
+    ],
+    "noncash_or_part_noncash_acquisition_indefinite_lived_crypto_assets_and_investments": [
+      "NoncashOrPartNoncashAcquisitionIndefiniteLivedCryptoAssetsAndInvestments",
+      "noncash_or_part_noncash_acquisition_indefinite_lived_crypto_assets_and_investments"
+    ],
+    "noncash_or_part_noncash_acquisition_noncash_financial_or_equity_instrument_consideration": [
+      "NoncashOrPartNoncashAcquisitionNoncashFinancialOrEquityInstrumentConsideration",
+      "noncash_or_part_noncash_acquisition_noncash_financial_or_equity_instrument_consideration"
+    ],
+    "noncash_or_part_noncash_assets_pledged_as_collateral": [
+      "NoncashOrPartNoncashAssetsPledgedAsCollateral",
+      "noncash_or_part_noncash_assets_pledged_as_collateral"
+    ],
+    "noncash_or_part_noncash_assets_received_as_collateral": [
+      "NoncashOrPartNoncashAssetsReceivedAsCollateral",
+      "noncash_or_part_noncash_assets_received_as_collateral"
+    ],
+    "noncash_or_part_noncash_collateral_assets_received_returned": [
+      "NoncashOrPartNoncashCollateralAssetsReceivedReturned",
+      "noncash_or_part_noncash_collateral_assets_received_returned"
+    ],
+    "noncash_or_part_noncash_crypto_assets_borrowed": [
+      "NoncashOrPartNoncashCryptoAssetsBorrowed",
+      "noncash_or_part_noncash_crypto_assets_borrowed"
+    ],
+    "noncash_or_part_noncash_crypto_assets_borrowed_and_repaid": [
+      "NoncashOrPartNoncashCryptoAssetsBorrowedAndRepaid",
+      "noncash_or_part_noncash_crypto_assets_borrowed_and_repaid"
+    ],
+    "noncash_or_part_noncash_crypto_assets_disposed": [
+      "NoncashOrPartNoncashCryptoAssetsDisposed",
+      "noncash_or_part_noncash_crypto_assets_disposed"
+    ],
+    "noncash_or_part_noncash_crypto_loans_originated": [
+      "NoncashOrPartNoncashCryptoLoansOriginated",
+      "noncash_or_part_noncash_crypto_loans_originated"
+    ],
+    "noncash_or_part_noncash_crypto_loans_repaid": [
+      "NoncashOrPartNoncashCryptoLoansRepaid",
+      "noncash_or_part_noncash_crypto_loans_repaid"
+    ],
+    "noncash_or_part_noncash_pledged_collateral_assets_returned": [
+      "NoncashOrPartNoncashPledgedCollateralAssetsReturned",
+      "noncash_or_part_noncash_pledged_collateral_assets_returned"
+    ],
+    "noncash_or_part_noncash_realized_gain_on_indefinite_lived_crypto_assets_held_as_investments": [
+      "NoncashOrPartNoncashRealizedGainOnIndefiniteLivedCryptoAssetsHeldAsInvestments",
+      "noncash_or_part_noncash_realized_gain_on_indefinite_lived_crypto_assets_held_as_investments"
+    ],
+    "other_asset_impairment_charges": [
+      "OtherAssetImpairmentCharges",
+      "other_asset_impairment_charges"
+    ],
+    "payments_for_assets_pledged_as_collateral": [
+      "PaymentsForAssetsPledgedAsCollateral",
+      "payments_for_assets_pledged_as_collateral"
+    ],
+    "payments_for_indefinite_lived_intangible_crypto_asset_expense": [
+      "PaymentsForIndefiniteLivedIntangibleCryptoAssetExpense",
+      "payments_for_indefinite_lived_intangible_crypto_asset_expense"
+    ],
+    "payments_for_investments_noncash": [
+      "PaymentsForInvestmentsNoncash",
+      "payments_for_investments_noncash"
+    ],
+    "payments_to_acquire_investments": [
+      "PaymentsToAcquireInvestments",
+      "payments_to_acquire_investments"
+    ],
+    "payments_to_develop_software": [
+      "PaymentsToDevelopSoftware",
+      "payments_to_develop_software"
+    ],
+    "payments_to_issue_retail_loans": [
+      "PaymentsToIssueRetailLoans",
+      "payments_to_issue_retail_loans"
+    ],
+    "proceeds_from_assets_pledged_as_collateral": [
+      "ProceedsFromAssetsPledgedAsCollateral",
+      "proceeds_from_assets_pledged_as_collateral"
+    ],
+    "proceeds_from_collection_of_retail_loans": [
+      "ProceedsFromCollectionOfRetailLoans",
+      "proceeds_from_collection_of_retail_loans"
+    ],
+    "proceeds_from_issuance_of_loans_financing_activities": [
+      "ProceedsFromIssuanceOfLoansFinancingActivities",
+      "proceeds_from_issuance_of_loans_financing_activities"
+    ],
+    "proceeds_from_sale_maturity_and_collections_of_investments": [
+      "ProceedsFromSaleMaturityAndCollectionsOfInvestments",
+      "proceeds_from_sale_maturity_and_collections_of_investments"
+    ],
+    "provision_for_doubtful_accounts": [
+      "ProvisionForDoubtfulAccounts",
+      "provision_for_doubtful_accounts"
+    ],
+    "repayments_of_short_term_debt": [
+      "RepaymentsOfShortTermDebt",
+      "repayments_of_short_term_debt"
+    ],
+    "right_of_use_asset_obtained_in_exchange_for_operating_lease_liability": [
+      "RightOfUseAssetObtainedInExchangeForOperatingLeaseLiability",
+      "right_of_use_asset_obtained_in_exchange_for_operating_lease_liability"
+    ],
+    "unrealized_gain_loss_on_derivatives": [
+      "UnrealizedGainLossOnDerivatives",
+      "unrealized_gain_loss_on_derivatives"
+    ],
+    "increase_decrease_in_due_to_client_current": [
+      "IncreaseDecreaseInDueToClientCurrent",
+      "increase_decrease_in_due_to_client_current"
+    ],
+    "payments_for_derivative_instrument_financing_activities": [
+      "PaymentsForDerivativeInstrumentFinancingActivities",
+      "payments_for_derivative_instrument_financing_activities"
+    ],
+    "payments_to_acquire_other_productive_assets": [
+      "PaymentsToAcquireOtherProductiveAssets",
+      "payments_to_acquire_other_productive_assets"
+    ],
+    "proceeds_from_issuance_of_senior_long_term_debt": [
+      "ProceedsFromIssuanceOfSeniorLongTermDebt",
+      "proceeds_from_issuance_of_senior_long_term_debt"
+    ],
+    "proceeds_from_warrant_exercises": [
+      "ProceedsFromWarrantExercises",
+      "proceeds_from_warrant_exercises"
+    ],
+    "proceeds_from_short_term_debt": [
+      "ProceedsFromShortTermDebt",
+      "proceeds_from_short_term_debt"
+    ],
+    "payments_for_repurchase_of_equity": [
+      "PaymentsForRepurchaseOfEquity",
+      "payments_for_repurchase_of_equity"
+    ],
+    "payments_to_acquire_assets_investing_activities": [
+      "PaymentsToAcquireAssetsInvestingActivities",
+      "payments_to_acquire_assets_investing_activities"
+    ],
+    "stock_issued1": [
+      "StockIssued1",
+      "stock_issued1"
+    ],
+    "customer_deposit_current": [
+      "CustomerDepositCurrent",
+      "customer_deposit_current"
+    ],
+    "customer_deposit_noncurrent": [
+      "CustomerDepositNoncurrent",
+      "customer_deposit_noncurrent"
+    ],
+    "purchases_of_alternative_investments": [
+      "PurchasesOfAlternativeInvestments",
+      "purchases_of_alternative_investments"
+    ],
+    "repayments_of_debt": [
+      "RepaymentsOfDebt",
+      "repayments_of_debt"
+    ],
+    "marketable_securities_unrealized_gain_loss": [
+      "MarketableSecuritiesUnrealizedGainLoss",
+      "marketable_securities_unrealized_gain_loss"
+    ],
+    "receivable_from_the_exercise_of_stock_option": [
+      "ReceivableFromTheExerciseOfStockOption",
+      "receivable_from_the_exercise_of_stock_option"
+    ],
+    "cashless_net_exercise_of_warrants_for_convertible_preferred_stock": [
+      "CashlessNetExerciseOfWarrantsForConvertiblePreferredStock",
+      "cashless_net_exercise_of_warrants_for_convertible_preferred_stock"
+    ],
+    "fair_value_adjustment_of_warrants": [
+      "FairValueAdjustmentOfWarrants",
+      "fair_value_adjustment_of_warrants"
+    ],
+    "common_stock_issuance_costs_included_in_accounts_payable_and_accrued_liabilities": [
+      "CommonStockIssuanceCostsIncludedInAccountsPayableAndAccruedLiabilities",
+      "common_stock_issuance_costs_included_in_accounts_payable_and_accrued_liabilities"
+    ],
+    "revenue_from_contract_with_customer_including_assessed_tax": [
+      "RevenueFromContractWithCustomerIncludingAssessedTax",
+      "revenue_from_contract_with_customer_including_assessed_tax"
+    ],
+    "treasury_stock_value": [
+      "TreasuryStockValue",
+      "treasury_stock_value"
+    ],
+    "temporary_equity_accretion_to_redemption_value": [
+      "TemporaryEquityAccretionToRedemptionValue",
+      "temporary_equity_accretion_to_redemption_value"
+    ],
+    "proceeds_from_issuance_of_redeemable_convertible_preferred_stock": [
+      "ProceedsFromIssuanceOfRedeemableConvertiblePreferredStock",
+      "proceeds_from_issuance_of_redeemable_convertible_preferred_stock"
+    ],
+    "increase_decrease_in_deferred_rent_credit": [
+      "IncreaseDecreaseInDeferredRentCredit",
+      "increase_decrease_in_deferred_rent_credit"
+    ],
+    "equity_securities_without_readily_determinable_fair_value_amount": [
+      "EquitySecuritiesWithoutReadilyDeterminableFairValueAmount",
+      "equity_securities_without_readily_determinable_fair_value_amount"
+    ],
+    "accounts_payable_and_other_accrued_liabilities_current": [
+      "AccountsPayableAndOtherAccruedLiabilitiesCurrent",
+      "accounts_payable_and_other_accrued_liabilities_current"
+    ],
+    "increase_decrease_in_accounts_payable_and_other_operating_liabilities": [
+      "IncreaseDecreaseInAccountsPayableAndOtherOperatingLiabilities",
+      "increase_decrease_in_accounts_payable_and_other_operating_liabilities"
+    ],
+    "noncash_or_part_noncash_acquisition_and_other_investments_other_liabilities_assumed": [
+      "NoncashOrPartNoncashAcquisitionAndOtherInvestmentsOtherLiabilitiesAssumed",
+      "noncash_or_part_noncash_acquisition_and_other_investments_other_liabilities_assumed",
+      "fb_NoncashOrPartNoncashAcquisitionAndOtherInvestmentsOtherLiabilitiesAssumed"
+    ],
+    "noncash_or_part_noncash_acquisition_other_liabilities_assumed1": [
+      "NoncashOrPartNoncashAcquisitionOtherLiabilitiesAssumed1",
+      "noncash_or_part_noncash_acquisition_other_liabilities_assumed1"
+    ],
+    "undistributed_earnings_loss_allocated_to_participating_securities_basic": [
+      "UndistributedEarningsLossAllocatedToParticipatingSecuritiesBasic",
+      "undistributed_earnings_loss_allocated_to_participating_securities_basic"
+    ],
+    "increase_decrease_in_prepaids_and_liabilities_related_to_property_and_equipment_additions": [
+      "IncreaseDecreaseInPrepaidsAndLiabilitiesRelatedToPropertyAndEquipmentAdditions",
+      "increase_decrease_in_prepaids_and_liabilities_related_to_property_and_equipment_additions",
+      "fb_IncreaseDecreaseInPrepaidsAndLiabilitiesRelatedToPropertyAndEquipmentAdditions"
+    ],
+    "restructuring_and_other_expenses": [
+      "RestructuringAndOtherExpenses",
+      "restructuring_and_other_expenses"
+    ],
+    "net_loss_realized_and_included_in_net_income": [
+      "NetLossRealizedAndIncludedInNetIncome",
+      "net_loss_realized_and_included_in_net_income"
+    ],
+    "deferred_costs_leasing_net_noncurrent": [
+      "DeferredCostsLeasingNetNoncurrent",
+      "deferred_costs_leasing_net_noncurrent"
+    ],
+    "leased_assets_net": [
+      "LeasedAssetsNet",
+      "leased_assets_net"
+    ],
+    "digital_assets_net_non_current": [
+      "DigitalAssetsNetNonCurrent",
+      "digital_assets_net_non_current"
+    ],
+    "inventory_write_down": [
+      "InventoryWriteDown",
+      "inventory_write_down"
+    ],
+    "noncash_interest_income_expense_and_other_operating_activities": [
+      "NoncashInterestIncomeExpenseAndOtherOperatingActivities",
+      "noncash_interest_income_expense_and_other_operating_activities"
+    ],
+    "increase_decrease_in_inventories": [
+      "IncreaseDecreaseInInventories",
+      "increase_decrease_in_inventories"
+    ],
+    "increase_decrease_in_operating_lease_vehicles": [
+      "IncreaseDecreaseInOperatingLeaseVehicles",
+      "increase_decrease_in_operating_lease_vehicles"
+    ],
+    "proceeds_from_sale_of_short_term_investments": [
+      "ProceedsFromSaleOfShortTermInvestments",
+      "proceeds_from_sale_of_short_term_investments"
+    ],
+    "proceeds_from_issuance_of_debt": [
+      "ProceedsFromIssuanceOfDebt",
+      "proceeds_from_issuance_of_debt"
+    ],
+    "proceeds_from_issuance_of_shares_under_incentive_and_share_based_compensation_plans_including_stock_options": [
+      "ProceedsFromIssuanceOfSharesUnderIncentiveAndShareBasedCompensationPlansIncludingStockOptions",
+      "proceeds_from_issuance_of_shares_under_incentive_and_share_based_compensation_plans_including_stock_options"
+    ],
+    "payments_of_debt_issuance_costs": [
+      "PaymentsOfDebtIssuanceCosts",
+      "payments_of_debt_issuance_costs"
+    ],
+    "payments_to_minority_shareholders": [
+      "PaymentsToMinorityShareholders",
+      "payments_to_minority_shareholders"
+    ],
+    "payments_for_buy_outs_of_noncontrolling_interests_in_subsidiaries": [
+      "PaymentsForBuyOutsOfNoncontrollingInterestsInSubsidiaries",
+      "payments_for_buy_outs_of_noncontrolling_interests_in_subsidiaries"
+    ],
+    "noncash_or_part_noncash_acquisition_value_of_assets_acquired1": [
+      "NoncashOrPartNoncashAcquisitionValueOfAssetsAcquired1",
+      "noncash_or_part_noncash_acquisition_value_of_assets_acquired1"
+    ],
+    "right_of_use_asset_obtained_in_exchange_for_finance_lease_liability": [
+      "RightOfUseAssetObtainedInExchangeForFinanceLeaseLiability",
+      "right_of_use_asset_obtained_in_exchange_for_finance_lease_liability"
+    ],
+    "adjustment_for_net_loss_realized_and_included_in_net_income": [
+      "AdjustmentForNetLossRealizedAndIncludedInNetIncome",
+      "adjustment_for_net_loss_realized_and_included_in_net_income"
+    ],
+    "gain_on_digital_assets": [
+      "GainOnDigitalAssets",
+      "gain_on_digital_assets"
+    ],
+    "increase_decrease_in_contract_with_customer_liability_customer_deposits": [
+      "IncreaseDecreaseInContractWithCustomerLiabilityCustomerDeposits",
+      "increase_decrease_in_contract_with_customer_liability_customer_deposits"
+    ],
+    "proceeds_from_sales_of_digital_assets": [
+      "ProceedsFromSalesOfDigitalAssets",
+      "proceeds_from_sales_of_digital_assets"
+    ],
+    "payments_to_acquire_other_indefinite_lived_intangible_assets": [
+      "PaymentsToAcquireOtherIndefiniteLivedIntangibleAssets",
+      "payments_to_acquire_other_indefinite_lived_intangible_assets"
+    ],
+    "automotive_sales_revenue": [
+      "AutomotiveSalesRevenue",
+      "automotive_sales_revenue"
+    ],
+    "automotive_regulatory_credits": [
+      "AutomotiveRegulatoryCredits",
+      "automotive_regulatory_credits"
+    ],
+    "automotive_leasing": [
+      "AutomotiveLeasing",
+      "automotive_leasing"
+    ],
+    "automotive_revenues": [
+      "AutomotiveRevenues",
+      "automotive_revenues"
+    ],
+    "automotive_sales": [
+      "AutomotiveSales",
+      "automotive_sales"
+    ],
+    "direct_costs_of_leased_and_rented_property_or_equipment": [
+      "DirectCostsOfLeasedAndRentedPropertyOrEquipment",
+      "direct_costs_of_leased_and_rented_property_or_equipment"
+    ],
+    "repayments_of_convertible_and_other_debt": [
+      "RepaymentsOfConvertibleAndOtherDebt",
+      "repayments_of_convertible_and_other_debt"
+    ],
+    "gain_loss_on_digital_assets": [
+      "GainLossOnDigitalAssets",
+      "gain_loss_on_digital_assets"
+    ],
+    "purchase_of_digital_assets": [
+      "PurchaseOfDigitalAssets",
+      "purchase_of_digital_assets"
+    ],
+    "government_grant_receipt": [
+      "GovernmentGrantReceipt",
+      "government_grant_receipt"
+    ],
+    "proceeds_from_convertible_and_other_debt": [
+      "ProceedsFromConvertibleAndOtherDebt",
+      "proceeds_from_convertible_and_other_debt"
+    ],
+    "proceeds_from_repayments_of_secured_debt": [
+      "ProceedsFromRepaymentsOfSecuredDebt",
+      "proceeds_from_repayments_of_secured_debt"
+    ],
+    "proceeds_from_minority_shareholders": [
+      "ProceedsFromMinorityShareholders",
+      "proceeds_from_minority_shareholders"
+    ],
+    "operating_leases_income_statement_lease_revenue": [
+      "OperatingLeasesIncomeStatementLeaseRevenue",
+      "operating_leases_income_statement_lease_revenue"
+    ],
+    "foreign_currency_transaction_gain_loss_realized": [
+      "ForeignCurrencyTransactionGainLossRealized",
+      "foreign_currency_transaction_gain_loss_realized"
+    ],
+    "payments_to_acquire_intangible_assets": [
+      "PaymentsToAcquireIntangibleAssets",
+      "payments_to_acquire_intangible_assets"
+    ],
+    "sales_revenue_automotive": [
+      "SalesRevenueAutomotive",
+      "sales_revenue_automotive"
+    ],
+    "buy_out_of_noncontrolling_interest": [
+      "BuyOutOfNoncontrollingInterest",
+      "buy_out_of_noncontrolling_interest"
+    ],
+    "operating_cash_flow_related_to_repayment_of_discounted_convertible_senior_notes": [
+      "OperatingCashFlowRelatedToRepaymentOfDiscountedConvertibleSeniorNotes",
+      "operating_cash_flow_related_to_repayment_of_discounted_convertible_senior_notes"
+    ],
+    "business_combination_consideration_transferred_equity_interests_issued_and_issuable": [
+      "BusinessCombinationConsiderationTransferredEquityInterestsIssuedAndIssuable",
+      "business_combination_consideration_transferred_equity_interests_issued_and_issuable"
+    ],
+    "long_term_accounts_notes_and_loans_receivable_net_noncurrent": [
+      "LongTermAccountsNotesAndLoansReceivableNetNoncurrent",
+      "long_term_accounts_notes_and_loans_receivable_net_noncurrent"
+    ],
+    "resale_value_guarantees_current_portion": [
+      "ResaleValueGuaranteesCurrentPortion",
+      "resale_value_guarantees_current_portion"
+    ],
+    "resale_value_guarantees_noncurrent_portion": [
+      "ResaleValueGuaranteesNoncurrentPortion",
+      "resale_value_guarantees_noncurrent_portion"
+    ],
+    "operating_cash_flow_related_to_repayment_of_discounted_convertible_notes": [
+      "OperatingCashFlowRelatedToRepaymentOfDiscountedConvertibleNotes",
+      "operating_cash_flow_related_to_repayment_of_discounted_convertible_notes"
+    ],
+    "increase_decrease_in_resale_value_guarantee": [
+      "IncreaseDecreaseInResaleValueGuarantee",
+      "increase_decrease_in_resale_value_guarantee"
+    ],
+    "payments_of_financing_costs": [
+      "PaymentsOfFinancingCosts",
+      "payments_of_financing_costs"
+    ],
+    "payments_for_hedge_financing_activities": [
+      "PaymentsForHedgeFinancingActivities",
+      "payments_for_hedge_financing_activities"
+    ],
+    "proceeds_from_issuance_of_warrants": [
+      "ProceedsFromIssuanceOfWarrants",
+      "proceeds_from_issuance_of_warrants"
+    ],
+    "other_comprehensive_income_loss_cash_flow_hedge_gain_loss_before_reclassification_after_tax": [
+      "OtherComprehensiveIncomeLossCashFlowHedgeGainLossBeforeReclassificationAfterTax",
+      "other_comprehensive_income_loss_cash_flow_hedge_gain_loss_before_reclassification_after_tax"
+    ],
+    "other_comprehensive_income_loss_cash_flow_hedge_gain_loss_reclassification_after_tax": [
+      "OtherComprehensiveIncomeLossCashFlowHedgeGainLossReclassificationAfterTax",
+      "other_comprehensive_income_loss_cash_flow_hedge_gain_loss_reclassification_after_tax"
+    ],
+    "other_comprehensive_income_loss_cash_flow_hedge_gain_loss_after_reclassification_and_tax": [
+      "OtherComprehensiveIncomeLossCashFlowHedgeGainLossAfterReclassificationAndTax",
+      "other_comprehensive_income_loss_cash_flow_hedge_gain_loss_after_reclassification_and_tax"
+    ],
+    "preferred_stock_value_outstanding": [
+      "PreferredStockValueOutstanding",
+      "preferred_stock_value_outstanding"
+    ],
+    "increase_decrease_in_accrued_liabilities_and_other_operating_liabilities": [
+      "IncreaseDecreaseInAccruedLiabilitiesAndOtherOperatingLiabilities",
+      "increase_decrease_in_accrued_liabilities_and_other_operating_liabilities"
+    ],
+    "capital_expenditures": [
+      "PaymentsToAcquireProductiveAssets",
+      "payments_to_acquire_productive_assets"
+    ],
+    "payments_to_acquire_equity_securities_fv_ni": [
+      "PaymentsToAcquireEquitySecuritiesFvNi",
+      "payments_to_acquire_equity_securities_fv_ni"
+    ],
+    "payments_for_financed_property_plant_and_equipment_and_intangible_assets_financing_activities": [
+      "PaymentsForFinancedPropertyPlantAndEquipmentAndIntangibleAssetsFinancingActivities",
+      "payments_for_financed_property_plant_and_equipment_and_intangible_assets_financing_activities"
+    ],
+    "business_combination_advanced_consideration_written_off": [
+      "BusinessCombinationAdvancedConsiderationWrittenOff",
+      "business_combination_advanced_consideration_written_off"
+    ],
+    "other_comprehensive_income_loss_reclassification_adjustment_from_aoci_for_sale_of_securities_net_of_tax": [
+      "OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIForSaleOfSecuritiesNetOfTax",
+      "other_comprehensive_income_loss_reclassification_adjustment_from_aoci_for_sale_of_securities_net_of_tax"
+    ],
+    "other_comprehensive_income_availableforsale_securities_adjustment_net_of_tax_portion_attributable_to_parent": [
+      "OtherComprehensiveIncomeAvailableforsaleSecuritiesAdjustmentNetOfTaxPortionAttributableToParent",
+      "other_comprehensive_income_availableforsale_securities_adjustment_net_of_tax_portion_attributable_to_parent"
+    ],
+    "net_proceeds_payments_related_to_employee_stock_plans": [
+      "NetProceedsPaymentsRelatedToEmployeeStockPlans",
+      "net_proceeds_payments_related_to_employee_stock_plans"
+    ],
+    "purchases_of_property_and_equipment_and_intangible_assets": [
+      "PurchasesOfPropertyAndEquipmentAndIntangibleAssets",
+      "purchases_of_property_and_equipment_and_intangible_assets"
+    ],
+    "payments_for_financed_property_plant_and_equipment_financing_activities": [
+      "PaymentsForFinancedPropertyPlantAndEquipmentFinancingActivities",
+      "payments_for_financed_property_plant_and_equipment_financing_activities"
+    ],
+    "income_loss_from_continuing_operations_before_income_taxes_minority_interest_and_income_loss_from_equity_method_investments": [
+      "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+      "income_loss_from_continuing_operations_before_income_taxes_minority_interest_and_income_loss_from_equity_method_investments"
+    ],
+    "liabilities_assumed1": [
+      "LiabilitiesAssumed1",
+      "liabilities_assumed1"
+    ],
+    "other_comprehensive_income_loss_available_for_sale_securities_adjustment_before_tax": [
+      "OtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentBeforeTax",
+      "other_comprehensive_income_loss_available_for_sale_securities_adjustment_before_tax"
+    ],
+    "other_comprehensive_income_loss_reclassification_adjustment_from_aoci_on_derivatives_net_of_tax": [
+      "OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIOnDerivativesNetOfTax",
+      "other_comprehensive_income_loss_reclassification_adjustment_from_aoci_on_derivatives_net_of_tax"
+    ],
+    "other_comprehensive_income_unrealized_gain_loss_on_derivatives_arising_during_period_net_of_tax": [
+      "OtherComprehensiveIncomeUnrealizedGainLossOnDerivativesArisingDuringPeriodNetOfTax",
+      "other_comprehensive_income_unrealized_gain_loss_on_derivatives_arising_during_period_net_of_tax"
+    ],
+    "other_comprehensive_income_loss_net_of_tax_portion_attributable_to_parent": [
+      "OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent",
+      "other_comprehensive_income_loss_net_of_tax_portion_attributable_to_parent"
+    ],
+    "deferred_tax_assets_gross_noncurrent": [
+      "DeferredTaxAssetsGrossNoncurrent",
+      "deferred_tax_assets_gross_noncurrent"
+    ],
+    "proceedsfromsaleoflonglivedassetsandinvestments": [
+      "Proceedsfromsaleoflonglivedassetsandinvestments",
+      "proceedsfromsaleoflonglivedassetsandinvestments"
+    ],
+    "other_comprehensive_income_loss_derivative_instrument_gain_lossbefore_reclassificationafter_tax": [
+      "OtherComprehensiveIncomeLossDerivativeInstrumentGainLossbeforeReclassificationafterTax",
+      "other_comprehensive_income_loss_derivative_instrument_gain_lossbefore_reclassificationafter_tax"
+    ],
+    "other_comprehensive_income_loss_derivative_instrument_gain_loss_reclassification_after_tax": [
+      "OtherComprehensiveIncomeLossDerivativeInstrumentGainLossReclassificationAfterTax",
+      "other_comprehensive_income_loss_derivative_instrument_gain_loss_reclassification_after_tax"
+    ],
+    "other_comprehensive_income_loss_derivative_instrument_gain_lossafter_reclassificationand_tax": [
+      "OtherComprehensiveIncomeLossDerivativeInstrumentGainLossafterReclassificationandTax",
+      "other_comprehensive_income_loss_derivative_instrument_gain_lossafter_reclassificationand_tax"
+    ],
+    "commercial_paper": [
+      "CommercialPaper",
+      "commercial_paper"
+    ],
+    "increase_decrease_in_other_receivables": [
+      "IncreaseDecreaseInOtherReceivables",
+      "increase_decrease_in_other_receivables"
+    ],
+    "proceeds_from_repayments_of_commercial_paper": [
+      "ProceedsFromRepaymentsOfCommercialPaper",
+      "proceeds_from_repayments_of_commercial_paper"
+    ],
+    "proceeds_from_other_short_term_debt": [
+      "ProceedsFromOtherShortTermDebt",
+      "proceeds_from_other_short_term_debt"
+    ],
+    "proceeds_from_sale_and_maturity_of_other_investments": [
+      "ProceedsFromSaleAndMaturityOfOtherInvestments",
+      "proceeds_from_sale_and_maturity_of_other_investments"
+    ],
+    "employee_related_liabilities_current": [
+      "EmployeeRelatedLiabilitiesCurrent",
+      "employee_related_liabilities_current"
+    ],
+    "gain_loss_on_investments_and_derivative_instruments": [
+      "GainLossOnInvestmentsAndDerivativeInstruments",
+      "gain_loss_on_investments_and_derivative_instruments"
+    ],
+    "increase_decrease_in_other_current_assets": [
+      "IncreaseDecreaseInOtherCurrentAssets",
+      "increase_decrease_in_other_current_assets"
+    ],
+    "increase_decrease_in_accrued_income_taxes_payable": [
+      "IncreaseDecreaseInAccruedIncomeTaxesPayable",
+      "increase_decrease_in_accrued_income_taxes_payable"
+    ],
+    "increase_decrease_in_other_current_liabilities": [
+      "IncreaseDecreaseInOtherCurrentLiabilities",
+      "increase_decrease_in_other_current_liabilities"
+    ],
+    "proceeds_from_repayments_of_short_term_debt_maturing_in_three_months_or_less": [
+      "ProceedsFromRepaymentsOfShortTermDebtMaturingInThreeMonthsOrLess",
+      "proceeds_from_repayments_of_short_term_debt_maturing_in_three_months_or_less"
+    ],
+    "proceeds_from_debt_maturing_in_more_than_three_months": [
+      "ProceedsFromDebtMaturingInMoreThanThreeMonths",
+      "proceeds_from_debt_maturing_in_more_than_three_months"
+    ],
+    "repayments_of_debt_maturing_in_more_than_three_months": [
+      "RepaymentsOfDebtMaturingInMoreThanThreeMonths",
+      "repayments_of_debt_maturing_in_more_than_three_months"
+    ],
+    "payments_of_dividends_common_stock": [
+      "PaymentsOfDividendsCommonStock",
+      "payments_of_dividends_common_stock"
+    ],
+    "acquisitions_net_of_cash_acquired_and_purchases_of_intangible_and_other_assets": [
+      "AcquisitionsNetOfCashAcquiredAndPurchasesOfIntangibleAndOtherAssets",
+      "acquisitions_net_of_cash_acquired_and_purchases_of_intangible_and_other_assets",
+      "goog_AcquisitionsNetOfCashAcquiredAndPurchasesOfIntangibleAndOtherAssets"
+    ],
+    "proceeds_from_investments": [
+      "ProceedsFromInvestments",
+      "proceeds_from_investments"
+    ],
+    "proceeds_from_short_term_debt_maturing_in_three_months_or_less": [
+      "ProceedsFromShortTermDebtMaturingInThreeMonthsOrLess",
+      "proceeds_from_short_term_debt_maturing_in_three_months_or_less"
+    ],
+    "payments_of_debt_restructuring_costs": [
+      "PaymentsOfDebtRestructuringCosts",
+      "payments_of_debt_restructuring_costs"
+    ],
+    "effect_of_exchange_rate_on_cash_and_cash_equivalents": [
+      "EffectOfExchangeRateOnCashAndCashEquivalents",
+      "effect_of_exchange_rate_on_cash_and_cash_equivalents"
+    ],
+    "payments_of_debt_extinguishment_costs": [
+      "PaymentsOfDebtExtinguishmentCosts",
+      "payments_of_debt_extinguishment_costs"
+    ],
+    "costof_products_sold": [
+      "CostofProductsSold",
+      "costof_products_sold"
+    ],
+    "costof_subscriptionsand_services": [
+      "CostofSubscriptionsandServices",
+      "costof_subscriptionsand_services"
+    ],
+    "restructuring_charges_cost_of_products_sold": [
+      "RestructuringChargesCostOfProductsSold",
+      "restructuring_charges_cost_of_products_sold"
+    ],
+    "restructuring_settlement_and_impairment_provisions": [
+      "RestructuringSettlementAndImpairmentProvisions",
+      "restructuring_settlement_and_impairment_provisions"
+    ],
+    "income_loss_from_continuing_operations_including_portion_attributable_to_noncontrolling_interest": [
+      "IncomeLossFromContinuingOperationsIncludingPortionAttributableToNoncontrollingInterest",
+      "income_loss_from_continuing_operations_including_portion_attributable_to_noncontrolling_interest"
+    ],
+    "income_loss_from_continuing_operations_per_basic_share": [
+      "IncomeLossFromContinuingOperationsPerBasicShare",
+      "income_loss_from_continuing_operations_per_basic_share"
+    ],
+    "income_loss_from_discontinued_operations_net_of_tax_per_basic_share": [
+      "IncomeLossFromDiscontinuedOperationsNetOfTaxPerBasicShare",
+      "income_loss_from_discontinued_operations_net_of_tax_per_basic_share"
+    ],
+    "income_loss_from_continuing_operations_per_diluted_share": [
+      "IncomeLossFromContinuingOperationsPerDilutedShare",
+      "income_loss_from_continuing_operations_per_diluted_share"
+    ],
+    "income_loss_from_discontinued_operations_net_of_tax_per_diluted_share": [
+      "IncomeLossFromDiscontinuedOperationsNetOfTaxPerDilutedShare",
+      "income_loss_from_discontinued_operations_net_of_tax_per_diluted_share"
+    ],
+    "other_comprehensive_income_loss_reclassification_adjustment_from_aoci_pension_and_other_postretirement_benefit_plans_net_of_tax": [
+      "OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIPensionAndOtherPostretirementBenefitPlansNetOfTax",
+      "other_comprehensive_income_loss_reclassification_adjustment_from_aoci_pension_and_other_postretirement_benefit_plans_net_of_tax"
+    ],
+    "amortization_of_intangible_and_right_of_use_assets": [
+      "Amortizationofintangibleandrightofuseassets",
+      "amortizationofintangibleandrightofuseassets"
+    ],
+    "deferred_income_taxesand_other_noncash_tax_expense": [
+      "DeferredIncomeTaxesandOtherNoncashTaxExpense",
+      "deferred_income_taxesand_other_noncash_tax_expense"
+    ],
+    "increase_decrease_in_employee_related_liabilities": [
+      "IncreaseDecreaseInEmployeeRelatedLiabilities",
+      "increase_decrease_in_employee_related_liabilities"
+    ],
+    "increase_decrease_in_other_current_assets_and_liabilities_net": [
+      "IncreaseDecreaseInOtherCurrentAssetsAndLiabilitiesNet",
+      "increase_decrease_in_other_current_assets_and_liabilities_net"
+    ],
+    "increase_decrease_in_other_noncurrent_assets_and_liabilities_net": [
+      "IncreaseDecreaseInOtherNoncurrentAssetsAndLiabilitiesNet",
+      "increase_decrease_in_other_noncurrent_assets_and_liabilities_net"
+    ],
+    "proceeds_from_divestiture_of_businesses": [
+      "ProceedsFromDivestitureOfBusinesses",
+      "proceeds_from_divestiture_of_businesses"
+    ],
+    "preferred_stock_dividends_income_statement_impact": [
+      "PreferredStockDividendsIncomeStatementImpact",
+      "preferred_stock_dividends_income_statement_impact"
+    ],
+    "temporary_equity_preferred_stock_dividend_obligation": [
+      "TemporaryEquityPreferredStockDividendObligation",
+      "temporary_equity_preferred_stock_dividend_obligation"
+    ],
+    "restructuring_costs_and_asset_impairment_charges": [
+      "RestructuringCostsAndAssetImpairmentCharges",
+      "restructuring_costs_and_asset_impairment_charges"
+    ],
+    "proceeds_from_repayments_of_other_debt": [
+      "ProceedsFromRepaymentsOfOtherDebt",
+      "proceeds_from_repayments_of_other_debt"
+    ],
+    "preferred_stock_liquidation_preference_value": [
+      "PreferredStockLiquidationPreferenceValue",
+      "preferred_stock_liquidation_preference_value"
+    ],
+    "proceeds_from_other_debt": [
+      "ProceedsFromOtherDebt",
+      "proceeds_from_other_debt"
+    ],
+    "other_comprehensive_income_loss_cash_flow_hedge_gain_loss_after_reclassification_tax": [
+      "OtherComprehensiveIncomeLossCashFlowHedgeGainLossAfterReclassificationTax",
+      "other_comprehensive_income_loss_cash_flow_hedge_gain_loss_after_reclassification_tax"
+    ],
+    "other_comprehensive_income_loss_pension_and_other_postretirement_benefit_plans_adjustment_net_of_tax": [
+      "OtherComprehensiveIncomeLossPensionAndOtherPostretirementBenefitPlansAdjustmentNetOfTax",
+      "other_comprehensive_income_loss_pension_and_other_postretirement_benefit_plans_adjustment_net_of_tax"
+    ],
+    "proceeds_from_issuance_of_convertible_preferred_stock": [
+      "ProceedsFromIssuanceOfConvertiblePreferredStock",
+      "proceeds_from_issuance_of_convertible_preferred_stock"
+    ],
+    "litigation_settlement_expense": [
+      "LitigationSettlementExpense",
+      "litigation_settlement_expense"
+    ],
+    "costmethod_investments_other_than_temporary_impairment": [
+      "CostmethodInvestmentsOtherThanTemporaryImpairment",
+      "costmethod_investments_other_than_temporary_impairment"
+    ],
+    "pension_and_other_postretirement_benefit_contributions": [
+      "PensionAndOtherPostretirementBenefitContributions",
+      "pension_and_other_postretirement_benefit_contributions"
+    ],
+    "investment_income_nonoperating": [
+      "InvestmentIncomeNonoperating",
+      "investment_income_nonoperating"
+    ],
+    "other_comprehensive_income_other_net_of_tax": [
+      "OtherComprehensiveIncomeOtherNetOfTax",
+      "other_comprehensive_income_other_net_of_tax"
+    ],
+    "capitalized_contract_cost_net_current": [
+      "CapitalizedContractCostNetCurrent",
+      "capitalized_contract_cost_net_current"
+    ],
+    "capitalized_contract_cost_net_noncurrent": [
+      "CapitalizedContractCostNetNoncurrent",
+      "capitalized_contract_cost_net_noncurrent"
+    ],
+    "convertible_debt_noncurrent": [
+      "ConvertibleDebtNoncurrent",
+      "convertible_debt_noncurrent"
+    ],
+    "treasury_stock_common_value": [
+      "TreasuryStockCommonValue",
+      "treasury_stock_common_value"
+    ],
+    "noncash_operating_lease_costs": [
+      "NoncashOperatingLeaseCosts",
+      "noncash_operating_lease_costs"
+    ],
+    "increase_decrease_in_capitalized_contract_cost": [
+      "IncreaseDecreaseInCapitalizedContractCost",
+      "increase_decrease_in_capitalized_contract_cost"
+    ],
+    "increase_decrease_in_operating_lease_liabilities": [
+      "IncreaseDecreaseInOperatingLeaseLiabilities",
+      "increase_decrease_in_operating_lease_liabilities"
+    ],
+    "proceeds_from_sale_of_investments": [
+      "ProceedsFromSaleOfInvestments",
+      "proceeds_from_sale_of_investments"
+    ],
+    "payments_for_hedge_investing_activities": [
+      "PaymentsForHedgeInvestingActivities",
+      "payments_for_hedge_investing_activities"
+    ],
+    "payment_for_capped_calls_related_to_convertible_senior_notes": [
+      "PaymentForCappedCallsRelatedToConvertibleSeniorNotes",
+      "payment_for_capped_calls_related_to_convertible_senior_notes"
+    ],
+    "share_based_payment_arrangement_amount_capitalized_in_software_development_costs": [
+      "ShareBasedPaymentArrangementAmountCapitalizedInSoftwareDevelopmentCosts",
+      "share_based_payment_arrangement_amount_capitalized_in_software_development_costs"
+    ],
+    "liability_related_to_unpaid_taxes_tax_withholding_share_based_payment_arrangement": [
+      "LiabilityRelatedToUnpaidTaxesTaxWithholdingShareBasedPaymentArrangement",
+      "liability_related_to_unpaid_taxes_tax_withholding_share_based_payment_arrangement"
+    ],
+    "payment_for_contingent_consideration_liability_financing_activities": [
+      "PaymentForContingentConsiderationLiabilityFinancingActivities",
+      "payment_for_contingent_consideration_liability_financing_activities"
+    ],
+    "noncash_or_part_noncash_acquisition_intangible_assets_acquired1": [
+      "NoncashOrPartNoncashAcquisitionIntangibleAssetsAcquired1",
+      "noncash_or_part_noncash_acquisition_intangible_assets_acquired1"
+    ],
+    "other_comprehensive_income_foreign_currency_transaction_and_translation_adjustment_net_of_tax_portion_attributable_to_parent": [
+      "OtherComprehensiveIncomeForeignCurrencyTransactionAndTranslationAdjustmentNetOfTaxPortionAttributableToParent",
+      "other_comprehensive_income_foreign_currency_transaction_and_translation_adjustment_net_of_tax_portion_attributable_to_parent"
+    ],
+    "lessee_operating_leases_noncash_operating_costs": [
+      "LesseeOperatingLeasesNoncashOperatingCosts",
+      "lessee_operating_leases_noncash_operating_costs"
+    ],
+    "equity_securities_fvni_and_without_readily_determinable_fair_value_unrealized_gain_loss": [
+      "EquitySecuritiesFVNIAndWithoutReadilyDeterminableFairValueUnrealizedGainLoss",
+      "equity_securities_fvni_and_without_readily_determinable_fair_value_unrealized_gain_loss"
+    ],
+    "proceeds_from_stock_options_exercised_early": [
+      "ProceedsFromStockOptionsExercisedEarly",
+      "proceeds_from_stock_options_exercised_early"
+    ],
+    "proceeds_from_repayment_of_loans_to_purchase_common_stock": [
+      "ProceedsFromRepaymentOfLoansToPurchaseCommonStock",
+      "proceeds_from_repayment_of_loans_to_purchase_common_stock"
+    ],
+    "payments_for_repurchase_of_early_exercised_stock_options_and_restricted_common_stock": [
+      "PaymentsForRepurchaseOfEarlyExercisedStockOptionsAndRestrictedCommonStock",
+      "payments_for_repurchase_of_early_exercised_stock_options_and_restricted_common_stock"
+    ],
+    "share_based_payment_arrangement_vesting_of_early_exercised_stock_options_and_restricted_common_stock": [
+      "ShareBasedPaymentArrangementVestingOfEarlyExercisedStockOptionsAndRestrictedCommonStock",
+      "share_based_payment_arrangement_vesting_of_early_exercised_stock_options_and_restricted_common_stock"
+    ],
+    "equity_securities_without_readily_determinable_fair_value_upward_price_adjustment_annual_amount": [
+      "EquitySecuritiesWithoutReadilyDeterminableFairValueUpwardPriceAdjustmentAnnualAmount",
+      "equity_securities_without_readily_determinable_fair_value_upward_price_adjustment_annual_amount"
+    ],
+    "payments_of_stock_issuance_costs": [
+      "PaymentsOfStockIssuanceCosts",
+      "payments_of_stock_issuance_costs"
+    ],
+    "operating_lease_cost": [
+      "OperatingLeaseCost",
+      "operating_lease_cost"
+    ],
+    "deferred_purchase_consideration_for_acquisitions": [
+      "DeferredPurchaseConsiderationForAcquisitions",
+      "deferred_purchase_consideration_for_acquisitions"
+    ],
+    "payments_for_deferred_consideration_related_to_business_combinations": [
+      "PaymentsForDeferredConsiderationRelatedToBusinessCombinations",
+      "payments_for_deferred_consideration_related_to_business_combinations"
+    ],
+    "payments_for_repurchase_of_early_exercised_stock_options": [
+      "PaymentsForRepurchaseOfEarlyExercisedStockOptions",
+      "payments_for_repurchase_of_early_exercised_stock_options"
+    ],
+    "share_based_payment_arrangement_vesting_of_early_exercised_stock_options": [
+      "ShareBasedPaymentArrangementVestingOfEarlyExercisedStockOptions",
+      "share_based_payment_arrangement_vesting_of_early_exercised_stock_options"
+    ],
+    "net_change_in_unrealized_gains_or_losses_on_available_for_sale_debt_securities": [
+      "NetChangeInUnrealizedGainsOrLossesOnAvailableForSaleDebtSecurities",
+      "net_change_in_unrealized_gains_or_losses_on_available_for_sale_debt_securities"
+    ],
+    "employee_service_share_based_compensation_allocation_of_recognized_period_costs_capitalized_amount": [
+      "EmployeeServiceShareBasedCompensationAllocationOfRecognizedPeriodCostsCapitalizedAmount",
+      "employee_service_share_based_compensation_allocation_of_recognized_period_costs_capitalized_amount"
+    ],
+    "investment_income_net": [
+      "InvestmentIncomeNet",
+      "investment_income_net"
+    ],
+    "government_assistance_liability_noncurrent": [
+      "GovernmentAssistanceLiabilityNoncurrent",
+      "government_assistance_liability_noncurrent"
+    ],
+    "proceeds_from_government_assistance": [
+      "ProceedsFromGovernmentAssistance",
+      "proceeds_from_government_assistance"
+    ],
+    "repayments_of_long_term_debt_and_capital_securities": [
+      "RepaymentsOfLongTermDebtAndCapitalSecurities",
+      "repayments_of_long_term_debt_and_capital_securities"
+    ],
+    "payments_on_equipment_purchase_contracts": [
+      "PaymentsOnEquipmentPurchaseContracts",
+      "payments_on_equipment_purchase_contracts"
+    ],
+    "unearned_government_assistance_noncurrent": [
+      "UnearnedGovernmentAssistanceNoncurrent",
+      "unearned_government_assistance_noncurrent"
+    ],
+    "unearned_government_incentives_noncurrent": [
+      "UnearnedGovernmentIncentivesNoncurrent",
+      "unearned_government_incentives_noncurrent"
+    ],
+    "proceeds_from_government_incentives": [
+      "ProceedsFromGovernmentIncentives",
+      "proceeds_from_government_incentives"
+    ],
+    "increase_decrease_in_deferred_income_taxes": [
+      "IncreaseDecreaseInDeferredIncomeTaxes",
+      "increase_decrease_in_deferred_income_taxes"
+    ],
+    "redeemable_noncontrolling_interest_equity_preferred_carrying_amount": [
+      "RedeemableNoncontrollingInterestEquityPreferredCarryingAmount",
+      "redeemable_noncontrolling_interest_equity_preferred_carrying_amount"
+    ],
+    "goodwill_impairment_loss": [
+      "GoodwillImpairmentLoss",
+      "goodwill_impairment_loss"
+    ],
+    "capital_expenditures_incurred_on_purchase_contracts_not_yet_paid": [
+      "CapitalExpendituresIncurredOnPurchaseContractsNotYetPaid",
+      "capital_expenditures_incurred_on_purchase_contracts_not_yet_paid"
+    ],
+    "capital_expenditures_incurred_not_yet_paid_and_finance_lease_obligations_incurred": [
+      "CapitalExpendituresIncurredNotYetPaidAndFinanceLeaseObligationsIncurred",
+      "capital_expenditures_incurred_not_yet_paid_and_finance_lease_obligations_incurred"
+    ],
+    "proceeds_from_issuance_or_sale_of_equity": [
+      "ProceedsFromIssuanceOrSaleOfEquity",
+      "proceeds_from_issuance_or_sale_of_equity"
+    ],
+    "other_comprehensive_income_defined_benefit_plan_net_prior_service_costs_credit_arising_during_period_net_of_tax": [
+      "OtherComprehensiveIncomeDefinedBenefitPlanNetPriorServiceCostsCreditArisingDuringPeriodNetOfTax",
+      "other_comprehensive_income_defined_benefit_plan_net_prior_service_costs_credit_arising_during_period_net_of_tax"
+    ],
+    "other_comprehensive_income_foreign_currency_transaction_and_translation_gain_loss_arising_during_period_net_of_tax": [
+      "OtherComprehensiveIncomeForeignCurrencyTransactionAndTranslationGainLossArisingDuringPeriodNetOfTax",
+      "other_comprehensive_income_foreign_currency_transaction_and_translation_gain_loss_arising_during_period_net_of_tax"
+    ],
+    "equity_investments": [
+      "EquityInvestments",
+      "equity_investments"
+    ],
+    "non_cash_gains_losses_on_equity_investments_net": [
+      "NonCashGainsLossesOnEquityInvestmentsNet",
+      "non_cash_gains_losses_on_equity_investments_net"
+    ],
+    "asset_impairment_charges_and_gain_loss_on_disposal_of_property_plant_and_equipment": [
+      "AssetImpairmentChargesAndGainLossOnDisposalOfPropertyPlantAndEquipment",
+      "asset_impairment_charges_and_gain_loss_on_disposal_of_property_plant_and_equipment"
+    ],
+    "increase_decrease_in_other_operating_capital_net": [
+      "IncreaseDecreaseInOtherOperatingCapitalNet",
+      "increase_decrease_in_other_operating_capital_net"
+    ],
+    "adjustments_to_reconcile_net_income_loss_to_cash_provided_by_used_in_operating_activities": [
+      "AdjustmentsToReconcileNetIncomeLossToCashProvidedByUsedInOperatingActivities",
+      "adjustments_to_reconcile_net_income_loss_to_cash_provided_by_used_in_operating_activities"
+    ],
+    "proceeds_from_capital_grants": [
+      "ProceedsFromCapitalGrants",
+      "proceeds_from_capital_grants"
+    ],
+    "proceeds_from_issuance_of_commercial_paper": [
+      "ProceedsFromIssuanceOfCommercialPaper",
+      "proceeds_from_issuance_of_commercial_paper"
+    ],
+    "repayments_of_commercial_paper": [
+      "RepaymentsOfCommercialPaper",
+      "repayments_of_commercial_paper"
+    ],
+    "proceeds_from_partner_contributions": [
+      "ProceedsFromPartnerContributions",
+      "proceeds_from_partner_contributions"
+    ],
+    "noncash_capital_related_government_assistance": [
+      "NoncashCapitalRelatedGovernmentAssistance",
+      "noncash_capital_related_government_assistance"
+    ],
+    "disposal_group_not_discontinued_operation_gain_loss_on_disposal": [
+      "DisposalGroupNotDiscontinuedOperationGainLossOnDisposal",
+      "disposal_group_not_discontinued_operation_gain_loss_on_disposal"
+    ],
+    "other_comprehensive_income_loss_cash_flow_hedge_gain_loss_after_reclassification_and_tax_parent": [
+      "OtherComprehensiveIncomeLossCashFlowHedgeGainLossAfterReclassificationAndTaxParent",
+      "other_comprehensive_income_loss_cash_flow_hedge_gain_loss_after_reclassification_and_tax_parent"
+    ],
+    "divestiture_additions_to_property_plant_and_equipment_held_for_sale": [
+      "DivestitureAdditionsToPropertyPlantAndEquipmentHeldForSale",
+      "divestiture_additions_to_property_plant_and_equipment_held_for_sale"
+    ],
+    "trading_securities": [
+      "TradingSecurities",
+      "trading_securities",
+      "tradingsecurities"
+    ],
+    "payments_to_acquire_trading_securities_heldforinvestment": [
+      "PaymentsToAcquireTradingSecuritiesHeldforinvestment",
+      "payments_to_acquire_trading_securities_heldforinvestment"
+    ],
+    "proceeds_from_sale_and_maturity_of_trading_securities_heldforinvestment": [
+      "ProceedsFromSaleAndMaturityOfTradingSecuritiesHeldforinvestment",
+      "proceeds_from_sale_and_maturity_of_trading_securities_heldforinvestment"
+    ],
+    "payments_for_accelerated_share_repurchase_forward_agreements": [
+      "PaymentsForAcceleratedShareRepurchaseForwardAgreements",
+      "payments_for_accelerated_share_repurchase_forward_agreements"
+    ],
+    "other_comprehensive_income_loss_derivatives_qualifying_as_hedges_net_of_tax": [
+      "OtherComprehensiveIncomeLossDerivativesQualifyingAsHedgesNetOfTax",
+      "other_comprehensive_income_loss_derivatives_qualifying_as_hedges_net_of_tax"
+    ],
+    "proceeds_from_repayments_of_short_term_debt": [
+      "ProceedsFromRepaymentsOfShortTermDebt",
+      "proceeds_from_repayments_of_short_term_debt"
+    ],
+    "increase_decrease_in_equity_securities_fv_ni": [
+      "IncreaseDecreaseInEquitySecuritiesFvNi",
+      "increase_decrease_in_equity_securities_fv_ni"
+    ],
+    "proceeds_from_issuance_initial_public_offering": [
+      "ProceedsFromIssuanceInitialPublicOffering",
+      "proceeds_from_issuance_initial_public_offering"
+    ],
+    "payments_to_acquire_short_term_investments": [
+      "PaymentsToAcquireShortTermInvestments",
+      "payments_to_acquire_short_term_investments"
+    ],
+    "proceeds_from_sale_maturity_and_collection_of_shortterm_investments": [
+      "ProceedsFromSaleMaturityAndCollectionOfShorttermInvestments",
+      "proceeds_from_sale_maturity_and_collection_of_shortterm_investments"
+    ],
+    "available_for_sale_securities_equity_securities_noncurrent": [
+      "AvailableForSaleSecuritiesEquitySecuritiesNoncurrent",
+      "available_for_sale_securities_equity_securities_noncurrent"
+    ],
+    "other_comprehensive_income_derivatives_qualifying_as_hedges_net_of_tax_portion_attributable_to_parent": [
+      "OtherComprehensiveIncomeDerivativesQualifyingAsHedgesNetOfTaxPortionAttributableToParent",
+      "other_comprehensive_income_derivatives_qualifying_as_hedges_net_of_tax_portion_attributable_to_parent"
+    ],
+    "common_stock_dividends_per_share_declared": [
+      "CommonStockDividendsPerShareDeclared",
+      "common_stock_dividends_per_share_declared"
+    ],
+    "reclassification_from_accumulated_other_comprehensive_income_current_period_net_of_tax": [
+      "ReclassificationFromAccumulatedOtherComprehensiveIncomeCurrentPeriodNetOfTax",
+      "reclassification_from_accumulated_other_comprehensive_income_current_period_net_of_tax"
+    ],
+    "convertible_debt_current": [
+      "ConvertibleDebtCurrent",
+      "convertible_debt_current"
+    ],
+    "unrealized_gain_loss_on_cash_flow_hedging_instruments": [
+      "UnrealizedGainLossOnCashFlowHedgingInstruments",
+      "unrealized_gain_loss_on_cash_flow_hedging_instruments"
+    ],
+    "availableforsale_securities_gross_unrealized_gain_loss1": [
+      "AvailableforsaleSecuritiesGrossUnrealizedGainLoss1",
+      "availableforsale_securities_gross_unrealized_gain_loss1"
+    ],
+    "proceeds_from_sale_of_available_for_sale_securities": [
+      "ProceedsFromSaleOfAvailableForSaleSecurities",
+      "proceeds_from_sale_of_available_for_sale_securities"
+    ],
+    "capital_lease_obligations_noncurrent": [
+      "CapitalLeaseObligationsNoncurrent",
+      "capital_lease_obligations_noncurrent"
+    ],
+    "temporary_equity_value_excluding_additional_paid_in_capital": [
+      "TemporaryEquityValueExcludingAdditionalPaidInCapital",
+      "temporary_equity_value_excluding_additional_paid_in_capital"
+    ],
+    "netlossgainonsalesanddisposalsoflonglivedassetsandinvestments": [
+      "Netlossgainonsalesanddisposalsoflonglivedassetsandinvestments",
+      "netlossgainonsalesanddisposalsoflonglivedassetsandinvestments"
+    ],
+    "gainson_salesoflonglivedassetsandinvestment": [
+      "GainsonSalesoflonglivedassetsandinvestment",
+      "gainson_salesoflonglivedassetsandinvestment"
+    ],
+    "reimbursementofheadquartersbuildingdevelopmentcostsfromlessor": [
+      "Reimbursementofheadquartersbuildingdevelopmentcostsfromlessor",
+      "reimbursementofheadquartersbuildingdevelopmentcostsfromlessor"
+    ],
+    "restructuringcharges_noncash": [
+      "RestructuringchargesNoncash",
+      "restructuringcharges_noncash"
+    ],
+    "repayments_of_long_term_capital_lease_obligations": [
+      "RepaymentsOfLongTermCapitalLeaseObligations",
+      "repayments_of_long_term_capital_lease_obligations"
+    ],
+    "excess_tax_benefit_from_share_based_compensation_financing_activities": [
+      "ExcessTaxBenefitFromShareBasedCompensationFinancingActivities",
+      "excess_tax_benefit_from_share_based_compensation_financing_activities"
+    ],
+    "excess_tax_benefit_from_share_based_compensation_operating_activities": [
+      "ExcessTaxBenefitFromShareBasedCompensationOperatingActivities",
+      "excess_tax_benefit_from_share_based_compensation_operating_activities"
+    ],
+    "available_for_sale_securities_change_in_net_unrealized_holding_gain_loss_net_of_tax": [
+      "AvailableForSaleSecuritiesChangeInNetUnrealizedHoldingGainLossNetOfTax",
+      "available_for_sale_securities_change_in_net_unrealized_holding_gain_loss_net_of_tax"
+    ],
+    "other_comprehensive_income_loss_reclassification_adjustment_from_aoci_pension_and_other_postretirement_benefit_plans_for_net_gain_loss_net_of_tax": [
+      "OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIPensionAndOtherPostretirementBenefitPlansForNetGainLossNetOfTax",
+      "other_comprehensive_income_loss_reclassification_adjustment_from_aoci_pension_and_other_postretirement_benefit_plans_for_net_gain_loss_net_of_tax"
+    ],
+    "unrealized_gain_loss_on_securities": [
+      "UnrealizedGainLossOnSecurities",
+      "unrealized_gain_loss_on_securities"
+    ],
+    "dividends_cash": [
+      "DividendsCash",
+      "dividends_cash"
+    ],
+    "other_comprehensive_income_reclassification_of_defined_benefit_plans_net_gain_loss_recognized_in_net_periodic_benefit_cost_net_of_tax": [
+      "OtherComprehensiveIncomeReclassificationOfDefinedBenefitPlansNetGainLossRecognizedInNetPeriodicBenefitCostNetOfTax",
+      "other_comprehensive_income_reclassification_of_defined_benefit_plans_net_gain_loss_recognized_in_net_periodic_benefit_cost_net_of_tax"
+    ],
+    "common_stock_dividends_per_share_cash_paid": [
+      "CommonStockDividendsPerShareCashPaid",
+      "common_stock_dividends_per_share_cash_paid"
+    ],
+    "other_comprehensive_income_unrealized_holding_gain_loss_on_securities_arising_during_period_before_tax": [
+      "OtherComprehensiveIncomeUnrealizedHoldingGainLossOnSecuritiesArisingDuringPeriodBeforeTax",
+      "other_comprehensive_income_unrealized_holding_gain_loss_on_securities_arising_during_period_before_tax"
+    ],
+    "other_comprehensive_income_reclassification_adjustment_for_sale_of_securities_included_in_net_income_before_tax": [
+      "OtherComprehensiveIncomeReclassificationAdjustmentForSaleOfSecuritiesIncludedInNetIncomeBeforeTax",
+      "other_comprehensive_income_reclassification_adjustment_for_sale_of_securities_included_in_net_income_before_tax"
+    ],
+    "other_comprehensive_income_loss_tax": [
+      "OtherComprehensiveIncomeLossTax",
+      "other_comprehensive_income_loss_tax"
+    ],
+    "other_comprehensive_income_loss_net_of_tax_period_increase_decrease": [
+      "OtherComprehensiveIncomeLossNetOfTaxPeriodIncreaseDecrease",
+      "other_comprehensive_income_loss_net_of_tax_period_increase_decrease"
+    ],
+    "payment_of_note_payable_assumed_from_acquisitions": [
+      "PaymentOfNotePayableAssumedFromAcquisitions",
+      "payment_of_note_payable_assumed_from_acquisitions"
+    ],
+    "proceeds_from_income_tax_refunds": [
+      "ProceedsFromIncomeTaxRefunds",
+      "proceeds_from_income_tax_refunds"
+    ],
+    "deposits_and_other_assets": [
+      "DepositsAndOtherAssets",
+      "deposits_and_other_assets"
+    ],
+    "prepaid_expenses_and_other_current_asset": [
+      "PrepaidExpensesAndOtherCurrentAsset",
+      "prepaid_expenses_and_other_current_asset"
+    ],
+    "deposits_and_other_assets_operating": [
+      "DepositsAndOtherAssetsOperating",
+      "deposits_and_other_assets_operating"
+    ],
+    "accrued_liabilities_and_other_long_term_liabilities": [
+      "AccruedLiabilitiesAndOtherLongTermLiabilities",
+      "accrued_liabilities_and_other_long_term_liabilities"
+    ],
+    "liabilities_and_stockholders_equity_including_portion_attributable_to_noncontrolling_interest": [
+      "liabilities_and_stockholders_equity_including_portion_attributable_to_noncontrolling_interest",
+      "LiabilitiesAndStockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
+    ],
+    "payment_of_notes_payable_assumed_from_acquisitions": [
+      "PaymentOfNotesPayableAssumedFromAcquisitions",
+      "payment_of_notes_payable_assumed_from_acquisitions"
+    ],
+    "cash_paid_for_interest_on_capital_lease_obligations": [
+      "CashPaidForInterestOnCapitalLeaseObligations",
+      "cash_paid_for_interest_on_capital_lease_obligations"
+    ],
+    "adjustments_noncash_items_to_reconcile_net_income_loss_to_cash_provided_by_used_in_operating_activities_other": [
+      "AdjustmentsNoncashItemsToReconcileNetIncomeLossToCashProvidedByUsedInOperatingActivitiesOther",
+      "adjustments_noncash_items_to_reconcile_net_income_loss_to_cash_provided_by_used_in_operating_activities_other"
+    ],
+    "liabilities_assumed": [
+      "LiabilitiesAssumed",
+      "liabilities_assumed"
+    ],
+    "stock_option_plan_expense": [
+      "StockOptionPlanExpense",
+      "stock_option_plan_expense"
+    ],
+    "income_loss_before_income_tax_expense_benefit": [
+      "IncomeLossBeforeIncomeTaxExpenseBenefit",
+      "income_loss_before_income_tax_expense_benefit"
+    ],
+    "common_stock": [
+      "CommonStock",
+      "common_stock"
+    ],
+    "payments_related_to_stock_option_purchase": [
+      "PaymentsRelatedToStockOptionPurchase",
+      "payments_related_to_stock_option_purchase"
+    ],
+    "payments_under_patent_licensing_arrangement": [
+      "PaymentsUnderPatentLicensingArrangement",
+      "payments_under_patent_licensing_arrangement"
+    ],
+    "tax_benefit_from_stock_options_exercised": [
+      "TaxBenefitFromStockOptionsExercised",
+      "tax_benefit_from_stock_options_exercised"
+    ],
+    "goodwilladjustmentrelatedtopreviouslyacquiredbusiness3dfx": [
+      "Goodwilladjustmentrelatedtopreviouslyacquiredbusiness3dfx",
+      "goodwilladjustmentrelatedtopreviouslyacquiredbusiness3dfx"
+    ],
+    "other_comprehensive_income_loss_reclassification_adjustment_for_sale_of_securities_included_in_net_income_net_of_tax": [
+      "OtherComprehensiveIncomeLossReclassificationAdjustmentForSaleOfSecuritiesIncludedInNetIncomeNetOfTax",
+      "other_comprehensive_income_loss_reclassification_adjustment_for_sale_of_securities_included_in_net_income_net_of_tax"
+    ],
+    "other_comprehensive_income_reclassification_adjustment_for_sale_of_securities_included_in_net_income_net_of_tax": [
+      "OtherComprehensiveIncomeReclassificationAdjustmentForSaleOfSecuritiesIncludedInNetIncomeNetOfTax",
+      "other_comprehensive_income_reclassification_adjustment_for_sale_of_securities_included_in_net_income_net_of_tax"
+    ],
+    "litigation_settlement_gross": [
+      "LitigationSettlementGross",
+      "litigation_settlement_gross"
+    ],
+    "impairment_of_investments": [
+      "ImpairmentOfInvestments",
+      "impairment_of_investments"
+    ],
+    "research_and_development_in_process": [
+      "ResearchAndDevelopmentInProcess",
+      "research_and_development_in_process"
+    ],
+    "marketing_expense": [
+      "MarketingExpense",
+      "marketing_expense"
+    ],
+    "other_comprehensive_income_loss_reclassification_adjustment_from_aoci_net_of_tax": [
+      "OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCINetOfTax",
+      "other_comprehensive_income_loss_reclassification_adjustment_from_aoci_net_of_tax"
+    ],
+    "lease_liability_noncurrent": [
+      "LeaseLiabilityNoncurrent",
+      "lease_liability_noncurrent"
+    ],
+    "increase_decrease_in_accounts_receivable_and_other_operating_assets": [
+      "IncreaseDecreaseInAccountsReceivableAndOtherOperatingAssets",
+      "increase_decrease_in_accounts_receivable_and_other_operating_assets"
+    ],
+    "proceeds_from_property_plant_and_equipment_sales_and_incentives": [
+      "ProceedsFromPropertyPlantAndEquipmentSalesAndIncentives",
+      "proceeds_from_property_plant_and_equipment_sales_and_incentives"
+    ],
+    "repayments_of_long_term_financing_obligations": [
+      "RepaymentsOfLongTermFinancingObligations",
+      "repayments_of_long_term_financing_obligations"
+    ],
+    "payments_to_acquire_businesses_net_of_cash_acquired_and_payments_to_acquire_nonmarketable_securities_and_other": [
+      "PaymentsToAcquireBusinessesNetOfCashAcquiredAndPaymentsToAcquireNonmarketableSecuritiesAndOther",
+      "payments_to_acquire_businesses_net_of_cash_acquired_and_payments_to_acquire_nonmarketable_securities_and_other"
+    ],
+    "proceeds_from_rebates_on_purchases_of_productive_assets": [
+      "ProceedsFromRebatesOnPurchasesOfProductiveAssets",
+      "proceeds_from_rebates_on_purchases_of_productive_assets"
+    ],
+    "other_comprehensive_income_loss_foreign_currency_transaction_and_translation_reclassification_adjustment_from_aoci_realized_upon_sale_or_liquidation_net_of_tax": [
+      "OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationReclassificationAdjustmentFromAOCIRealizedUponSaleOrLiquidationNetOfTax",
+      "other_comprehensive_income_loss_foreign_currency_transaction_and_translation_reclassification_adjustment_from_aoci_realized_upon_sale_or_liquidation_net_of_tax"
+    ],
+    "interest_paid_on_long_term_debt": [
+      "InterestPaidOnLongTermDebt",
+      "interest_paid_on_long_term_debt"
+    ],
+    "operating_lease_payments": [
+      "OperatingLeasePayments",
+      "operating_lease_payments"
+    ],
+    "finance_lease_interest_payment_on_liability": [
+      "FinanceLeaseInterestPaymentOnLiability",
+      "finance_lease_interest_payment_on_liability"
+    ],
+    "interest_paid_financing_obligations": [
+      "InterestPaidFinancingObligations",
+      "interest_paid_financing_obligations"
+    ],
+    "propertyand_equipment_obtainedin_exchangefor_financing_obligations": [
+      "PropertyandEquipmentObtainedinExchangeforFinancingObligations",
+      "propertyand_equipment_obtainedin_exchangefor_financing_obligations"
+    ],
+    "payments_to_acquire_businesses_net_of_cash_acquired_and_other": [
+      "PaymentsToAcquireBusinessesNetOfCashAcquiredAndOther",
+      "payments_to_acquire_businesses_net_of_cash_acquired_and_other"
+    ],
+    "proceeds_from_short_term_debt_and_other_financing_activities": [
+      "ProceedsFromShortTermDebtAndOtherFinancingActivities",
+      "proceeds_from_short_term_debt_and_other_financing_activities"
+    ],
+    "repayments_of_short_term_debt_and_other_financing_activities": [
+      "RepaymentsOfShortTermDebtAndOtherFinancingActivities",
+      "repayments_of_short_term_debt_and_other_financing_activities"
+    ],
+    "other_comprehensive_income_loss_foreign_currency_transaction_and_translation_reclassification_adjustment_from_aoci_net_of_tax": [
+      "OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationReclassificationAdjustmentFromAOCINetOfTax",
+      "other_comprehensive_income_loss_foreign_currency_transaction_and_translation_reclassification_adjustment_from_aoci_net_of_tax"
+    ],
+    "other_cost_and_expense_operating": [
+      "OtherCostAndExpenseOperating",
+      "other_cost_and_expense_operating"
+    ],
+    "other_comprehensive_income_loss_foreign_currency_transactionand_translation_reclassfication_adjustmentfrom_aoci_netof_tax": [
+      "OtherComprehensiveIncomeLossForeignCurrencyTransactionandTranslationReclassficationAdjustmentfromAOCINetofTax",
+      "other_comprehensive_income_loss_foreign_currency_transactionand_translation_reclassfication_adjustmentfrom_aoci_netof_tax"
+    ],
+    "other_comprehensive_income_available_for_sale_securities_adjustment_net_of_tax_period_increase_decrease": [
+      "OtherComprehensiveIncomeAvailableForSaleSecuritiesAdjustmentNetOfTaxPeriodIncreaseDecrease",
+      "other_comprehensive_income_available_for_sale_securities_adjustment_net_of_tax_period_increase_decrease"
+    ],
+    "proceeds_received_from_directors_in_shareholder_settlement": [
+      "ProceedsReceivedFromDirectorsInShareholderSettlement",
+      "proceeds_received_from_directors_in_shareholder_settlement"
+    ],
+    "payment_for_legal_fees": [
+      "PaymentForLegalFees",
+      "payment_for_legal_fees"
+    ],
+    "incomelossfromdiscontinuedoperationsnetoftaxattributabletoreportingentity": [
+      "IncomeLossFromDiscontinuedOperationsNetOfTaxAttributableToReportingEntity",
+      "income_loss_from_discontinued_operations_net_of_tax_attributable_to_reporting_entity"
+    ],
+    "assetsofdisposalgroupincludingdiscontinuedoperation": [
+      "AssetsOfDisposalGroupIncludingDiscontinuedOperation",
+      "assets_of_disposal_group_including_discontinued_operation"
+    ],
+    "accrued_liabilities_current_and_noncurrent": [
+      "AccruedLiabilitiesCurrentAndNoncurrent",
+      "accrued_liabilities_current_and_noncurrent"
+    ],
+    "liabilitiesofdisposalgroupincludingdiscontinuedoperation": [
+      "LiabilitiesOfDisposalGroupIncludingDiscontinuedOperation",
+      "liabilities_of_disposal_group_including_discontinued_operation"
+    ],
+    "otheradjustmentstoincomediscontinuedoperations": [
+      "OtherAdjustmentsToIncomeDiscontinuedOperations",
+      "other_adjustments_to_income_discontinued_operations"
+    ],
+    "releaseofreservesfortaxliabilities": [
+      "ReleaseOfReservesForTaxLiabilities",
+      "release_of_reserves_for_tax_liabilities"
+    ],
+    "inventorylossatrecoveryfromcontractmanufacturer": [
+      "InventoryLossAtRecoveryFromContractManufacturer",
+      "inventory_loss_at_recovery_from_contract_manufacturer"
+    ],
+    "cashprovidedbyusedinoperatingactivitiesdiscontinuedoperations": [
+      "CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations",
+      "cash_provided_by_used_in_operating_activities_discontinued_operations"
+    ],
+    "proceedsfrommaturitiesprepaymentsandcallsofshortterminvestments": [
+      "ProceedsFromMaturitiesPrepaymentsAndCallsOfShorttermInvestments",
+      "proceeds_from_maturities_prepayments_and_calls_of_shortterm_investments"
+    ],
+    "cashprovidedbyusedininvestingactivitiesdiscontinuedoperations": [
+      "CashProvidedByUsedInInvestingActivitiesDiscontinuedOperations",
+      "cash_provided_by_used_in_investing_activities_discontinued_operations"
+    ],
+    "stockissuedduringperiodvaluetreasurystockreissued": [
+      "StockIssuedDuringPeriodValueTreasuryStockReissued",
+      "stock_issued_during_period_value_treasury_stock_reissued"
+    ],
+    "gainonlicensingagreement": [
+      "GainOnLicensingAgreement",
+      "gain_on_licensing_agreement"
+    ],
+    "otherreceivablesnetcurrent": [
+      "OtherReceivablesNetCurrent",
+      "other_receivables_net_current"
+    ],
+    "equitymethodinvestments": [
+      "EquityMethodInvestments",
+      "equity_method_investments"
+    ],
+    "accountspayableothercurrentandnoncurrent": [
+      "AccountsPayableOtherCurrentAndNoncurrent",
+      "accounts_payable_other_current_and_noncurrent"
+    ],
+    "inventorylossatcontractmanufacturer": [
+      "InventoryLossAtContractManufacturer",
+      "inventory_loss_at_contract_manufacturer"
+    ],
+    "increasedecreaseinduetorelatedparties": [
+      "IncreaseDecreaseInDueToRelatedParties",
+      "increase_decrease_in_due_to_related_parties"
+    ],
+    "paymentstoacquireinterestinsubsidiariesandaffiliates": [
+      "PaymentsToAcquireInterestInSubsidiariesAndAffiliates",
+      "payments_to_acquire_interest_in_subsidiaries_and_affiliates"
+    ],
+    "liabilitiesassumedrsutaxwithholding": [
+      "LiabilitiesAssumedRSUTaxWithholding",
+      "liabilities_assumed_rsu_tax_withholding"
+    ],
+    "increasedecreaseinduefromrelatedparties": [
+      "IncreaseDecreaseInDueFromRelatedParties",
+      "increase_decrease_in_due_from_related_parties"
+    ],
+    "cashacquiredfromacquisition": [
+      "CashAcquiredFromAcquisition",
+      "cash_acquired_from_acquisition"
+    ],
+    "acquisitionsnetofcashacquiredallothers": [
+      "AcquisitionsNetOfCashAcquiredAllOthers",
+      "acquisitions_net_of_cash_acquired_all_others"
+    ],
+    "proceedsfromissuanceofunsecureddebt": [
+      "ProceedsFromIssuanceOfUnsecuredDebt",
+      "proceeds_from_issuance_of_unsecured_debt"
+    ],
+    "duefromrelatedpartiescurrent": [
+      "DueFromRelatedPartiesCurrent",
+      "due_from_related_parties_current"
+    ],
+    "duetorelatedpartiescurrent": [
+      "DueToRelatedPartiesCurrent",
+      "due_to_related_parties_current"
+    ],
+    "payments_to_acquire_businesses_gross": [
+      "PaymentsToAcquireBusinessesGross",
+      "payments_to_acquire_businesses_gross"
+    ],
+    "proceedsfromlinesofcredit": [
+      "ProceedsFromLinesOfCredit",
+      "proceeds_from_lines_of_credit"
+    ],
+    "stockissuedduringperiodvalueconversionofconvertiblesecurities": [
+      "StockIssuedDuringPeriodValueConversionOfConvertibleSecurities",
+      "stock_issued_during_period_value_conversion_of_convertible_securities"
+    ],
+    "noncashorpartnoncashacquisitionfixedassetsacquired1": [
+      "NoncashOrPartNoncashAcquisitionFixedAssetsAcquired1",
+      "noncash_or_part_noncash_acquisition_fixed_assets_acquired1"
+    ],
+    "increasedecreaseinduefromrelatedpartiescurrent": [
+      "IncreaseDecreaseInDueFromRelatedPartiesCurrent",
+      "increase_decrease_in_due_from_related_parties_current"
+    ],
+    "increasedecreaseinduetorelatedpartiescurrent": [
+      "IncreaseDecreaseInDueToRelatedPartiesCurrent",
+      "increase_decrease_in_due_to_related_parties_current"
+    ],
+    "proceedsfromsaleandcollectionofreceivables": [
+      "ProceedsFromSaleAndCollectionOfReceivables",
+      "proceeds_from_sale_and_collection_of_receivables"
+    ],
+    "issuanceoftreasurystocktopartiallysettledebt": [
+      "IssuanceOfTreasuryStockToPartiallySettleDebt",
+      "issuance_of_treasury_stock_to_partially_settle_debt"
+    ],
+    "gainlossonlicensingagreement": [
+      "GainLossOnLicensingAgreement",
+      "gain_loss_on_licensing_agreement"
+    ],
+    "otherreceivables": [
+      "OtherReceivables",
+      "other_receivables"
+    ],
+    "originationofnotesreceivablefromrelatedparties": [
+      "OriginationOfNotesReceivableFromRelatedParties",
+      "origination_of_notes_receivable_from_related_parties"
+    ],
+    "othersignificantnoncashtransactionvalueofconsiderationgiven1": [
+      "OtherSignificantNoncashTransactionValueOfConsiderationGiven1",
+      "other_significant_noncash_transaction_value_of_consideration_given1"
+    ],
+    "treasurystockcommonshares": [
+      "TreasuryStockCommonShares",
+      "treasury_stock_common_shares"
+    ],
+    "increasedecreaseinprepaymentsrelatedparties": [
+      "IncreaseDecreaseinPrepaymentsRelatedParties",
+      "increase_decreasein_prepayments_related_parties"
+    ],
+    "relatedpartytransactionduefromtorelatedpartycurrent": [
+      "RelatedPartyTransactionDueFromToRelatedPartyCurrent",
+      "related_party_transaction_due_from_to_related_party_current"
+    ],
+    "accountspayablerelatedpartiescurrent": [
+      "AccountsPayableRelatedPartiesCurrent",
+      "accounts_payable_related_parties_current"
+    ],
+    "treasurystockshares": [
+      "TreasuryStockShares",
+      "treasury_stock_shares"
+    ],
+    "stockissuedduringperiodvalueconversionofconvertiblesecuritiesnetofadjustments": [
+      "StockIssuedDuringPeriodValueConversionOfConvertibleSecuritiesNetOfAdjustments",
+      "stock_issued_during_period_value_conversion_of_convertible_securities_net_of_adjustments"
+    ],
+    "deferredproceedsonsaleofreceivable": [
+      "DeferredProceedsOnSaleOfReceivable",
+      "deferred_proceeds_on_sale_of_receivable"
+    ],
+    "cumulativeeffectonretainedearningsnetoftax1": [
+      "CumulativeEffectOnRetainedEarningsNetOfTax1",
+      "cumulative_effect_on_retained_earnings_net_of_tax1"
+    ],
+    "relatedpartytransactionprepaidexpensecurrent": [
+      "RelatedPartyTransactionPrepaidExpenseCurrent",
+      "related_party_transaction_prepaid_expense_current"
+    ],
+    "increasedecreaseinaccountspayablerelatedparties": [
+      "IncreaseDecreaseInAccountsPayableRelatedParties",
+      "increase_decrease_in_accounts_payable_related_parties"
+    ],
+    "deferredcashonsoldreceivables": [
+      "DeferredCashOnSoldReceivables",
+      "deferred_cash_on_sold_receivables"
+    ],
+    "noncashactivitiesother": [
+      "NoncashActivitiesOther",
+      "noncash_activities_other"
+    ],
+    "classofwarrantorrightcontrarevenue": [
+      "ClassOfWarrantOrRightContraRevenue",
+      "class_of_warrant_or_right_contra_revenue"
+    ],
+    "increasedecreaseinaccruedcompensationbenefitsandotherliabilities": [
+      "IncreaseDecreaseInAccruedCompensationBenefitsAndOtherLiabilities",
+      "increase_decrease_in_accrued_compensation_benefits_and_other_liabilities"
+    ],
+    "paymentsforrecordedunconditionalpurchaseobligation": [
+      "PaymentsForRecordedUnconditionalPurchaseObligation",
+      "payments_for_recorded_unconditional_purchase_obligation"
+    ],
+    "contractwithcustomerassetnetcurrent": [
+      "ContractWithCustomerAssetNetCurrent",
+      "contract_with_customer_asset_net_current"
+    ],
+    "increasedecreaseincontractwithcustomerasset": [
+      "IncreaseDecreaseInContractWithCustomerAsset",
+      "increase_decrease_in_contract_with_customer_asset"
+    ],
+    "increasedecreaseinaccountspayableandotheraccruedliabilitiesandemployeerelatedliabilities": [
+      "IncreaseDecreaseInAccountsPayableAndOtherAccruedLiabilitiesAndEmployeeRelatedLiabilities",
+      "increase_decrease_in_accounts_payable_and_other_accrued_liabilities_and_employee_related_liabilities"
+    ],
+    "increasedecreaseincontractwithcustomerassetliability": [
+      "IncreaseDecreaseInContractWithCustomerAssetLiability",
+      "increase_decrease_in_contract_with_customer_asset_liability"
+    ],
+    "tangibleassetimpairmentcharges": [
+      "TangibleAssetImpairmentCharges",
+      "tangible_asset_impairment_charges"
+    ],
+    "cost_of_goods_and_service_excluding_depreciation_depletion_and_amortization": [
+      "CostOfGoodsAndServiceExcludingDepreciationDepletionAndAmortization",
+      "cost_of_goods_and_service_excluding_depreciation_depletion_and_amortization"
+    ],
+    "amortization_of_intangible_assets": [
+      "AmortizationOfIntangibleAssets",
+      "amortization_of_intangible_assets"
+    ],
+    "charge_related_to_resolution_of_investigation": [
+      "ChargeRelatedToResolutionOfInvestigation"
+    ],
+    "other_comprehensive_income_loss_reclassification_adjustment_on_derivatives_included_in_net_income_net_of_tax": [
+      "OtherComprehensiveIncomeLossReclassificationAdjustmentOnDerivativesIncludedInNetIncomeNetOfTax"
+    ],
+    "prepaid_revenue_share_expense_and_other_assets_noncurrent": [
+      "PrepaidRevenueShareExpensesAndOtherAssetsNoncurrent"
+    ],
+    "receivable_under_reverse_repurchase_agreements": [
+      "ReceivableUnderReverseRepurchaseAgreements"
+    ],
+    "liability_for_uncertain_tax_positions_noncurrent": [
+      "LiabilityForUncertainTaxPositionsNoncurrent"
+    ],
+    "accrued_revenue_share": [
+      "AccruedRevenueShare"
+    ],
+    "securities_lending_payable": [
+      "SecuritiesLendingPayable"
+    ],
+    "convertible_preferred_stock_nonredeemable_or_redeemable_issuer_option_value": [
+      "ConvertiblePreferredStockNonredeemableOrRedeemableIssuerOptionValue"
+    ],
+    "capital_stock_value": [
+      "CapitalStockValue"
+    ],
+    "depreciation": [
+      "Depreciation"
+    ],
+    "gain_loss_on_sale_of_business": [
+      "GainLossOnSaleOfBusiness"
+    ],
+    "fair_value_stock_based_awards_assumed_in_connection_with_acquisition": [
+      "FairValueStockBasedAwardsAssumedInConnectionWithAcquisition"
+    ],
+    "increase_decrease_in_income_taxes": [
+      "IncreaseDecreaseInIncomeTaxes"
+    ],
+    "increase_decrease_in_prepaid_revenue_share_expense_and_other_assets": [
+      "IncreaseDecreaseInPrepaidRevenueShareExpensesAndOtherAssets"
+    ],
+    "increase_decrease_in_accrued_revenue_share": [
+      "IncreaseDecreaseInAccruedRevenueShare"
+    ],
+    "net_proceeds_payments_related_to_stock_based_award_activities": [
+      "NetProceedsPaymentsRelatedToStockBasedAwardActivities"
+    ],
+    "cash_collateral_received_from_returned_from_securities_lending": [
+      "CashCollateralReceivedFromReturnedFromSecuritiesLending"
+    ],
+    "investments_in_maturities_of_reverse_repurchase_agreements": [
+      "InvestmentsInMaturitiesOfReverseRepurchaseAgreements"
+    ],
+    "acquisitions_net_of_cash_acquired_and_proceeds_from_divestiture_and_purchases_of_intangible_and_other_assets": [
+      "AcquisitionsNetOfCashAcquiredAndProceedsFromDivestitureAndPurchasesOfIntangibleAndOtherAssets"
+    ],
+    "marketable_securities_realized_gain_loss_excluding_other_than_temporary_impairments": [
+      "MarketableSecuritiesRealizedGainLossExcludingOtherThanTemporaryImpairments"
+    ],
+    "other_comprehensive_income_reclassification_adjustment_on_derivatives_included_in_net_income_net_of_tax": [
+      "OtherComprehensiveIncomeReclassificationAdjustmentOnDerivativesIncludedInNetIncomeNetOfTax"
+    ],
+    "other_comprehensive_income_derivatives_qualifying_as_hedges_net_of_tax_period_increase_decrease": [
+      "OtherComprehensiveIncomeDerivativesQualifyingAsHedgesNetOfTaxPeriodIncreaseDecrease"
+    ],
+    "other_comprehensive_income_foreign_currency_transaction_and_translation_adjustment_net_of_tax_period_increase_decrease": [
+      "OtherComprehensiveIncomeForeignCurrencyTransactionAndTranslationAdjustmentNetOfTaxPeriodIncreaseDecrease"
+    ],
+    "stock_issued_vested_options_assumed": [
+      "StockIssuedVestedOptionsAssumed"
+    ],
+    "cash_collateral_from_securities_lending": [
+      "CashCollateralFromSecuritiesLending"
+    ],
+    "investments_in_reverse_repurchase_agreements": [
+      "InvestmentsInReverseRepurchaseAgreements"
+    ]
+  },
+  "last_updated": "2025-11-30T15:30:39.034395",
+  "total_canonical_fields": 835,
+  "total_variants": 1875
+}

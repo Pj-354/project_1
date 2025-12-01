@@ -1,5 +1,6 @@
 /data/datasets/
 /data/daily/
+/data/
 /twsapi_macunix-2/
 /random-stuff/
 /.vscode/
@@ -11,7 +12,13 @@
 /*.md/
 /.venv/
 /data/
+/scripts/bash_scripts/
 /archive/
-
+/results_model_test/
+/results_model_test_60/
+/results_model_test_100/
 # large data
 /data_cleaning_practice/
+/scripts/Cluster/
+/Users/phillip/Desktop/Moon2/scripts/Clustering/input_data/
+/Users/phillip/Desktop/Moon2/scripts/Clustering/output_data/

@@ -1,4 +1,4 @@
-from stock_data_functions import TickerComparison, TickerData, calc_log_rets
+from .stock_data_functions import TickerComparison, TickerData, calc_log_rets
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt 

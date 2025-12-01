@@ -362,6 +362,7 @@ def fit_returns_ols(
     missing: str = "drop"                      # {"drop","raise","none"}
 ):
     
+
     y_clean = y.copy()
     X_clean = X.copy()
     # 2) Optional winsorization to tame outliers (symmetric clipping)
@@ -383,7 +384,6 @@ def fit_returns_ols(
     # 4) Fit classic OLS
     ols = sm.OLS(y_clean.values, X_exog.values, missing=missing)
     base_res = ols.fit()
-
     # 5) Choose robust covariance, if any
     n = int(base_res.nobs)
     cov_choice = robust.lower()
