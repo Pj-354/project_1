@@ -23,7 +23,9 @@
       "WeightedAverageNumberOfSharesOutstandingBasic",
       "WeightedAverageNumberOfSharesOutstandingBasic",
       "weighted_average_number_of_share_outstanding_basic_and_diluted",
-      "weighted_average_number_of_shares_outstanding_basic"
+      "weighted_average_number_of_shares_outstanding_basic",
+      "CommonStockSharesOutstanding",
+      "common_stock_shares_outstanding"
     ],
     "basic_earnings_per_share": [
       "basic_earnings_per_share",
@@ -123,7 +125,9 @@
       "equity",
       "Equity",
       "total_equity",
-      "Total Equity"
+      "Total Equity",      
+      "StockholdersEquity",
+      "stockholders_equity"
     ],
     "equity_attributable_to_noncontrolling_interest": [
       "equity_attributable_to_noncontrolling_interest",
@@ -396,7 +400,8 @@
       "r_and_d",
       "R&D Expense",
       "r&d_expense",
-      "research_and_development_expense"
+      "research_and_development_expense",
+      "ResearchAndDevelopmentExpense"
     ],
     "revenues": [
       "revenues",
@@ -737,7 +742,9 @@
     ],
     "cash_and_cash_equivalents_short_term_investments": [
       "CashCashEquivalentsAndShortTermInvestments",
-      "cash_and_cash_equivalents_and_short_term_investments"
+      "cash_and_cash_equivalents_and_short_term_investments",
+      "cash_cash_equivalents_and_marketable_securities",
+      "cashcashequivalentsandmarketablesecurities"
     ],
     "cash_and_due_from_banks": [
       "CashAndDueFromBanks",
@@ -802,10 +809,6 @@
     "common_stock_shares_issued": [
       "CommonStockSharesIssued",
       "common_stock_shares_issued"
-    ],
-    "common_stock_shares_outstanding": [
-      "CommonStockSharesOutstanding",
-      "common_stock_shares_outstanding"
     ],
     "common_stock_value": [
       "CommonStockValue",
@@ -960,10 +963,6 @@
     "stockholders_equity_including_portion_attributable_to_noncontrolling_interest": [
       "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest",
       "stockholders_equity_including_portion_attributable_to_noncontrolling_interest"
-    ],
-    "stockholders_equity": [
-      "StockholdersEquity",
-      "stockholders_equity"
     ],
     "equity_securities_fvni_gain_loss": [
       "EquitySecuritiesFvNiGainLoss",
@@ -1140,6 +1139,11 @@
     "long_term_debt_and_capital_leases_current": [
       "LongTermDebtAndCapitalLeaseObligationsCurrent",
       "long_term_debt_and_capital_lease_obligations_current"
+    ],
+    "capital_lease_obligations_current": [
+      "capital_lease_obligations_current",
+      "CapitalLeaseObligationsCurrent",
+      "capitalleaseobligationscurrent"
     ],
     "long_term_debt_and_capital_leases_incl_current": [
       "LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities",
@@ -3138,7 +3142,8 @@
     ],
     "research_and_development_in_process": [
       "ResearchAndDevelopmentInProcess",
-      "research_and_development_in_process"
+      "research_and_development_in_process",
+      "in_process_research_and_development_charge"
     ],
     "marketing_expense": [
       "MarketingExpense",
@@ -3288,9 +3293,10 @@
       "EquityMethodInvestments",
       "equity_method_investments"
     ],
-    "accountspayableothercurrentandnoncurrent": [
+    "accounts_payable_other_current_and_noncurrent": [
       "AccountsPayableOtherCurrentAndNoncurrent",
-      "accounts_payable_other_current_and_noncurrent"
+      "accounts_payable_other_current_and_noncurrent",
+      "accountspayableothercurrentandnoncurrent"
     ],
     "inventorylossatcontractmanufacturer": [
       "InventoryLossAtContractManufacturer",
@@ -3392,9 +3398,10 @@
       "RelatedPartyTransactionDueFromToRelatedPartyCurrent",
       "related_party_transaction_due_from_to_related_party_current"
     ],
-    "accountspayablerelatedpartiescurrent": [
+    "accounts_payable_related_parties_current": [
       "AccountsPayableRelatedPartiesCurrent",
-      "accounts_payable_related_parties_current"
+      "accounts_payable_related_parties_current",
+      "accountspayablerelatedpartiescurrent"
     ],
     "treasurystockshares": [
       "TreasuryStockShares",
