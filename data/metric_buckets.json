@@ -1,0 +1,70 @@
+{
+  "buckets": {
+    "revenues":               { "metric": "is_revenues" },
+    "net_revenue":            {"metric":  "is_sales_revenue_net"},
+    "cost_of_revenue":        { "metric": "is_cost_of_revenue" },
+    "gross_profit":           { "metric": "is_gross_profit" },
+    "operating_expenses":     { "metric": "is_operating_expenses" },
+    "operating_income":       { "metric": "is_operating_income_loss" },
+    "research_and_development": { "metric": "is_research_and_development" },
+    "selling_general_and_administrative_expenses": { "metric": "is_selling_general_and_administrative_expenses" },
+
+    "depreciation_and_amortization": { "metric": "is_depreciation_and_amortization" },
+
+    "net_interest_expense":          { "metric": "is_net_interest_expense" },
+    "income_tax_expense":            { "metric": "is_income_tax_expense_benefit" },
+    "net_income":                    { "metric": "is_net_income_loss" },
+
+    "total_assets":             { "metric": "bs_assets" },
+    "book_equity":              { "metric": "bs_equity" },
+    "gross_property_plant_and_equipment": { "metric": "bs_property_plant_and_equipment_gross" },
+    "net_property_plant_and_equipment":   { "metric": "bs_net_property_plant_and_equipment"},
+    
+    "current_assets":                       {"metric": "bs_current_assets" },
+    "cash_and_cash_equivalents":            { "metric": "bs_cash_and_cash_equivalents" },
+    "cash_and_cash_equivalents_restricted": { "metric": "bs_cash_and_cash_equivalents_restricted_cash_and_restricted_cash_equivalents_including_disposal_group_and_discontinued_operations" },
+    "short_term_investments":   { "metric": "bs_short_term_investments" },
+    "goodwill":                 { "metric": "bs_goodwill" },
+    "inventory":                { "metric": "bs_inventory" },
+
+    "current_liabilities":      { "metric": "bs_current_liabilities" },
+    "accounts_payable":         { "metric": "bs_accounts_payable" },
+    "deferred_revenue":         { "metric": "bs_deferred_revenue" },
+    "noncurrent_liabilities":  { "metric": "bs_noncurrent_liabilities" },
+    "interest_bearing_debt":    { "metric": "bs_interest_bearing_debt" },
+    "total_liabilities":        { "metric": "bs_total_liabilities" },
+
+    "treasury_stock":           { "metric": "treasury_stock_value" },
+
+    "net_cash_flow_from_operating_activities":      { "metric": "cf_net_cash_flow_from_operating_activities" },
+    "net_cash_flow_inc_restricted_cash_and_cash_equivalents" : { "metric": "cf_net_cash_flow_including_restricted_cash_and_cash_equivalents" },
+    "capital_expenditures":     { "metric": "cf_capital_expenditures" },
+    "adjusted_total_capex":     { "metric": "cf_adjusted_capex" },
+
+    "net_cash_flow_from_investing_activities":      { "metric": "cf_net_cash_flow_from_investing_activities" },
+    "net_cash_flow_from_financing_activities":      { "metric": "cf_net_cash_flow_from_financing_activities" },
+    "net_cash_flow":            { "metric": "cf_net_cash_flow" },
+    "effect_of_exchange_rate_on_cash_and_cash_equivalents": { "metric": "cf_effect_of_exchange_rate_on_cash_and_cash_equivalents" },
+    "effect_of_exchange_rate_on_cash_cash_equivalents_restricted_cash_and_restricted_cash_equivalents" : {"metric": "cf_effect_of_exchange_rate_on_cash_cash_equivalents_restricted_cash_and_restricted_cash_equivalents"},
+    "marketable_securities" :   {"metric": "bs_marketable_securities" },
+    "share_count_basic":        { "metric": "is_basic_average_shares" },
+    "share_count_diluted":      { "metric": "is_diluted_average_shares" },
+    "eps_basic":                { "metric": "is_basic_earnings_per_share" },
+    "eps_diluted":              { "metric": "is_diluted_earnings_per_share" },
+    "net_interest_cash_paid":   { "metric": "cf_interest_paid_net" },
+
+    "noncontrolling_interest_equity": { "metric": "bs_noncontrolling_interest_equity"},
+    "noncontrolling_interest_income": { "metric": "is_noncontrolling_interest_income"},
+    "depreciation_and_amortization_from_cf" : { "metric": "cf_depreciation_and_amortization"},
+    "noncontrolling_interest_cash_flow": { "metric": "cf_noncontrolling_interest_cash_flow"},
+    "equity_method_cash_flow": { "metric": "cf_equity_method_cash_flow"},
+    "equity_method_income": { "metric": "is_equity_method_income"},
+    "equity_method_investments": { "metric": "bs_equity_method_investments"},
+    "oci":                      { "metric": "other_comprehensive_income_loss" },
+
+    "crypto_assets":            { "metric": "crypto_assets" },
+    "crypto_pnl":               { "metric": "crypto_asset_gain_loss" },
+    "stockholders_equity_including_portion_attributable_to_noncontrolling_interest" : { "metric": "bs_stockholders_equity_including_portion_attributable_to_noncontrolling_interest" },
+    "other":                    { "metric": null }
+  }
+}
