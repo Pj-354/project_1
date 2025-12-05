@@ -91,6 +91,20 @@
         }
       }
     },
+    "diluted_average_shares": {
+      "components": {
+        "diluted_average_shares": {
+          "sign": 1.0
+        }
+      }
+    },
+    "basic_average_shares": {
+      "components": {
+        "basic_average_shares": {
+          "sign": 1.0
+        }
+      }
+    },
     "cash_and_cash_equivalents": {
       "components": {
         "cash_and_cash_equivalents": {
@@ -101,10 +115,29 @@
         },
         "cash": {
           "sign": 1.0
+        },
+        "cash_equivalents_at_carrying_value": {
+          "sign": 1.0
+        },
+        "cash_and_cash_equivalents_and_restricted": {
+          "sign": 1.0
         }
       }
     },
-    "cash_and_cash_equivalents_restricted": {},
+    "cash_equivalents_at_carrying_value": {
+      "components": {
+        "cash_equivalents_at_carrying_value": {
+          "sign": 1.0
+        }
+      }
+    },
+    "cash_and_cash_equivalents_restricted": {
+      "components": {
+        "cash_and_cash_equivalents_restricted": {
+          "sign": 1.0
+        }
+      }
+    },
     "cost_of_revenue": {
       "components": {
         "cost_of_revenue_services": {
@@ -158,6 +191,9 @@
           "sign": 1.0
         },
         "contract_with_customer_liability_progress_billings_and_deferred_revenue": {
+          "sign": 1.0
+        },
+        "contract_with_customer_liability": {
           "sign": 1.0
         }
       }
@@ -288,12 +324,6 @@
         "long_term_debt_noncurrent": {
           "sign": 1.0
         },
-        "finance_lease_liability": {
-          "sign": 1.0
-        },
-        "operating_lease_liability": {
-          "sign": 1.0
-        },
         "long_term_debt_and_finance_lease_obligations_noncurrent": {
           "sign": 1.0
         },
@@ -309,9 +339,6 @@
         "long_term_debt_and_capital_leases_incl_current": {
           "sign": 1.0
         },
-        "operating_lease_liability_noncurrentlease_liability_noncurrent": {
-          "sign": 1.0
-        },
         "convertible_long_term_notes_payable": {
           "sign": 1.0
         },
@@ -324,19 +351,36 @@
         "convertible_debt_noncurrent": {
           "sign": 1.0
         },
-        "finance_lease_liability_noncurrent": {
-          "sign": 1.0
-        },
         "long_term_debt_and_capital_leases": {
           "sign": 1.0
         },
-        "capital_lease_obligations_current": {
-          "sign": 1.0
-        },
-        "finance_lease_principal_payments": {
-          "sign": 1.0
-        },
         "long_term_debt_current": {
+          "sign": 1.0
+        }
+      }
+    },
+    "finance_lease_liability": {
+      "components": {
+        "finance_lease_liability": {
+          "sign": 1.0
+        },
+        "finance_lease_liability_noncurrent": {
+          "sign": 1.0
+        },
+        "finance_lease_liability_current": {
+          "sign": 1.0
+        }
+      }
+    },
+    "operating_lease_liability": {
+      "components": {
+        "operating_lease_liability": {
+          "sign": 1.0
+        },
+        "operating_lease_liability_noncurrent": {
+          "sign": 1.0
+        },
+        "operating_lease_liability_current": {
           "sign": 1.0
         }
       }
@@ -473,12 +517,42 @@
         }
       }
     },
-    "net_property_plant_and_equipment": {},
+    "net_property_plant_and_equipment": {
+      "components": {
+        "net_property_plant_and_equipment": {
+          "sign": 1.0
+        },
+        "property_plant_and_equipment_gross": {
+          "sign": 1.0
+        },
+        "accumulated_depreciation_depletion_and_amortization_property_plant_and_equipment": {
+          "sign": -1.0
+        },
+        "property_plant_and_equipment_and_finance_lease_right_of_use_asset_after_accumulated_depreciation_and_amortization": {
+          "sign": 1.0
+        },
+        "capitalized_computer_software_gross": {
+          "sign": 1.0
+        },
+        "capitalized_computer_software_net": {
+          "sign": 1.0
+        },
+        "property_plant_and_equipment_other": {
+          "sign": 1.0
+        }
+      }
+    },
     "net_revenue": {},
     "noncontrolling_interest_cash_flow": {},
     "noncontrolling_interest_equity": {
       "components": {
         "stockholders_equity_including_portion_attributable_to_noncontrolling_interest": {
+          "sign": 1.0
+        },
+        "equity" : {
+          "sign": -1.0
+        },
+        "equity_attributable_to_noncontrolling_interest": {
           "sign": 1.0
         }
       }
@@ -608,9 +682,270 @@
         }
       }
     },
-    "operating_expenses": {},
+    "operating_expenses": {
+      "components": {
+      "research_and_development": {
+          "sign": 1.0
+        },
+        "selling_general_and_administrative": {
+          "sign": 1.0
+        },
+        "marketing_and_advertising_expense": {
+          "sign": 1.0
+        },
+        "general_and_administrative": {
+          "sign": 1.0
+        },
+        "technology_and_content_expense": {
+          "sign": 1.0
+        },
+        "technology_and_infrastructure_expense": {
+          "sign": 1.0
+        },
+        "technology_communications_and_equipment_expense": {
+          "sign": 1.0
+        },
+        "fulfillment_expense": {
+          "sign": 1.0
+        },
+        "labor_and_related_expense": {
+          "sign": 1.0
+        },
+        "depreciation_and_amortization": {
+          "sign": 1.0
+        },
+        "asset_impairment_charges": {
+          "sign": 1.0
+        },
+        "restructuring_charges": {
+          "sign": 1.0
+        },
+        "other_operating_income_expenses": {
+          "sign": 1.0
+        },
+        "operating_expenses": {
+          "sign": 1.0
+        },
+        "marketing_expense": {
+          "sign": 1.0
+        },
+        "marketingexpense": {
+          "sign": 1.0
+        },
+        "selling_general_and_administrative_expenses": {
+          "sign": 1.0
+        },
+        "costs_and_expenses": {
+          "sign": 1.0
+        },
+        "restructuringandotherexpenses": {
+          "sign": 1.0
+        },
+        "restructuring_and_other_expenses": {
+          "sign": 1.0
+        },
+        "restructuringcostsandassetimpairmentcharges": {
+          "sign": 1.0
+        },
+        "litigationsettlementexpense": {
+          "sign": 1.0
+        },
+        "other_costandexpenseoperating": {
+          "sign": 1.0
+        },
+        "other_cost_and_expense_operating": {
+          "sign": 1.0
+        },
+        "capitalized_contract_cost_amortization": {
+          "sign": 1.0
+        },
+        "costmethod_investments_other_than_temporary_impairment": {
+          "sign": 1.0
+        },
+        "goodwill_impairment_loss": {
+          "sign": 1.0
+        },
+        "information_technology_and_data_processing": {
+          "sign": 1.0
+        },
+        "litigation_settlement_expense": {
+          "sign": 1.0
+        },
+        "litigation_settlement_gross": {
+          "sign": 1.0
+        },
+        "other_asset_impairment_charges": {
+          "sign": 1.0
+        },
+        "professional_and_contract_services_expense": {
+          "sign": 1.0
+        },
+        "provision_for_doubtful_accounts": {
+          "sign": 1.0
+        },
+        "provision_for_loan_lease_and_other_losses": {
+          "sign": 1.0
+        },
+        "provision_for_loan_lease_and_other_losses_excl_policy_conformity": {
+          "sign": 1.0
+        },
+        "restructuring_costs_and_asset_impairment_charges": {
+          "sign": 1.0
+        },
+        "restructuring_settlement_and_impairment_provisions": {
+          "sign": 1.0
+        },
+        "restructuringcharges_noncash": {
+          "sign": 1.0
+        },
+        "selling_and_marketing_expense": {
+          "sign": 1.0
+        },
+        "share_based_payment_arrangement_expense_restructuring": {
+          "sign": 1.0
+        },
+        "stock_option_plan_expense": {
+          "sign": 1.0
+        },
+        "research_and_development_expense_excluding_acquired_in_process_cost": {
+          "sign": 1.0
+        },
+        "research_and_development_in_process": {
+          "sign": 1.0
+        }
+      }
+    },
     "operating_income": {},
-    "other": {},
+    "other": {
+      "components": {
+        "increase_decrease_in_collateral_held_under_securities_lending": {
+          "sign": 1.0
+        },
+        "deposits_received_for_securities_loaned_at_carrying_value": {
+          "sign": 1.0
+        },
+        "recognition_of_deferred_revenue": {
+          "sign": 1.0
+        },
+        "dividends_common_stock_cash": {
+          "sign": 1.0
+        },
+        "stock_repurchased_during_period_value": {
+          "sign": 1.0
+        },
+        "adjustments_to_additional_paid_in_capital_sharebased_compensation_requisite_service_period_recognition_value": {
+          "sign": 1.0
+        },
+        "stock_issued_during_period_value_new_issues": {
+          "sign": 1.0
+        },
+        "stockholders_equity_other": {
+          "sign": 1.0
+        },
+        "impairment_integration_and_restructuring_expense": {
+          "sign": 1.0
+        },
+        "adjustment_to_additional_paid_in_capital_income_tax_effect_from_share_based_compensation_net": {
+          "sign": 1.0
+        },
+        "business_combination_integration_related_costs": {
+          "sign": 1.0
+        },
+        "increase_decrease_in_cash_collateral_for_loaned_securities": {
+          "sign": 1.0
+        },
+        "proceeds_from_short_and_long_term_borrowings": {
+          "sign": 1.0
+        },
+        "repayments_of_short_term_and_long_term_borrowings": {
+          "sign": 1.0
+        },
+        "increase_decrease_other_current_assets": {
+          "sign": 1.0
+        },
+        "increase_decrease_other_current_liabilities": {
+          "sign": 1.0
+        },
+        "increase_decrease_other_noncurrent_assets": {
+          "sign": 1.0
+        },
+        "increase_decrease_other_noncurrent_liabilities": {
+          "sign": 1.0
+        },
+        "increase_decrease_in_unearned_revenue": {
+          "sign": 1.0
+        },
+        "severance_costs": {
+          "sign": 1.0
+        },
+        "deferred_revenue_revenue_recognized": {
+          "sign": 1.0
+        },
+        "impairment_and_restructuring_expense": {
+          "sign": 1.0
+        },
+        "amortization_of_deferred_revenue_commissions": {
+          "sign": 1.0
+        },
+        "accretion_amortization_of_discounts_and_premiums_investments": {
+          "sign": 1.0
+        },
+        "amortization_of_financing_costs": {
+          "sign": 1.0
+        },
+        "capitalized_contract_cost_amortization": {
+          "sign": 1.0
+        },
+        "other_comprehensive_income_defined_benefit_plans_net_unamortized_gain_loss_arising_during_period_net_of_tax": {
+          "sign": 1.0
+        },
+        "gain_loss_on_disposition_of_assets1": {
+          "sign": 1.0
+        },
+        "impairment_of_real_estate": {
+          "sign": 1.0
+        },
+        "interest_expense_other": {
+          "sign": 1.0
+        },
+        "interest_expense_related_party": {
+          "sign": 1.0
+        },
+        "deferred_revenue": {
+          "sign": 1.0
+        },
+        "due_to_affiliate_noncurrent": {
+          "sign": 1.0
+        },
+        "prepaid_expense_and_other_assets": {
+          "sign": 1.0
+        },
+        "increase_decrease_in_restricted_cash_for_operating_activities": {
+          "sign": 1.0
+        },
+        "debt_conversion_converted_instrument_amount1": {
+          "sign": 1.0
+        },
+        "equity_method_investment_dividends_or_distributions": {
+          "sign": 1.0
+        },
+        "proceeds_from_sale_of_productive_assets": {
+          "sign": 1.0
+        },
+        "proceeds_from_contributions_from_affiliates": {
+          "sign": 1.0
+        },
+        "gain_loss_on_derivative_instruments_net_pretax": {
+          "sign": 1.0
+        },
+        "increase_decrease_in_deferred_revenue_and_customer_advances_and_deposits": {
+          "sign": 1.0
+        },
+        "amortization_of_debt_discount_premium": {
+          "sign": 1.0
+        }
+      }
+    },
     "research_and_development": {
       "components": {
         "research_and_development_in_process": {
@@ -697,6 +1032,18 @@
           "sign": 1.0
         },
         "available_for_sale_debt_securities_current": {
+          "sign": 1.0
+        },
+        "short_term_investments": {
+          "sign": 1.0
+        },
+        "marketable_securities_current": {
+          "sign": 1.0
+        },
+        "trading_securities_current": {
+          "sign": 1.0
+        },
+        "held_to_maturity_securities_current": {
           "sign": 1.0
         }
       }
@@ -793,6 +1140,9 @@
     },
     "intangible_assets": {
       "components": {
+        "deferred_tax_liabilities_goodwill_and_intangible_assets_intangible_assets": {
+          "sign": 1.0
+        },
         "intangible_assets_net_excluding_goodwill": {
           "sign": 1.0
         },

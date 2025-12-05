@@ -125,7 +125,7 @@
       "equity",
       "Equity",
       "total_equity",
-      "Total Equity",      
+      "Total Equity",
       "StockholdersEquity",
       "stockholders_equity"
     ],
@@ -3552,9 +3552,141 @@
     ],
     "investments_in_reverse_repurchase_agreements": [
       "InvestmentsInReverseRepurchaseAgreements"
+    ],
+    "depreciation_amortization_and_other": [
+      "DepreciationAmortizationAndOther"
+    ],
+    "increase_decrease_in_collateral_held_under_securities_lending": [
+      "IncreaseDecreaseInCollateralHeldUnderSecuritiesLending"
+    ],
+    "deposits_received_for_securities_loaned_at_carrying_value": [
+      "DepositsReceivedForSecuritiesLoanedAtCarryingValue"
+    ],
+    "recognition_of_deferred_revenue": [
+      "RecognitionOfDeferredRevenue"
+    ],
+    "dividends_common_stock_cash": [
+      "DividendsCommonStockCash"
+    ],
+    "stock_repurchased_during_period_value": [
+      "StockRepurchasedDuringPeriodValue"
+    ],
+    "adjustments_to_additional_paid_in_capital_sharebased_compensation_requisite_service_period_recognition_value": [
+      "AdjustmentsToAdditionalPaidInCapitalSharebasedCompensationRequisiteServicePeriodRecognitionValue"
+    ],
+    "stock_issued_during_period_value_new_issues": [
+      "StockIssuedDuringPeriodValueNewIssues"
+    ],
+    "stockholders_equity_other": [
+      "StockholdersEquityOther"
+    ],
+    "impairment_integration_and_restructuring_expense": [
+      "ImpairmentIntegrationAndRestructuringExpenses"
+    ],
+    "adjustment_to_additional_paid_in_capital_income_tax_effect_from_share_based_compensation_net": [
+      "AdjustmentToAdditionalPaidInCapitalIncomeTaxEffectFromShareBasedCompensationNet"
+    ],
+    "business_combination_integration_related_costs": [
+      "BusinessCombinationIntegrationRelatedCosts"
+    ],
+    "increase_decrease_in_cash_collateral_for_loaned_securities": [
+      "IncreaseDecreaseInCashCollateralForLoanedSecurities"
+    ],
+    "proceeds_from_short_and_long_term_borrowings": [
+      "ProceedsFromShortAndLongTermBorrowings"
+    ],
+    "repayments_of_short_term_and_long_term_borrowings": [
+      "RepaymentsOfShortTermAndLongTermBorrowings"
+    ],
+    "increase_decrease_other_current_assets": [
+      "IncreaseDecreaseOtherCurrentAssets"
+    ],
+    "increase_decrease_other_current_liabilities": [
+      "IncreaseDecreaseOtherCurrentLiabilities"
+    ],
+    "increase_decrease_other_noncurrent_assets": [
+      "IncreaseDecreaseOtherNoncurrentAssets"
+    ],
+    "increase_decrease_other_noncurrent_liabilities": [
+      "IncreaseDecreaseOtherNoncurrentLiabilities"
+    ],
+    "increase_decrease_in_unearned_revenue": [
+      "IncreaseDecreaseInUnearnedRevenue"
+    ],
+    "depreciation_amortization_and_other_noncash_items": [
+      "DepreciationAmortizationAndOtherNoncashItems"
+    ],
+    "severance_costs": [
+      "SeveranceCosts"
+    ],
+    "deferred_revenue_revenue_recognized": [
+      "DeferredRevenueRevenueRecognized"
+    ],
+    "impairment_and_restructuring_expense": [
+      "ImpairmentAndRestructuringExpenses"
+    ],
+    "amortization_of_deferred_revenue_commissions": [
+      "AmortizationOfDeferredSalesCommissions"
+    ],
+    "accretion_amortization_of_discounts_and_premiums_investments": [
+      "AccretionAmortizationOfDiscountsAndPremiumsInvestments"
+    ],
+    "amortization_of_financing_costs": [
+      "AmortizationOfFinancingCosts"
+    ],
+    "capitalized_contract_cost_amortization": [
+      "CapitalizedContractCostAmortization"
+    ],
+    "other_comprehensive_income_defined_benefit_plans_net_unamortized_gain_loss_arising_during_period_net_of_tax": [
+      "OtherComprehensiveIncomeDefinedBenefitPlansNetUnamortizedGainLossArisingDuringPeriodNetOfTax"
+    ],
+    "gain_loss_on_disposition_of_assets1": [
+      "GainLossOnDispositionOfAssets1"
+    ],
+    "impairment_of_real_estate": [
+      "ImpairmentOfRealEstate"
+    ],
+    "interest_expense_other": [
+      "InterestExpenseOther"
+    ],
+    "interest_expense_related_party": [
+      "InterestExpenseRelatedParty"
+    ],
+    "deferred_revenue": [
+      "DeferredRevenue"
+    ],
+    "due_to_affiliate_noncurrent": [
+      "DueToAffiliateNoncurrent"
+    ],
+    "prepaid_expense_and_other_assets": [
+      "PrepaidExpenseAndOtherAssets"
+    ],
+    "increase_decrease_in_restricted_cash_for_operating_activities": [
+      "IncreaseDecreaseInRestrictedCashForOperatingActivities"
+    ],
+    "debt_conversion_converted_instrument_amount1": [
+      "DebtConversionConvertedInstrumentAmount1"
+    ],
+    "equity_method_investment_dividends_or_distributions": [
+      "EquityMethodInvestmentDividendsOrDistributions"
+    ],
+    "proceeds_from_sale_of_productive_assets": [
+      "ProceedsFromSaleOfProductiveAssets"
+    ],
+    "proceeds_from_contributions_from_affiliates": [
+      "ProceedsFromContributionsFromAffiliates"
+    ],
+    "gain_loss_on_derivative_instruments_net_pretax": [
+      "GainLossOnDerivativeInstrumentsNetPretax"
+    ],
+    "increase_decrease_in_deferred_revenue_and_customer_advances_and_deposits": [
+      "IncreaseDecreaseInDeferredRevenueAndCustomerAdvancesAndDeposits"
+    ],
+    "amortization_of_debt_discount_premium": [
+      "AmortizationOfDebtDiscountPremium"
     ]
   },
-  "last_updated": "2025-11-30T15:30:39.034395",
-  "total_canonical_fields": 835,
-  "total_variants": 1875
+  "last_updated": "2025-12-04T19:26:47.427299",
+  "total_canonical_fields": 878,
+  "total_variants": 1928
 }
